@@ -8,13 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MaturitaMatematkaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MaturitaMatematkaTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-MaturitaMatematka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-MaturitaMatematka.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */; };
+		4207588F8B50F8550EC27B4E /* libPods-MaturitaMatematka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B4300ACA28DC544C08E0E01 /* libPods-MaturitaMatematka.a */; };
+		48A9E14BAD5E4D41AC605845 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5065AE2A0F1F4D3790C9FF40 /* Lato-Thin.ttf */; };
+		645894A84D6441B0AF55490B /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDC58186E0D744828FF2F9D4 /* Lato-Regular.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9983C767C9CDB4F7F4B0510C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 25B4344ABA3A2F88AE350FB9 /* PrivacyInfo.xcprivacy */; };
+		9C1A482BAD044E8C97343946 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040E3A6B71B44CBFAF181ECE /* Lato-Bold.ttf */; };
+		A7FB5419227E419DBABFF9D1 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D7127DAA443019C612061 /* Lato-Light.ttf */; };
+		C7E71E966E413CB2F9BF6691 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 541C05A7A0A24641E1A14298 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,9 +32,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00AF7AEFE942391A25FE419D /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig"; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* MaturitaMatematkaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaturitaMatematkaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MaturitaMatematkaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaturitaMatematkaTests.m; sourceTree = "<group>"; };
+		040E3A6B71B44CBFAF181ECE /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MaturitaMatematka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaturitaMatematka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MaturitaMatematka/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = MaturitaMatematka/AppDelegate.mm; sourceTree = "<group>"; };
@@ -38,15 +44,35 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MaturitaMatematka/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MaturitaMatematka/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = MaturitaMatematka/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaturitaMatematka-MaturitaMatematkaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		25B4344ABA3A2F88AE350FB9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = MaturitaMatematka/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-MaturitaMatematka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka.debug.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-MaturitaMatematka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka.release.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-MaturitaMatematka.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaturitaMatematka.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		25B4344ABA3A2F88AE350FB9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MaturitaMatematka/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2AAA7A2919DC3CBC0A833166 /* Pods-MaturitaMatematka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka.release.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka.release.xcconfig"; sourceTree = "<group>"; };
+		4A17FB792F2F2070ADA71B2A /* Pods-MaturitaMatematka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka.debug.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka.debug.xcconfig"; sourceTree = "<group>"; };
+		4B4300ACA28DC544C08E0E01 /* libPods-MaturitaMatematka.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaturitaMatematka.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E6D7127DAA443019C612061 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
+		5065AE2A0F1F4D3790C9FF40 /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
+		541C05A7A0A24641E1A14298 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaturitaMatematka-MaturitaMatematkaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65BD83F246C3321CB33F4B32 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MaturitaMatematka/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig"; path = "Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig"; sourceTree = "<group>"; };
+		935CA2642CFE34A000A9D8B7 /* Ionicons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Ionicons.d.ts; path = "../node_modules/@types/react-native-vector-icons/Ionicons.d.ts"; sourceTree = "<group>"; };
+		935CA2652CFE34A000A9D8B7 /* Octicons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Octicons.d.ts; path = "../node_modules/@types/react-native-vector-icons/Octicons.d.ts"; sourceTree = "<group>"; };
+		935CA2662CFE34A000A9D8B7 /* Icon.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Icon.d.ts; path = "../node_modules/@types/react-native-vector-icons/Icon.d.ts"; sourceTree = "<group>"; };
+		935CA2672CFE34A000A9D8B7 /* Zocial.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Zocial.d.ts; path = "../node_modules/@types/react-native-vector-icons/Zocial.d.ts"; sourceTree = "<group>"; };
+		935CA2682CFE34A000A9D8B7 /* SimpleLineIcons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = SimpleLineIcons.d.ts; path = "../node_modules/@types/react-native-vector-icons/SimpleLineIcons.d.ts"; sourceTree = "<group>"; };
+		935CA2692CFE34A000A9D8B7 /* MaterialIcons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = MaterialIcons.d.ts; path = "../node_modules/@types/react-native-vector-icons/MaterialIcons.d.ts"; sourceTree = "<group>"; };
+		935CA26A2CFE34A000A9D8B7 /* FontAwesome.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = FontAwesome.d.ts; path = "../node_modules/@types/react-native-vector-icons/FontAwesome.d.ts"; sourceTree = "<group>"; };
+		935CA26B2CFE34A000A9D8B7 /* AntDesign.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = AntDesign.d.ts; path = "../node_modules/@types/react-native-vector-icons/AntDesign.d.ts"; sourceTree = "<group>"; };
+		935CA26C2CFE34A000A9D8B7 /* MaterialCommunityIcons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = MaterialCommunityIcons.d.ts; path = "../node_modules/@types/react-native-vector-icons/MaterialCommunityIcons.d.ts"; sourceTree = "<group>"; };
+		935CA26D2CFE34A000A9D8B7 /* FontAwesome5.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = FontAwesome5.d.ts; path = "../node_modules/@types/react-native-vector-icons/FontAwesome5.d.ts"; sourceTree = "<group>"; };
+		935CA26E2CFE34A000A9D8B7 /* Feather.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Feather.d.ts; path = "../node_modules/@types/react-native-vector-icons/Feather.d.ts"; sourceTree = "<group>"; };
+		935CA26F2CFE34A000A9D8B7 /* FontAwesome6.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = FontAwesome6.d.ts; path = "../node_modules/@types/react-native-vector-icons/FontAwesome6.d.ts"; sourceTree = "<group>"; };
+		935CA2702CFE34A000A9D8B7 /* Fontisto.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Fontisto.d.ts; path = "../node_modules/@types/react-native-vector-icons/Fontisto.d.ts"; sourceTree = "<group>"; };
+		935CA2712CFE34A100A9D8B7 /* EvilIcons.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = EvilIcons.d.ts; path = "../node_modules/@types/react-native-vector-icons/EvilIcons.d.ts"; sourceTree = "<group>"; };
+		935CA2722CFE34A100A9D8B7 /* FontAwesome5Pro.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = FontAwesome5Pro.d.ts; path = "../node_modules/@types/react-native-vector-icons/FontAwesome5Pro.d.ts"; sourceTree = "<group>"; };
+		935CA2732CFE34A100A9D8B7 /* FontAwesome6Pro.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = FontAwesome6Pro.d.ts; path = "../node_modules/@types/react-native-vector-icons/FontAwesome6Pro.d.ts"; sourceTree = "<group>"; };
+		935CA2742CFE34A100A9D8B7 /* Foundation.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Foundation.d.ts; path = "../node_modules/@types/react-native-vector-icons/Foundation.d.ts"; sourceTree = "<group>"; };
+		935CA2752CFE34A100A9D8B7 /* Entypo.d.ts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.typescript; name = Entypo.d.ts; path = "../node_modules/@types/react-native-vector-icons/Entypo.d.ts"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FDC58186E0D744828FF2F9D4 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a in Frameworks */,
+				C7E71E966E413CB2F9BF6691 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-MaturitaMatematka.a in Frameworks */,
+				4207588F8B50F8550EC27B4E /* libPods-MaturitaMatematka.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,10 +131,21 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-MaturitaMatematka.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */,
+				4B4300ACA28DC544C08E0E01 /* libPods-MaturitaMatematka.a */,
+				541C05A7A0A24641E1A14298 /* libPods-MaturitaMatematka-MaturitaMatematkaTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6711E98AA8904D5D82B7282A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				040E3A6B71B44CBFAF181ECE /* Lato-Bold.ttf */,
+				4E6D7127DAA443019C612061 /* Lato-Light.ttf */,
+				FDC58186E0D744828FF2F9D4 /* Lato-Regular.ttf */,
+				5065AE2A0F1F4D3790C9FF40 /* Lato-Thin.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -121,12 +158,31 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				935CA26B2CFE34A000A9D8B7 /* AntDesign.d.ts */,
+				935CA2752CFE34A100A9D8B7 /* Entypo.d.ts */,
+				935CA2712CFE34A100A9D8B7 /* EvilIcons.d.ts */,
+				935CA26E2CFE34A000A9D8B7 /* Feather.d.ts */,
+				935CA26A2CFE34A000A9D8B7 /* FontAwesome.d.ts */,
+				935CA26D2CFE34A000A9D8B7 /* FontAwesome5.d.ts */,
+				935CA2722CFE34A100A9D8B7 /* FontAwesome5Pro.d.ts */,
+				935CA26F2CFE34A000A9D8B7 /* FontAwesome6.d.ts */,
+				935CA2732CFE34A100A9D8B7 /* FontAwesome6Pro.d.ts */,
+				935CA2702CFE34A000A9D8B7 /* Fontisto.d.ts */,
+				935CA2742CFE34A100A9D8B7 /* Foundation.d.ts */,
+				935CA2662CFE34A000A9D8B7 /* Icon.d.ts */,
+				935CA2642CFE34A000A9D8B7 /* Ionicons.d.ts */,
+				935CA26C2CFE34A000A9D8B7 /* MaterialCommunityIcons.d.ts */,
+				935CA2692CFE34A000A9D8B7 /* MaterialIcons.d.ts */,
+				935CA2652CFE34A000A9D8B7 /* Octicons.d.ts */,
+				935CA2682CFE34A000A9D8B7 /* SimpleLineIcons.d.ts */,
+				935CA2672CFE34A000A9D8B7 /* Zocial.d.ts */,
 				13B07FAE1A68108700A75B9A /* MaturitaMatematka */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MaturitaMatematkaTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				6711E98AA8904D5D82B7282A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -145,10 +201,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-MaturitaMatematka.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-MaturitaMatematka.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */,
+				4A17FB792F2F2070ADA71B2A /* Pods-MaturitaMatematka.debug.xcconfig */,
+				2AAA7A2919DC3CBC0A833166 /* Pods-MaturitaMatematka.release.xcconfig */,
+				65BD83F246C3321CB33F4B32 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */,
+				00AF7AEFE942391A25FE419D /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -160,12 +216,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MaturitaMatematkaTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				C924BD740D44FD7B68715321 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				2BEFAADAFDB9604B03AC51F1 /* [CP] Embed Pods Frameworks */,
+				5D15A10BCE4055286E99089B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,13 +237,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MaturitaMatematka" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				90FE15C3B322C2A7EF3D2421 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				09068B475649F027A7EB1F29 /* [CP] Embed Pods Frameworks */,
+				F124CAAAD5EE9EAFC5327184 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,6 +305,10 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9983C767C9CDB4F7F4B0510C /* PrivacyInfo.xcprivacy in Resources */,
+				9C1A482BAD044E8C97343946 /* Lato-Bold.ttf in Resources */,
+				A7FB5419227E419DBABFF9D1 /* Lato-Light.ttf in Resources */,
+				645894A84D6441B0AF55490B /* Lato-Regular.ttf in Resources */,
+				48A9E14BAD5E4D41AC605845 /* Lato-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +331,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+		09068B475649F027A7EB1F29 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,29 +348,41 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
+		2BEFAADAFDB9604B03AC51F1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MaturitaMatematka-MaturitaMatematkaTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		5D15A10BCE4055286E99089B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		90FE15C3B322C2A7EF3D2421 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -332,24 +404,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
+		C924BD740D44FD7B68715321 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MaturitaMatematka-MaturitaMatematkaTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+		F124CAAAD5EE9EAFC5327184 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -364,23 +441,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka/Pods-MaturitaMatematka-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaturitaMatematka-MaturitaMatematkaTests/Pods-MaturitaMatematka-MaturitaMatematkaTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -416,7 +476,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */;
+			baseConfigurationReference = 65BD83F246C3321CB33F4B32 /* Pods-MaturitaMatematka-MaturitaMatematkaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -443,7 +503,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */;
+			baseConfigurationReference = 00AF7AEFE942391A25FE419D /* Pods-MaturitaMatematka-MaturitaMatematkaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -467,7 +527,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-MaturitaMatematka.debug.xcconfig */;
+			baseConfigurationReference = 4A17FB792F2F2070ADA71B2A /* Pods-MaturitaMatematka.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -494,7 +554,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-MaturitaMatematka.release.xcconfig */;
+			baseConfigurationReference = 2AAA7A2919DC3CBC0A833166 /* Pods-MaturitaMatematka.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -590,10 +650,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -666,10 +723,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

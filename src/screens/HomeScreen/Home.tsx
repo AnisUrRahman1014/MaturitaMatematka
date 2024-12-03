@@ -1,0 +1,121 @@
+import {View, Text, SafeAreaView, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import NavHeader from '../../components/NavHeader/NavHeader';
+import AppIcons from '../../libs/NativeIcons';
+import styles, {section} from './Styles';
+import {AppConstants, Colors} from '../../utils/System/Constants';
+import {Image} from 'react-native';
+import CategoryListCard from '../../components/CategoryListCard/CategoryListCard';
+
+const Home = () => {
+  const [categories, setCategories] = useState([
+    {
+      title: 'Plainimetry',
+      tagLine: 'Unraveling the Geometry of Flat Spaces',
+      icon: require('../../../assets/images/plainimetry.png'),
+    },
+    {
+      title: 'Equations',
+      tagLine: 'Discover the shape of every angle!',
+      icon: require('../../../assets/images/equations.png'),
+    },
+    {
+      title: 'Algebric Expressions',
+      tagLine: 'Unravel the Mysteries of X and Y!',
+      icon: require('../../../assets/images/algebric.png'),
+    },
+  ]);
+
+  const openDrawer = () => {
+    // TODO: Open the drawer
+  };
+
+  const menuButton = (
+    <AppIcons.MenuIcon
+      size={35}
+      color={Colors.primaryDark}
+      style={styles.menuIcon}
+      onPress={openDrawer}
+    />
+  );
+  return (
+    <SafeAreaView>
+      <NavHeader centerText="Maturita Matematka" rightIcon={menuButton} />
+      {/* Content Container */}
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        {/* Welcome and DP Container */}
+        <View
+          style={[
+            section(0.18, 'row'),
+            {
+              padding: AppConstants.ContainerPaddings.max,
+            },
+          ]}>
+          {/* Left Section */}
+          <View style={[section(0.6, 'column'), {alignItems: 'flex-start'}]}>
+            <Text style={styles.welcomeText}>Welcome</Text>
+            <Text style={styles.userName}>Jiri Volf</Text>
+            <Text style={styles.tagLine}>
+              Challenge Your Knowledge, One Question at a Time!
+            </Text>
+          </View>
+
+          {/* Right Section */}
+          <View style={[section(0.4, 'column')]}>
+            <View style={styles.dpContainer}>
+              <View style={styles.dpInnerContainer}>
+                <Image
+                  source={require('../../../assets/images/dummyDp.png')}
+                  style={styles.dp}
+                  resizeMode="cover"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Category Container */}
+        <View
+          style={[
+            section(0.05, 'row'),
+            {paddingHorizontal: '5%', justifyContent: 'flex-start'},
+          ]}>
+          <Image
+            source={require('../../../assets/images/categoryIcon.png')}
+            style={styles.categoryIcon}
+            resizeMode="contain"
+          />
+          <Text style={styles.heading}>Categories</Text>
+        </View>
+
+        <View style={[section(0.6, 'column')]}>
+          <FlatList
+            data={categories}
+            style={{
+              width: '100%',
+            }}
+            renderItem={({item, index}) => {
+              return (
+                <CategoryListCard
+                  icon={item?.icon}
+                  title={item?.title}
+                  tagLine={item?.tagLine}
+                />
+              );
+            }}
+            contentContainerStyle={{
+              padding: '5%',
+              gap: 15,
+            }}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default Home;
