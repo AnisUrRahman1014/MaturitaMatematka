@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     height: 90,
+    // minHeight: 90,
+    // maxHeight: 150,
     backgroundColor: Colors.primaryDark,
     borderRadius: 15,
     flexDirection: 'row',

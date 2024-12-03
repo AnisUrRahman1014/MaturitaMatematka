@@ -6,23 +6,50 @@ import styles, {section} from './Styles';
 import {AppConstants, Colors} from '../../utils/System/Constants';
 import {Image} from 'react-native';
 import CategoryListCard from '../../components/CategoryListCard/CategoryListCard';
+import {Images} from '../../../assets/images';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackList} from '../../navigation/types';
 
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
+};
 const Home = () => {
   const [categories, setCategories] = useState([
     {
       title: 'Plainimetry',
       tagLine: 'Unraveling the Geometry of Flat Spaces',
-      icon: require('../../../assets/images/plainimetry.png'),
+      icon: Images.Plainimetry,
     },
     {
       title: 'Equations',
       tagLine: 'Discover the shape of every angle!',
-      icon: require('../../../assets/images/equations.png'),
+      icon: Images.Equations,
     },
     {
       title: 'Algebric Expressions',
       tagLine: 'Unravel the Mysteries of X and Y!',
-      icon: require('../../../assets/images/algebric.png'),
+      icon: Images.Algebric,
+    },
+    {
+      title: 'Sequences and Financial Mathematics',
+      tagLine:
+        'Master Patterns, Build Wealth: Your Guide to Sequences and Financial Mathematics',
+      icon: Images.Sequences,
+    },
+    {
+      title: 'Stereometry',
+      tagLine: 'Unlocking Dimensions: Explore the World of Stereometry',
+      icon: Images.Stereometry,
+    },
+    {
+      title: 'Combinations',
+      tagLine: 'Endless Possibilities: The Power of Combinations',
+      icon: Images.Combinations,
+    },
+    {
+      title: 'Functions',
+      tagLine: 'Connecting Inputs to Outcomes: The Essence of Functions',
+      icon: Images.Formula,
     },
   ]);
 

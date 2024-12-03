@@ -44,6 +44,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: 'white', // FOR DEBUGGING
   },
+  backArrow: {
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;
