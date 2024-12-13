@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087250027500",
+    "project_id": "maturita-matematika",
+    "storage_bucket": "maturita-matematika.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087250027500:android:ecf044471900b22ecaa6c9",
+        "android_client_info": {
+          "package_name": "com.maturitamatematka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANrK3kI9HIeOMAEfxd87ykMSszEhz3EE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

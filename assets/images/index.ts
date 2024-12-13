@@ -8,4 +8,10 @@ export const Images = {
   Stereometry: require('./stereometry.png'),
   Logo: require('./Logo.png'),
   DummyDP: require('./dummyDp.png'),
+  QuestionMark: require('./questionMark.png'),
+  TickMark: require('./tickMark.png'),
+  CrossMark: require('./crossMark.png'),
+  OpenBookIcon: require('./openBookIcon.png'),
+  CategoryIcon: require('./categoryIcon.png'),
+  GoogleIcon: require('./googleIcon.png'),
 };

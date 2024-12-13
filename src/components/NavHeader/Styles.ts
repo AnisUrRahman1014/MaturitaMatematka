@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: '2%',
+    zIndex: 10,
   },
   leftIconContainer: {
     flex: 0.2,

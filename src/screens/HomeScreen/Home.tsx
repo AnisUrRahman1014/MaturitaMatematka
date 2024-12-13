@@ -131,6 +131,7 @@ const Home = () => {
                   icon={item?.icon}
                   title={item?.title}
                   tagLine={item?.tagLine}
+                  category={item}
                 />
               );
             }}

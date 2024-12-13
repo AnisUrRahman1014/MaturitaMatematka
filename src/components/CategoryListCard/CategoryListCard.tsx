@@ -18,6 +18,7 @@ type Props = {
   title: String;
   tagLine: String;
   icon: ImageSourcePropType;
+  category: Object;
 };
 const CategoryListCard = (props: Props) => {
   const navigation = useNavigation();
@@ -25,7 +26,9 @@ const CategoryListCard = (props: Props) => {
     <TouchableOpacity
       style={styles.card}
       onPress={() => {
-        navigation.navigate(Routes.CategoryDetailScreen);
+        navigation.navigate(Routes.CategoryDetailScreen, {
+          category: props.category,
+        });
       }}>
       {/* Icon Container */}
       <View style={styles.leftContainer}>
