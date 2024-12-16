@@ -82,6 +82,27 @@ const AuthInputField = (props: Props) => {
           {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
         </>
       );
+    case 'email':
+      return (
+        <>
+          <View style={styles.container}>
+            <View style={styles.iconContainer}>
+              <AppIcons.EmailIcon size={30} color={Colors.primaryDark} />
+            </View>
+            <View style={styles.fieldContainer}>
+              <TextInput
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
+                inputMode="email"
+                style={styles.input}
+                secureTextEntry={secureTextEntry}
+              />
+            </View>
+          </View>
+          {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
+        </>
+      );
   }
 };
 

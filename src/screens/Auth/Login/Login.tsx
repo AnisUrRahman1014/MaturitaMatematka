@@ -7,23 +7,31 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import styles, {section} from './Styles';
+import styles from './Styles';
 import {Images} from '../../../../assets/images';
 import AuthInputField from '../../../components/AuthInputField/AuthInputField';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import CustomButton from '../../../components/CustomButton/CustomButton';
+import {Colors} from '../../../utils/System/Constants';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackList} from '../../../navigation/types';
+import {section} from '../../../libs/Global';
 
 const strings = {
   Email: 'Email',
   Password: 'Password',
 };
 
-const Login = () => {
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackList, 'Login'>;
+};
+const Login = (props: Props) => {
+  const {navigation} = props;
   const loginValidationSchema = Yup.object({
     [strings.Email]: Yup.string().email('Invalid email').required('Required'),
     [strings.Password]: Yup.string()
-      .min(6, 'Minimun 6 characters')
+      .min(6, 'Minimum 6 characters')
       .required('Required'),
   });
   return (
@@ -46,7 +54,7 @@ const Login = () => {
           Please enter your login details to proceed
         </Text>
       </View>
-      <View style={[section(0.5)]}>
+      <View style={[section(0.5, 'column')]}>
         <Formik
           initialValues={{
             email: '',
@@ -103,6 +111,24 @@ const Login = () => {
             </KeyboardAvoidingView>
           )}
         </Formik>
+        <View style={styles.signUpBtnContainer}>
+          <Text style={styles.label}>Don't have an account?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Signup');
+            }}>
+            <Text
+              style={{
+                ...styles.label,
+                textDecorationLine: 'underline',
+                color: Colors.primaryDark,
+                fontWeight: '600',
+              }}>
+              {' '}
+              Sign Up
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   error: {
     top: -6,
     fontFamily: Fonts.LatoRegular,
-    fontSize: AppConstants.FontSizes.t2,
+    fontSize: AppConstants.FontSizes.t4,
     color: Colors.red,
     alignSelf: 'flex-end',
   },

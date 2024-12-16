@@ -14,4 +14,5 @@ export const Images = {
   OpenBookIcon: require('./openBookIcon.png'),
   CategoryIcon: require('./categoryIcon.png'),
   GoogleIcon: require('./googleIcon.png'),
+  dpPlaceholder: require('./dpPlaceholder.png'),
 };

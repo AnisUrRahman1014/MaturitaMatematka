@@ -10,14 +10,17 @@ const styles = StyleSheet.create({
   welcomeTxt: {
     fontFamily: Fonts.LatoRegular,
     fontSize: AppConstants.FontSizes.h3,
+    color: Colors.primaryDark,
   },
   appName: {
     fontFamily: Fonts.LatoRegular,
     fontSize: AppConstants.FontSizes.h2,
+    color: Colors.primaryDark,
   },
   label: {
     fontFamily: Fonts.LatoRegular,
     fontSize: AppConstants.FontSizes.t2,
+    color: Colors.primaryDark,
   },
   logoContainer: {
     width: 200,
@@ -45,15 +48,10 @@ const styles = StyleSheet.create({
     height: 0.7,
     alignSelf: 'center',
   },
-});
-
-export const section = (
-  flexSize: number,
-  flexDir: 'row' | 'column' = 'row',
-) => ({
-  flex: flexSize,
-  flexDirection: flexDir,
-  // backgroundColor: 'blue',
+  signUpBtnContainer: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
 });
 
 export default styles;
