@@ -19,6 +19,8 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppIcons from '../../../libs/NativeIcons';
 import {Colors} from '../../../utils/System/Constants';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Login'>;
@@ -47,6 +49,48 @@ const Signup = (props: Props) => {
       .min(6, 'Minimum 6 characters')
       .required('Required'),
   });
+
+  const handleSignUp = (values: any) => {
+    auth()
+      .createUserWithEmailAndPassword(
+        values[strings.Email].toLowerCase(),
+        values[strings.Password],
+      )
+      .then(async res => {
+        console.log(
+          'User account created & signed in!',
+          JSON.stringify(res, null, 2),
+        );
+        firestore()
+          .collection('users')
+          .doc(res?.user?.uid)
+          .set({
+            userName: values[strings.Username],
+            email: values[strings.Email],
+            userId: res?.user?.uid,
+          })
+          .then(() => {
+            console.log('User added!');
+            // setLoading(false);
+            // props.navigation.navigate(Routes.Login);
+          });
+      })
+      .catch(error => {
+        console.log('createUserWithEmailAndPassword error:', error);
+        // setLoading(false);
+        if (error.code === 'auth/email-already-in-use') {
+          console.log(error);
+          // showError('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log(error);
+          // showError('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={[section(0.45, 'column'), styles.headerContainer]}>
@@ -79,12 +123,13 @@ const Signup = (props: Props) => {
       <View style={[section(0.65, 'column')]}>
         <Formik
           initialValues={{
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            [strings.Username]: '',
+            [strings.Email]: '',
+            [strings.Password]: '',
+            [strings.ConfirmPassword]: '',
           }}
-          validationSchema={validationSchema}>
+          validationSchema={validationSchema}
+          onSubmit={handleSignUp}>
           {({handleSubmit, handleChange, errors, values, touched}) => {
             return (
               <KeyboardAwareScrollView style={{flex: 1}}>
@@ -92,16 +137,16 @@ const Signup = (props: Props) => {
                   <AuthInputField
                     placeholder={strings.Username}
                     fieldType="username"
-                    onChangeText={handleChange('username')}
-                    value={values?.username}
+                    onChangeText={handleChange(strings.Username)}
+                    value={values[strings.Username]}
                     secureTextEntry={false}
                     errorMessage={errors[strings.Username]}
                   />
                   <AuthInputField
                     placeholder={strings.Email}
                     fieldType="email"
-                    onChangeText={handleChange('email')}
-                    value={values?.email}
+                    onChangeText={handleChange(strings.Email)}
+                    value={values[strings.Email]}
                     secureTextEntry={false}
                     errorMessage={errors[strings.Email]}
                   />
@@ -109,16 +154,16 @@ const Signup = (props: Props) => {
                     placeholder={strings.Password}
                     secureTextEntry
                     fieldType="password"
-                    onChangeText={handleChange('password')}
-                    value={values.password}
+                    onChangeText={handleChange(strings.Password)}
+                    value={values[strings.Password]}
                     errorMessage={errors[strings.Password]}
                   />
                   <AuthInputField
                     placeholder={strings.ConfirmPassword}
                     secureTextEntry
                     fieldType="password"
-                    onChangeText={handleChange('confirmPassword')}
-                    value={values.confirmPassword}
+                    onChangeText={handleChange(strings.ConfirmPassword)}
+                    value={values[strings.ConfirmPassword]}
                     errorMessage={errors[strings.ConfirmPassword]}
                   />
                   <CustomButton
