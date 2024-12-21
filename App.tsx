@@ -28,6 +28,7 @@ import {Provider} from 'react-redux';
 import {persistor, store} from './src/redux/store';
 import {PersistGate} from 'reduxjs-toolkit-persist/integration/react';
 import AppNavigator from './src/navigation';
+import {AlertNotificationRoot} from 'react-native-alert-notification';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -69,7 +70,9 @@ function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <AppNavigator />
+        <AlertNotificationRoot>
+          <AppNavigator />
+        </AlertNotificationRoot>
       </PersistGate>
     </Provider>
   );

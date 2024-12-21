@@ -9,11 +9,13 @@ import CategoryListCard from '../../components/CategoryListCard/CategoryListCard
 import {Images} from '../../../assets/images';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../navigation/types';
+import {useNavigation} from '@react-navigation/native';
 
-type Props = {
-  navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
-};
+// type Props = {
+//   navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
+// };
 const Home = () => {
+  const navigation = useNavigation();
   const [categories, setCategories] = useState([
     {
       title: 'Plainimetry',
@@ -53,16 +55,12 @@ const Home = () => {
     },
   ]);
 
-  const openDrawer = () => {
-    // TODO: Open the drawer
-  };
-
   const menuButton = (
     <AppIcons.MenuIcon
       size={35}
       color={Colors.primaryDark}
       style={styles.menuIcon}
-      onPress={openDrawer}
+      onPress={() => navigation.openDrawer()}
     />
   );
   return (

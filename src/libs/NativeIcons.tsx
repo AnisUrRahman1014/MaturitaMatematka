@@ -84,7 +84,12 @@ const AppIcons = {
   SendIcon: createIcon(Feather, 'send'),
   AlertIcon: createIcon(MaterialCommunityIcons, 'alert'),
   ScrollDown: createIcon(AntDesign, 'arrowdown'),
+
   MenuIcon: createIcon(Entypo, 'menu'),
+  HistoryIcon: createIcon(MaterialCommunityIcons, 'history'),
+  FavoriteIcon: createIcon(MaterialIcons, 'favorite-border'),
+  StarIcon: createIcon(AntDesign, 'staro'),
+  AlertCircle: createIcon(Ionicons, 'alert-circle-outline'),
 };
 
 export default AppIcons;

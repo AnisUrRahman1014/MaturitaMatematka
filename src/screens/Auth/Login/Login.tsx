@@ -17,6 +17,11 @@ import {Colors} from '../../../utils/System/Constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../../navigation/types';
 import {section} from '../../../libs/Global';
+import auth from '@react-native-firebase/auth';
+import {showError} from '../../../utils/System/MessageHandlers';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../../../redux/slices/persistSlice';
+import Routes from '../../../navigation/Routes';
 
 const strings = {
   Email: 'Email',
@@ -28,12 +33,43 @@ type Props = {
 };
 const Login = (props: Props) => {
   const {navigation} = props;
+
+  const dispatch = useDispatch();
+
   const loginValidationSchema = Yup.object({
     [strings.Email]: Yup.string().email('Invalid email').required('Required'),
     [strings.Password]: Yup.string()
       .min(6, 'Minimum 6 characters')
       .required('Required'),
   });
+
+  const handleLocalSignIn = (values: any) => {
+    try {
+      auth()
+        .signInWithEmailAndPassword(
+          values[strings.Email],
+          values[strings.Password],
+        )
+        .then((res: any) => {
+          // console.log('Response', res);
+          if (res?.user?.uid) {
+            const str = JSON.stringify(res);
+            const prs = JSON.parse(str);
+            dispatch(setUser(prs));
+            // Changing the Redux state for the user automatically switches the stack from AuthStack to MainStack
+          }
+        })
+        .catch(error => {
+          console.log('Login Error:', error);
+          if (error.code === 'auth/invalid-credential') {
+            showError('Incorrect Credentials. Please check your credentials');
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={[section(0.45, 'column'), styles.headerContainer]}>
@@ -57,31 +93,31 @@ const Login = (props: Props) => {
       <View style={[section(0.5, 'column')]}>
         <Formik
           initialValues={{
-            email: '',
-            password: '',
+            [strings.Email]: '',
+            [strings.Password]: '',
           }}
           validationSchema={loginValidationSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}>
-          {({handleChange, handleSubmit, values, errors}) => (
+          onSubmit={handleLocalSignIn}>
+          {({handleChange, handleSubmit, values, errors, touched}) => (
             <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
               <View style={[section(2, 'column'), styles.formContainer]}>
                 <AuthInputField
                   placeholder={strings.Email}
                   fieldType="username"
-                  onChangeText={handleChange('email')}
-                  value={values.email}
+                  onChangeText={handleChange(strings.Email)}
+                  value={values[strings.Email]}
                   secureTextEntry={false}
-                  errorMessage={errors[strings.Email]}
+                  errorMessage={errors[strings.Email] || touched[strings.Email]}
                 />
                 <AuthInputField
                   placeholder={strings.Password}
                   secureTextEntry
                   fieldType="password"
-                  onChangeText={handleChange('password')}
-                  value={values.password}
-                  errorMessage={errors[strings.Password]}
+                  onChangeText={handleChange(strings.Password)}
+                  value={values[strings.Password]}
+                  errorMessage={
+                    errors[strings.Password] || touched[strings.Password]
+                  }
                 />
                 <TouchableOpacity>
                   <Text style={styles.forgetPass}>Forget Password?</Text>

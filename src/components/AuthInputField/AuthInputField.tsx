@@ -10,7 +10,7 @@ type Props = {
   placeholder: string;
   onChangeText: any;
   secureTextEntry: boolean;
-  errorMessage?: string | false | undefined;
+  errorMessage?: string | boolean | undefined;
 };
 const AuthInputField = (props: Props) => {
   const {

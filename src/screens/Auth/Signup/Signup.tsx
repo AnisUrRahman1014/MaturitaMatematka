@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../../navigation/types';
@@ -19,8 +13,10 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AppIcons from '../../../libs/NativeIcons';
 import {Colors} from '../../../utils/System/Constants';
-import auth from '@react-native-firebase/auth';
+import auth, {updateProfile} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import Routes from '../../../navigation/Routes';
+import {showError, showSuccess} from '../../../utils/System/MessageHandlers';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Login'>;
@@ -51,16 +47,13 @@ const Signup = (props: Props) => {
   });
 
   const handleSignUp = (values: any) => {
+    console.log(values[strings.Password]);
     auth()
       .createUserWithEmailAndPassword(
         values[strings.Email].toLowerCase(),
         values[strings.Password],
       )
       .then(async res => {
-        console.log(
-          'User account created & signed in!',
-          JSON.stringify(res, null, 2),
-        );
         firestore()
           .collection('users')
           .doc(res?.user?.uid)
@@ -68,11 +61,19 @@ const Signup = (props: Props) => {
             userName: values[strings.Username],
             email: values[strings.Email],
             userId: res?.user?.uid,
+            profilePicUrl: '',
           })
-          .then(() => {
-            console.log('User added!');
+          .then(async () => {
+            // Update user profile
+            await updateProfile(res?.user, {
+              displayName: values[strings.Username],
+              photoURL: '',
+            });
+            showSuccess('Sign Up Successful');
             // setLoading(false);
-            // props.navigation.navigate(Routes.Login);
+            setTimeout(() => {
+              props.navigation.navigate(Routes.Login);
+            }, 1000);
           });
       })
       .catch(error => {
@@ -80,12 +81,12 @@ const Signup = (props: Props) => {
         // setLoading(false);
         if (error.code === 'auth/email-already-in-use') {
           console.log(error);
-          // showError('That email address is already in use!');
+          showError('That email address is already in use!');
         }
 
         if (error.code === 'auth/invalid-email') {
           console.log(error);
-          // showError('That email address is invalid!');
+          showError('That email address is invalid!');
         }
 
         console.error(error);
