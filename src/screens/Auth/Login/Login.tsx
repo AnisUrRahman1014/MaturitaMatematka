@@ -63,7 +63,7 @@ const Login = (props: Props) => {
               photoURL: prs.user.photoURL,
             };
             // Changing the Redux state for the user automatically switches the stack from AuthStack to MainStack
-            dispatch(setUser(prs));
+            dispatch(setUser(prs?.user));
             // dispatch(setUser(user));
           }
         })

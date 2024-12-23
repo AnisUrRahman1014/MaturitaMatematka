@@ -19,6 +19,7 @@ import {RootState} from '../../redux/types';
 const Home = () => {
   const navigation = useNavigation();
   const user = useSelector((state: RootState) => state?.persistSlice);
+  console.log(JSON.stringify(user, null, 1));
 
   const [categories, setCategories] = useState([
     {

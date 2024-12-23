@@ -17,6 +17,8 @@ import auth, {updateProfile} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Routes from '../../../navigation/Routes';
 import {showError, showSuccess} from '../../../utils/System/MessageHandlers';
+import imageUtils from '../../../utils/System/imageUtils';
+import storage from '@react-native-firebase/storage';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Login'>;
@@ -46,7 +48,26 @@ const Signup = (props: Props) => {
       .required('Required'),
   });
 
-  const handleSignUp = (values: any) => {
+  const handleImagePicker = async () => {
+    const res = await imageUtils.getSingleImageFromGallery();
+    if ('image' in res) {
+      setProfilePic(res?.image);
+      console.log(res?.image);
+    }
+  };
+
+  const handleSignUp = async (values: any) => {
+    let profileImageUrl;
+
+    if (typeof profilePic === 'string') {
+      profileImageUrl = profilePic;
+    } else {
+      // setLoading(true);
+      const reference = storage().ref(`profileImages/${profilePic?.filename}`);
+      await reference.putFile(profilePic?.path);
+      profileImageUrl = await reference.getDownloadURL();
+      // setLoading(false);
+    }
     console.log(values[strings.Password]);
     auth()
       .createUserWithEmailAndPassword(
@@ -61,13 +82,13 @@ const Signup = (props: Props) => {
             userName: values[strings.Username],
             email: values[strings.Email],
             userId: res?.user?.uid,
-            profilePicUrl: '',
+            profilePicUrl: profileImageUrl || '',
           })
           .then(async () => {
             // Update user profile
             await updateProfile(res?.user, {
               displayName: values[strings.Username],
-              photoURL: '',
+              photoURL: profileImageUrl || '',
             });
             showSuccess('Sign Up Successful');
             // setLoading(false);
@@ -109,15 +130,17 @@ const Signup = (props: Props) => {
         />
         <Text style={styles.welcomeTxt}>Welcome to</Text>
         <Text style={styles.appName}>Maturita Matematka</Text>
-        <TouchableOpacity style={styles.dpContainer}>
+        <TouchableOpacity
+          style={styles.dpContainer}
+          onPress={handleImagePicker}>
           <Image
-            source={{uri: profilePic}}
+            source={{
+              uri:
+                typeof profilePic === 'string' ? profilePic : profilePic?.path,
+            }}
             defaultSource={Images.dpPlaceholder}
             resizeMode="contain"
-            style={{
-              width: '80%',
-              height: '80%',
-            }}
+            style={styles.dp}
           />
         </TouchableOpacity>
       </View>

@@ -2066,6 +2066,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-21.6.1.tgz#228122fc2cd380f403f8984570b0ae6fa47c030a"
   integrity sha512-i3RQM11zTRCYc7/KdD0MiCm7UyyTecDXG/89lEv5hvVJMS6ltIfK+0rDheSpBzYlK4kNoK765jnvVAQxIFEqbA==
 
+"@react-native-firebase/storage@^21.6.1":
+  version "21.6.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-21.6.1.tgz#8d3ffc7d786302d611fbe15a6e7617c74f55b7f0"
+  integrity sha512-97PsRf1i+0TdQgbLV0WD/HDB+3cae7JWimqc8eTGVc+QK2OuooYgs34flnbDkXu71brzDWdGJRWijsZhtORggg==
+
 "@react-native-google-signin/google-signin@^13.1.0":
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-13.1.0.tgz#6482b89acf2ac88a6c68bc1304a265d5b7c3bb3a"
@@ -6406,6 +6411,11 @@ react-native-gesture-handler@^2.21.2:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-crop-picker@^0.41.6:
+  version "0.41.6"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.41.6.tgz#de2c00102f4c934848fa11ff2335f29f5dc6b3e3"
+  integrity sha512-oyEVkiJX1cnjYJolQluOqXxz9xhLHrv+pyCs7+jA87yaa110/0jv1UCqxjVjxueKug7zk/UnjG7i9Ks1cGyLpA==
 
 react-native-iphone-x-helper@^1.0.3:
   version "1.3.1"

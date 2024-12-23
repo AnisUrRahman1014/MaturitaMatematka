@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {width: 5, height: 4},
   },
+  dp: {
+    width: '80%',
+    height: '80%',
+    borderRadius: 200,
+  },
   formContainer: {
     paddingVertical: '2%',
     paddingHorizontal: '6%',
