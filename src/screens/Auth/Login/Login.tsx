@@ -5,6 +5,7 @@ import {
   Image,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import styles from './Styles';
@@ -21,7 +22,7 @@ import auth from '@react-native-firebase/auth';
 import {showError} from '../../../utils/System/MessageHandlers';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../../redux/slices/persistSlice';
-import Routes from '../../../navigation/Routes';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const strings = {
   Email: 'Email',
@@ -55,8 +56,15 @@ const Login = (props: Props) => {
           if (res?.user?.uid) {
             const str = JSON.stringify(res);
             const prs = JSON.parse(str);
-            dispatch(setUser(prs));
+            const user = {
+              uid: prs.user.uid,
+              email: prs.user.email,
+              displayName: prs.user.displayName,
+              photoURL: prs.user.photoURL,
+            };
             // Changing the Redux state for the user automatically switches the stack from AuthStack to MainStack
+            dispatch(setUser(prs));
+            // dispatch(setUser(user));
           }
         })
         .catch(error => {
@@ -69,6 +77,54 @@ const Login = (props: Props) => {
       console.log(error);
     }
   };
+
+  GoogleSignin.configure({
+    webClientId:
+      Platform.OS == 'ios'
+        ? '1087250027500-mf960e7se19m8a1act7ra80n6e1qfokq.apps.googleusercontent.com'
+        : '1087250027500-172u3kose6vbdp6phbid37ebv6gp3i0i.apps.googleusercontent.com',
+  });
+
+  async function onGoogleButtonPress() {
+    try {
+      const isSignedIn = await GoogleSignin.getCurrentUser();
+      if (isSignedIn !== null) await GoogleSignin.signOut();
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      const userInfo = await GoogleSignin.signIn();
+
+      const {user, idToken} = userInfo?.data;
+      // console.log('User Info', JSON.stringify(userInfo, null, 1));
+
+      // Create a Firebase credential using the ID token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign in to Firebase with the credential
+      const firebaseUserCredential = await auth().signInWithCredential(
+        googleCredential,
+      );
+
+      if (firebaseUserCredential?.user) {
+        // console.log(
+        //   'Firebase User:',
+        //   JSON.stringify(firebaseUserCredential.user, null, 2),
+        // );
+
+        const temp = {
+          uid: firebaseUserCredential?.user?.uid,
+          email: firebaseUserCredential?.user?.email,
+          displayName: firebaseUserCredential.user.displayName,
+          photoURL: firebaseUserCredential?.user?.photoURL,
+        };
+        // Dispatch the user data to Redux (if required)
+        dispatch(setUser(firebaseUserCredential.user));
+      }
+    } catch (error) {
+      console.error('Error', 'Failed to sign in with Google', error);
+    }
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -139,7 +195,7 @@ const Login = (props: Props) => {
                     alignSelf: 'center',
                     height: '12%',
                   }}
-                  onPress={undefined}
+                  onPress={onGoogleButtonPress}
                   lightBtn
                   leftIconEnabled
                 />

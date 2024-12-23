@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontFamily: Fonts.LatoRegular,
-    fontSize: AppConstants.FontSizes.h1,
+    fontSize: AppConstants.FontSizes.h2,
     color: Colors.primaryDark,
     textAlign: 'center',
   },
@@ -44,10 +44,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dpInnerContainer: {
-    backgroundColor: Colors.primaryDark,
+    backgroundColor: Colors.offWhite,
     aspectRatio: 1,
     width: '95%',
     borderRadius: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dp: {
     width: '100%',

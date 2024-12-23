@@ -16,4 +16,5 @@ export const Images = {
   GoogleIcon: require('./googleIcon.png'),
   dpPlaceholder: require('./dpPlaceholder.png'),
   LogOut: require('./logout.png'),
+  DummyProfilePic: require('./dummyProfilePic.png'),
 };

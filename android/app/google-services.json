@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1087250027500",
+    "firebase_url": "https://maturita-matematika-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "maturita-matematika",
     "storage_bucket": "maturita-matematika.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.maturitamatematka"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1087250027500-172u3kose6vbdp6phbid37ebv6gp3i0i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maturitamatematka",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1087250027500-9k14osoagv008ngdjdpdohbi4jjvbdel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyANrK3kI9HIeOMAEfxd87ykMSszEhz3EE0"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087250027500-9k14osoagv008ngdjdpdohbi4jjvbdel.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1087250027500-mf960e7se19m8a1act7ra80n6e1qfokq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anis.maturitamatematka"
+              }
+            }
+          ]
         }
       }
     }

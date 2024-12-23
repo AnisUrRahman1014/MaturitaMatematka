@@ -10,12 +10,16 @@ import {Images} from '../../../assets/images';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../navigation/types';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/types';
 
 // type Props = {
 //   navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
 // };
 const Home = () => {
   const navigation = useNavigation();
+  const user = useSelector((state: RootState) => state?.persistSlice);
+
   const [categories, setCategories] = useState([
     {
       title: 'Plainimetry',
@@ -83,7 +87,12 @@ const Home = () => {
           {/* Left Section */}
           <View style={[section(0.6, 'column'), {alignItems: 'flex-start'}]}>
             <Text style={styles.welcomeText}>Welcome</Text>
-            <Text style={styles.userName}>Jiri Volf</Text>
+            <Text
+              style={styles.userName}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {user?.user?.displayName?.trim()}
+            </Text>
             <Text style={styles.tagLine}>
               Challenge Your Knowledge, One Question at a Time!
             </Text>
@@ -94,9 +103,17 @@ const Home = () => {
             <View style={styles.dpContainer}>
               <View style={styles.dpInnerContainer}>
                 <Image
-                  source={require('../../../assets/images/dummyDp.png')}
-                  style={styles.dp}
-                  resizeMode="cover"
+                  source={
+                    user?.user?.photoURL
+                      ? {uri: user?.user?.photoURL}
+                      : Images?.DummyProfilePic
+                  }
+                  style={
+                    user?.user?.photoURL
+                      ? styles.dp
+                      : {width: '60%', height: '60%'}
+                  }
+                  resizeMode="contain"
                 />
               </View>
             </View>

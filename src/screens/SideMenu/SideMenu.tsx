@@ -11,7 +11,7 @@ import {AppConstants, Colors} from '../../utils/System/Constants';
 import AppIcons from '../../libs/NativeIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const SideMenu = props => {
+const SideMenu = (props: any) => {
   const dispatch = useDispatch();
 
   const [showAlert, setShowAlert] = useState(false);
