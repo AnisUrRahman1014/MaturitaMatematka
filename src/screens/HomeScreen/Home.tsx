@@ -13,13 +13,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/types';
 
-// type Props = {
-//   navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
-// };
-const Home = () => {
-  const navigation = useNavigation();
+type Props = {
+  navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
+};
+const Home = (props: Props) => {
+  const navigation = props?.navigation;
   const user = useSelector((state: RootState) => state?.persistSlice);
-  console.log(JSON.stringify(user, null, 1));
+  // console.log(JSON.stringify(user, null, 1));
 
   const [categories, setCategories] = useState([
     {

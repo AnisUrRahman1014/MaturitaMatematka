@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/HomeScreen/Home';
 import CategoryDetailScreen from '../screens/CategoryDetailScreen/CategoryDetailScreen';
 import DrawerNavigation from './DrawerNav';
+import Quiz from '../screens/Quiz/Quiz';
 
 const Stack = createNativeStackNavigator();
 const MainStack = () => {
@@ -10,6 +11,7 @@ const MainStack = () => {
     DrawerNavigation,
     Home,
     CategoryDetailScreen,
+    Quiz,
   };
   return (
     <Stack.Navigator

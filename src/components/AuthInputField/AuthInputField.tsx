@@ -39,6 +39,7 @@ const AuthInputField = (props: Props) => {
                 inputMode="email"
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
+                autoCapitalize="none"
               />
             </View>
           </View>
@@ -61,6 +62,7 @@ const AuthInputField = (props: Props) => {
                 style={styles.input}
                 onChange={onChangeText}
                 secureTextEntry={!showPassword}
+                autoCapitalize="none"
               />
             </View>
             <View style={styles.eyeContainer}>
@@ -97,6 +99,7 @@ const AuthInputField = (props: Props) => {
                 inputMode="email"
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
+                autoCapitalize="none"
               />
             </View>
           </View>

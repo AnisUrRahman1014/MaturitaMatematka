@@ -23,6 +23,7 @@ import {showError} from '../../../utils/System/MessageHandlers';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../../redux/slices/persistSlice';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Routes from '../../../navigation/Routes';
 
 const strings = {
   Email: 'Email',
@@ -175,7 +176,8 @@ const Login = (props: Props) => {
                     errors[strings.Password] || touched[strings.Password]
                   }
                 />
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(Routes.ForgetPassword)}>
                   <Text style={styles.forgetPass}>Forget Password?</Text>
                 </TouchableOpacity>
                 <CustomButton

@@ -3,4 +3,6 @@ export default {
   CategoryDetailScreen: 'CategoryDetailScreen',
   Login: 'Login',
   Signup: 'Signup',
+  ForgetPassword: 'ForgetPassword',
+  Quiz: 'Quiz',
 };

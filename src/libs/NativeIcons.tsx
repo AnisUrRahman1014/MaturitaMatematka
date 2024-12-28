@@ -87,7 +87,7 @@ const AppIcons = {
 
   MenuIcon: createIcon(Entypo, 'menu'),
   HistoryIcon: createIcon(MaterialCommunityIcons, 'history'),
-  FavoriteIcon: createIcon(MaterialIcons, 'favorite-border'),
+  FavoriteIcon: createIcon(Fontisto, 'heart-alt'),
   StarIcon: createIcon(AntDesign, 'staro'),
   AlertCircle: createIcon(Ionicons, 'alert-circle-outline'),
 };
