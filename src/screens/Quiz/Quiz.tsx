@@ -15,13 +15,7 @@ import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from '../../utils/System/Constants';
 import QuestionPanel from '../../components/QuestionPanel/QuestionPanel';
-
-type Question = {
-  question: string;
-  correctAnswer: string;
-  explanation: string;
-  options: string[];
-};
+import {Question} from '../../libs/Global';
 
 const {width} = Dimensions.get('window');
 const Quiz = () => {
@@ -30,9 +24,10 @@ const Quiz = () => {
     inputRange: [0, width],
     outputRange: [0, 20],
   });
-  const [questions, setQuestions] = useState([
+  const [questions, setQuestions] = useState<Question[]>([
     {
-      id: 1,
+      id: '1',
+      type: 'simple',
       question:
         'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
       options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
@@ -41,7 +36,8 @@ const Quiz = () => {
         'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
     },
     {
-      id: 2,
+      id: '2',
+      type: 'arrange',
       question:
         'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
       options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
@@ -50,7 +46,8 @@ const Quiz = () => {
         'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
     },
     {
-      id: 3,
+      id: '3',
+      type: 'simple',
       question:
         'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
       options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
@@ -59,7 +56,8 @@ const Quiz = () => {
         'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
     },
     {
-      id: 3,
+      id: '4',
+      type: 'simple',
       question:
         'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
       options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],

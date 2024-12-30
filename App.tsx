@@ -29,6 +29,7 @@ import {persistor, store} from './src/redux/store';
 import {PersistGate} from 'reduxjs-toolkit-persist/integration/react';
 import AppNavigator from './src/navigation';
 import {AlertNotificationRoot} from 'react-native-alert-notification';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -71,7 +72,9 @@ function App(): React.JSX.Element {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <AlertNotificationRoot>
-          <AppNavigator />
+          <GestureHandlerRootView>
+            <AppNavigator />
+          </GestureHandlerRootView>
         </AlertNotificationRoot>
       </PersistGate>
     </Provider>

@@ -90,6 +90,7 @@ const AppIcons = {
   FavoriteIcon: createIcon(Fontisto, 'heart-alt'),
   StarIcon: createIcon(AntDesign, 'staro'),
   AlertCircle: createIcon(Ionicons, 'alert-circle-outline'),
+  DragIcon: createIcon(MaterialCommunityIcons, 'drag-horizontal-variant'),
 };
 
 export default AppIcons;
