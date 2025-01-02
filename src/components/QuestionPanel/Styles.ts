@@ -43,10 +43,13 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   submitBtn: {
-    height: 450,
     width: 250,
+    aspectRatio: 1,
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 30,
+    backgroundColor: 'red',
   },
   correctAnswerBG: {
     borderColor: Colors.darkGreen,

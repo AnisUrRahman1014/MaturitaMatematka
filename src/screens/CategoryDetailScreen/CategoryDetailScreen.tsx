@@ -60,12 +60,15 @@ const CategoryDetailScreen = (props: Props) => {
           label={'Browse through questions'}
           rightIconBtn
           lightBtn
+          onPress={() =>
+            navigation.navigate(Routes.Quiz, {panelType: 'browse'})
+          }
         />
         <CustomButton
           label={'Start the Quiz'}
           boldLabel
           rightIconBtn
-          onPress={() => navigation.navigate(Routes.Quiz)}
+          onPress={() => navigation.navigate(Routes.Quiz, {panelType: 'quiz'})}
         />
       </View>
     </SafeAreaView>

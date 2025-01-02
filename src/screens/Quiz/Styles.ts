@@ -33,6 +33,15 @@ const styles = StyleSheet.create({
     fontSize: AppConstants.FontSizes.t2,
     color: Colors.primaryDark,
   },
+  navBtnsContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    height: '20%',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    paddingHorizontal: AppConstants.ContainerPaddings.avg,
+  },
 });
 
 export default styles;

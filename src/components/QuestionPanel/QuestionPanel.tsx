@@ -1,5 +1,5 @@
 import {View, Text, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from '../../utils/System/Constants';
@@ -11,23 +11,46 @@ import {showError} from '../../utils/System/MessageHandlers';
 import {Question} from '../../libs/Global';
 import AnswerOptionDraggable from '../AnswerOptionDraggable/AnswerOptionDraggable';
 import DraggableFlatList, {
-  OpacityDecorator,
-  RenderItemParams,
   ScaleDecorator,
-  ShadowDecorator,
 } from 'react-native-draggable-flatlist';
 
 type Props = {
   question: Question;
   totalQuestionCount: number;
   index: number;
+  panelType: 'quiz' | 'browse';
+  handleNext: () => void;
+  handlePrevious: () => void;
 };
 const QuestionPanel = (props: Props) => {
-  const {question, totalQuestionCount, index} = props;
+  const {
+    question,
+    totalQuestionCount,
+    index,
+    panelType,
+    handleNext,
+    handlePrevious,
+  } = props;
   const [selectedOption, setSelectedOption] = useState(-1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrangedAnswer, setArrangedAnswer] = useState(question?.options);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (panelType === 'browse') {
+      switch (question?.type) {
+        case 'simple':
+          setSelectedOption(question.options.indexOf(question?.correctAnswer));
+        case 'arrange':
+          setArrangedAnswer(
+            question?.correctAnswer?.split(',').map(item => item.trim()),
+          );
+          if (question?.correctAnswer === arrangedAnswer.toString()) {
+          }
+      }
+      setIsSubmitted(true);
+    }
+  }, []);
 
   const handleFavorite = () => {
     // CHECK IF THIS IS IN FAVORITISED IN DB OR NOT
@@ -52,12 +75,11 @@ const QuestionPanel = (props: Props) => {
     setIsSubmitted(true);
   };
 
-  const handleNext = () => {
+  const handleNextButton = () => {
     setIsSubmitted(false);
   };
 
   const showExplanation = () => {
-    console.log(question?.options[selectedOption]);
     switch (question?.type) {
       case 'simple':
         if (question?.correctAnswer === question?.options[selectedOption]) {
@@ -81,6 +103,7 @@ const QuestionPanel = (props: Props) => {
           );
         }
       case 'arrange':
+        console.log(arrangedAnswer.toString());
         if (question?.correctAnswer === arrangedAnswer.toString()) {
           return (
             <View style={styles.correctAnswer}>
@@ -146,7 +169,10 @@ const QuestionPanel = (props: Props) => {
               <AnswerOption
                 index={index}
                 data={option}
-                setSelectedOption={setSelectedOption}
+                disabled={panelType === 'browse'}
+                setSelectedOption={
+                  panelType === 'browse' ? () => {} : setSelectedOption
+                }
                 customStyle={{
                   borderColor: conditionalFormatting(index),
                   color: conditionalFormatting(index),
@@ -170,11 +196,16 @@ const QuestionPanel = (props: Props) => {
                     <AnswerOptionDraggable
                       data={item}
                       drag={drag}
-                      isActive={isActive}
-                      setSelectedOption={setSelectedOption}
+                      isActive={panelType === 'quiz' ? isActive : true}
                       customStyle={{
-                        borderColor: conditionalFormatting(index),
-                        color: conditionalFormatting(index),
+                        borderColor:
+                          panelType === 'browse'
+                            ? Colors.darkGreen
+                            : conditionalFormatting(index),
+                        color:
+                          panelType === 'browse'
+                            ? Colors.darkGreen
+                            : conditionalFormatting(index),
                       }}
                     />
                   </ScaleDecorator>
@@ -192,17 +223,27 @@ const QuestionPanel = (props: Props) => {
 
       {isSubmitted && showExplanation()}
 
-      <View style={styles.submitBtn}>
-        {!isSubmitted ? (
-          <CustomButton label={'Submit'} onPress={handleSubmit} />
-        ) : (
-          <CustomButton
-            label={'Next'}
-            onPress={handleNext}
-            containerStyle={{backgroundColor: Colors.primaryLight}}
-          />
-        )}
-      </View>
+      {panelType === 'quiz' && (
+        <>
+          {!isSubmitted ? (
+            <CustomButton
+              label={'Submit'}
+              onPress={handleSubmit}
+              containerStyle={{marginTop: '15%'}}
+            />
+          ) : (
+            <CustomButton
+              label={'Next'}
+              onPress={handleNextButton}
+              // onPress={handleNext}
+              containerStyle={{
+                backgroundColor: Colors.primaryLight,
+                marginTop: '15%',
+              }}
+            />
+          )}
+        </>
+      )}
     </ScrollView>
   );
 };

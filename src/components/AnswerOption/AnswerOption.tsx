@@ -6,10 +6,11 @@ type Props = {
   data: string;
   index: number;
   setSelectedOption: (index: number) => any;
-  customStyle?: any; // Additional styles to be applied to the button container.
+  customStyle?: any;
+  disabled: boolean;
 };
 const AnswerOption = (props: Props) => {
-  const {data, index, setSelectedOption, customStyle} = props;
+  const {data, index, setSelectedOption, customStyle, disabled} = props;
   //   console.log(isSelected);
   const indexToAlphabet = (index: number) => {
     if (index < 0 || index >= 26) {
@@ -21,7 +22,8 @@ const AnswerOption = (props: Props) => {
   return (
     <TouchableOpacity
       style={{...styles.btn, ...customStyle}}
-      onPress={() => setSelectedOption(index)}>
+      onPress={() => setSelectedOption(index)}
+      disabled={disabled}>
       <Text style={{...styles.btnText, ...customStyle}}>
         {indexToAlphabet(index)}
         {') '}
