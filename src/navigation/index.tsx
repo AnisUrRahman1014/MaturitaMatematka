@@ -5,6 +5,7 @@ import MainStack from './MainStack';
 import AuthStack from './AuthStack';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/types';
+import QuizResult from '../screens/QuizResults/QuizResult';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator = () => {
@@ -12,8 +13,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       {user ? <MainStack /> : <AuthStack />}
-      {/* <MainStack /> */}
-      {/* <AuthStack /> */}
+      {/* <Stack.Screen name="QuizResult" component={QuizResult} /> */}
     </NavigationContainer>
   );
 };

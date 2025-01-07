@@ -16,12 +16,6 @@ export const Fonts = {
   LatoThin: 'Lato-Thin',
 };
 
-type Padding = {
-  avg: undefined;
-  max: undefined;
-  min: undefined;
-};
-
 export const AppConstants = {
   FontSizes: {
     h1: 40,
@@ -37,5 +31,12 @@ export const AppConstants = {
     max: '5%',
     avg: '3%',
     min: '2%',
+  },
+  Borders: {
+    min: 5,
+    avg: 10,
+    semiMax: 15,
+    max: 20,
+    ultra: 30,
   },
 };

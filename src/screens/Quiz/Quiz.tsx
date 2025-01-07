@@ -92,6 +92,7 @@ const Quiz = (props: Props) => {
           return (
             <>
               <QuestionPanel
+                key={index}
                 question={item}
                 totalQuestionCount={questions?.length}
                 index={index}
@@ -109,14 +110,14 @@ const Quiz = (props: Props) => {
                       ? 'flex-start'
                       : 'space-between',
                 }}>
-                {index !== 0 && (
+                {panelType !== 'quiz' && index !== 0 && (
                   <AppIcons.ChevronLeftIcon
                     size={30}
                     onPress={handlePrevious}
                     color={Colors.primaryDark}
                   />
                 )}
-                {index !== questions?.length - 1 && (
+                {panelType !== 'quiz' && index !== questions?.length - 1 && (
                   <AppIcons.ChevronRightIcon
                     size={30}
                     onPress={handleNext}

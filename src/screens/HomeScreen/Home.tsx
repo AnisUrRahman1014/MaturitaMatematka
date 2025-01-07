@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import AppIcons from '../../libs/NativeIcons';
 import styles, {section} from './Styles';
@@ -12,6 +12,7 @@ import {RootStackList} from '../../navigation/types';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/types';
+import auth from '@react-native-firebase/auth';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
@@ -59,6 +60,15 @@ const Home = (props: Props) => {
       icon: Images.Formula,
     },
   ]);
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  const getToken = async () => {
+    const token = await auth().currentUser?.getIdToken();
+    console.log(token);
+  };
 
   const menuButton = (
     <AppIcons.MenuIcon
@@ -128,7 +138,7 @@ const Home = (props: Props) => {
             {paddingHorizontal: '5%', justifyContent: 'flex-start'},
           ]}>
           <Image
-            source={require('../../../assets/images/categoryIcon.png')}
+            source={Images.CategoryIcon}
             style={styles.categoryIcon}
             resizeMode="contain"
           />

@@ -10,6 +10,7 @@ import {logoutUser} from '../../redux/slices/persistSlice';
 import {AppConstants, Colors} from '../../utils/System/Constants';
 import AppIcons from '../../libs/NativeIcons';
 import {useNavigation} from '@react-navigation/native';
+import Routes from '../../navigation/Routes';
 
 const SideMenu = (props: any) => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const SideMenu = (props: any) => {
       ),
       onPress: () => {
         props.navigation.closeDrawer();
-        // props.navigation.navigate('LandlordHome');
+        props.navigation.navigate(Routes.HistoryScreen);
       },
     },
     {
@@ -50,7 +51,7 @@ const SideMenu = (props: any) => {
       ),
       onPress: () => {
         props.navigation.closeDrawer();
-        // props.navigation.navigate('LandlordHome');
+        props.navigation.navigate(Routes.FavoritesScreen);
       },
     },
     {
@@ -68,7 +69,7 @@ const SideMenu = (props: any) => {
       ),
       onPress: () => {
         props.navigation.closeDrawer();
-        // props.navigation.navigate('LandlordHome');
+        props.navigation.navigate(Routes.IncorrectAnswersScreen);
       },
     },
   ];

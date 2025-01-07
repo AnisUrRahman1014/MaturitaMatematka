@@ -21,9 +21,10 @@ import {section} from '../../../libs/Global';
 import auth from '@react-native-firebase/auth';
 import {showError} from '../../../utils/System/MessageHandlers';
 import {useDispatch} from 'react-redux';
-import {setUser} from '../../../redux/slices/persistSlice';
+import {setToken, setUser} from '../../../redux/slices/persistSlice';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import Routes from '../../../navigation/Routes';
+import firestore from '@react-native-firebase/firestore';
 
 const strings = {
   Email: 'Email',
@@ -113,12 +114,18 @@ const Login = (props: Props) => {
         //   JSON.stringify(firebaseUserCredential.user, null, 2),
         // );
 
-        const temp = {
-          uid: firebaseUserCredential?.user?.uid,
+        const userData = {
+          userId: firebaseUserCredential?.user?.uid,
           email: firebaseUserCredential?.user?.email,
           displayName: firebaseUserCredential.user.displayName,
           photoURL: firebaseUserCredential?.user?.photoURL,
         };
+
+        await firestore()
+          .collection('users') // Adjust the collection name if needed
+          .doc(userData.userId) // Use the UID as the document ID
+          .set(userData, {merge: true});
+
         // Dispatch the user data to Redux (if required)
         dispatch(setUser(firebaseUserCredential.user));
       }

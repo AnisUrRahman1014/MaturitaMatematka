@@ -18,6 +18,7 @@ type Props = {
   question: Question;
   totalQuestionCount: number;
   index: number;
+  displayAnswer: boolean;
   panelType: 'quiz' | 'browse';
   handleNext: () => void;
   handlePrevious: () => void;
@@ -28,6 +29,7 @@ const QuestionPanel = (props: Props) => {
     totalQuestionCount,
     index,
     panelType,
+    displayAnswer,
     handleNext,
     handlePrevious,
   } = props;
@@ -37,7 +39,7 @@ const QuestionPanel = (props: Props) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    if (panelType === 'browse') {
+    if (panelType === 'browse' || displayAnswer) {
       switch (question?.type) {
         case 'simple':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
@@ -128,7 +130,7 @@ const QuestionPanel = (props: Props) => {
   };
 
   const conditionalFormatting = (chosenBtnIndex: number) => {
-    if (isSubmitted) {
+    if (isSubmitted || displayAnswer) {
       return selectedOption === chosenBtnIndex
         ? question?.correctAnswer === question?.options[selectedOption]
           ? Colors.darkGreen
@@ -169,7 +171,7 @@ const QuestionPanel = (props: Props) => {
               <AnswerOption
                 index={index}
                 data={option}
-                disabled={panelType === 'browse'}
+                disabled={panelType === 'browse' || displayAnswer}
                 setSelectedOption={
                   panelType === 'browse' ? () => {} : setSelectedOption
                 }
@@ -196,7 +198,9 @@ const QuestionPanel = (props: Props) => {
                     <AnswerOptionDraggable
                       data={item}
                       drag={drag}
-                      isActive={panelType === 'quiz' ? isActive : true}
+                      isActive={
+                        panelType === 'quiz' && !displayAnswer ? isActive : true
+                      }
                       customStyle={{
                         borderColor:
                           panelType === 'browse'
@@ -221,9 +225,9 @@ const QuestionPanel = (props: Props) => {
         {index + 1} / {totalQuestionCount}
       </Text>
 
-      {isSubmitted && showExplanation()}
+      {(isSubmitted || displayAnswer) && showExplanation()}
 
-      {panelType === 'quiz' && (
+      {panelType === 'quiz' && !displayAnswer && (
         <>
           {!isSubmitted ? (
             <CustomButton
@@ -235,7 +239,6 @@ const QuestionPanel = (props: Props) => {
             <CustomButton
               label={'Next'}
               onPress={handleNextButton}
-              // onPress={handleNext}
               containerStyle={{
                 backgroundColor: Colors.primaryLight,
                 marginTop: '15%',

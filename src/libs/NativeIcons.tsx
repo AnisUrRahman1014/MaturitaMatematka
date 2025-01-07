@@ -91,6 +91,8 @@ const AppIcons = {
   StarIcon: createIcon(AntDesign, 'staro'),
   AlertCircle: createIcon(Ionicons, 'alert-circle-outline'),
   DragIcon: createIcon(MaterialCommunityIcons, 'drag-horizontal-variant'),
+  StarIconFill: createIcon(FontAwesome, 'star'),
+  StarIconOutline: createIcon(FontAwesome, 'star-o'),
 };
 
 export default AppIcons;
