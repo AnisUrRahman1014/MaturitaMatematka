@@ -14,6 +14,7 @@ import Routes from '../../navigation/Routes';
 
 const SideMenu = (props: any) => {
   const dispatch = useDispatch();
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -27,13 +28,17 @@ const SideMenu = (props: any) => {
           color={Colors.primaryDark}
           style={{
             ...styles.iconContainer,
-            backgroundColor: focused ? Colors.white : Colors.primaryDark,
+            backgroundColor: Colors.white,
           }}
         />
       ),
       onPress: () => {
+        setSelectedIndex(0);
         props.navigation.closeDrawer();
-        props.navigation.navigate(Routes.HistoryScreen);
+        setTimeout(() => {
+          props.navigation.navigate(Routes.HistoryScreen);
+          setSelectedIndex(-1);
+        }, 50);
       },
     },
     {
@@ -50,8 +55,13 @@ const SideMenu = (props: any) => {
         />
       ),
       onPress: () => {
+        setSelectedIndex(1);
+
         props.navigation.closeDrawer();
-        props.navigation.navigate(Routes.FavoritesScreen);
+        setTimeout(() => {
+          props.navigation.navigate(Routes.FavoritesScreen);
+          setSelectedIndex(-1);
+        }, 200);
       },
     },
     {
@@ -68,8 +78,12 @@ const SideMenu = (props: any) => {
         />
       ),
       onPress: () => {
+        setSelectedIndex(2);
         props.navigation.closeDrawer();
-        props.navigation.navigate(Routes.IncorrectAnswersScreen);
+        setTimeout(() => {
+          props.navigation.navigate(Routes.IncorrectAnswersScreen);
+          setSelectedIndex(-1);
+        }, 200);
       },
     },
   ];
@@ -86,7 +100,7 @@ const SideMenu = (props: any) => {
           />
         </View>
         {tabs.map((item, index) => {
-          const isFocused = props.state.index === index;
+          const isFocused = selectedIndex === index;
           return (
             <DrawerItem
               key={index}

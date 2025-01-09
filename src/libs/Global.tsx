@@ -7,6 +7,11 @@ export const section = (
   // backgroundColor: 'blue',
 });
 
+export const formattedDate = (date: Date) => {
+  const options = {year: 'numeric', month: 'long', day: 'numeric'};
+  return date.toLocaleDateString('en-US', options);
+};
+
 export type Question = {
   id: string;
   question: string;
@@ -33,4 +38,6 @@ export type QuizResultData = {
   incorrectAnswerCount: number;
   totalQuestions: number;
   score: number;
+  questions: Answer[];
+  date: string;
 };

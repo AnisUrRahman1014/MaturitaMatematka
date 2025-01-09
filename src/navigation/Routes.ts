@@ -10,4 +10,5 @@ export default {
   FavoritesScreen: 'FavoritesScreen',
   IncorrectAnswersScreen: 'IncorrectAnswersScreen',
   AnswerDisplayScreen: 'AnswerDisplayScreen',
+  QuizDetail: 'QuizDetail',
 };

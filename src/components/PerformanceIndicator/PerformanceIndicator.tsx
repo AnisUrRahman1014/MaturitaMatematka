@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './Styles';
 import {Colors} from '../../utils/System/Constants';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import {moderateScale} from 'react-native-size-matters';
 
 const PerformanceIndicator = () => {
   return (
@@ -17,16 +18,21 @@ const PerformanceIndicator = () => {
       <View style={styles.rightContainer}>
         <View style={styles.innerContainer}>
           <CircularProgress
-            value={85}
-            inActiveStrokeColor={'#2ecc71'}
-            inActiveStrokeOpacity={0.2}
+            value={75}
+            activeStrokeColor={Colors.primaryLight}
+            inActiveStrokeOpacity={0}
             progressValueColor={'#fff'}
             valueSuffix={'%'}
+            radius={moderateScale(65)}
+            strokeLinecap="square"
+            progressValueStyle={styles.innerCircleTxt1}
+            subtitle={'Success Rate'}
+            subtitleStyle={{
+              ...styles.innerCircleTxt2,
+              textAlign: 'center',
+              textAlignVertical: 'center',
+            }}
           />
-          {/* <Text style={[styles.innerCircleTxt1, {color: Colors.primaryLight}]}>
-            34 %
-          </Text>
-          <Text style={styles.innerCircleTxt2}>Avg. Success Rate</Text> */}
         </View>
       </View>
     </View>

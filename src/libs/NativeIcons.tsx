@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -93,6 +94,8 @@ const AppIcons = {
   DragIcon: createIcon(MaterialCommunityIcons, 'drag-horizontal-variant'),
   StarIconFill: createIcon(FontAwesome, 'star'),
   StarIconOutline: createIcon(FontAwesome, 'star-o'),
+  SortAscending: createIcon(FontAwesome5, 'sort-amount-up-alt'),
+  SortDescending: createIcon(FontAwesome5, 'sort-amount-down'),
 };
 
 export default AppIcons;

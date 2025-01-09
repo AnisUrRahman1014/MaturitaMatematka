@@ -8,8 +8,6 @@ import {
 import React from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackList} from '../../navigation/types';
 import Routes from '../../navigation/Routes';
 import {useNavigation} from '@react-navigation/native';
 

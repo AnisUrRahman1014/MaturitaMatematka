@@ -10,4 +10,5 @@ export type RootStackList = {
   FavoritesScreen: undefined;
   IncorrectAnswersScreen: undefined;
   AnswerDisplayScreen: undefined;
+  QuizDetail: undefined;
 };

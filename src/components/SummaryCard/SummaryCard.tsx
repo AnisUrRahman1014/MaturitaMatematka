@@ -3,18 +3,12 @@ import React from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from '../../utils/System/Constants';
-import {QuizResultData} from '../../libs/Global';
+import {formattedDate, QuizResultData} from '../../libs/Global';
 
 type Props = {
   data: QuizResultData;
 };
 const SummaryCard = ({data}: Props) => {
-  const formattedDate = () => {
-    const date = new Date(Date.now());
-    const options = {year: 'numeric', month: 'long', day: 'numeric'};
-    return date.toLocaleDateString('en-US', options);
-  };
-
   return (
     <View style={styles.card}>
       <View style={[styles.horizontalCtn, {width: '100%'}]}>
@@ -35,7 +29,7 @@ const SummaryCard = ({data}: Props) => {
       <View style={{bottom: 0}}>
         <View style={[styles.horizontalCtn]}>
           <Text style={styles.desc}>Date:</Text>
-          <Text style={styles.desc}>{formattedDate()}</Text>
+          <Text style={styles.desc}>{formattedDate(new Date(Date.now()))}</Text>
         </View>
         <View style={[styles.horizontalCtn]}>
           <Text style={styles.desc}>Category:</Text>

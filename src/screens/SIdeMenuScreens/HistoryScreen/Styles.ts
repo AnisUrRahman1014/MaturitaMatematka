@@ -1,9 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {AppConstants, Fonts} from '../../../utils/System/Constants';
+import {AppConstants, Colors, Fonts} from '../../../utils/System/Constants';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    padding: AppConstants.ContainerPaddings.avg,
+    padding: AppConstants.ContainerPaddings.max,
   },
   heading: {
     fontFamily: Fonts.LatoRegular,
@@ -13,6 +13,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: AppConstants.ContainerPaddings.min,
+  },
+  sortText: {
+    color: Colors.midGrey,
+  },
+  sortCtn: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: AppConstants.ContainerPaddings.min,
+    paddingHorizontal: AppConstants.ContainerPaddings.avg,
   },
 });
 

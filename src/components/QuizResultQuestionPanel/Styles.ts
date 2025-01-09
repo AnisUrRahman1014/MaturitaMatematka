@@ -4,7 +4,7 @@ import {moderateVerticalScale} from 'react-native-size-matters';
 
 const {width} = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+const styless = StyleSheet.create({
   container: {
     width: width,
     flex: 1,
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default styless;

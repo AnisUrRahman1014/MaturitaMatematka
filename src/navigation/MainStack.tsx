@@ -9,6 +9,7 @@ import IncorrectAnswersScreen from '../screens/SIdeMenuScreens/IncorrectAnswersS
 import HistoryScreen from '../screens/SIdeMenuScreens/HistoryScreen/HistoryScreen';
 import FavoritesScreen from '../screens/SIdeMenuScreens/FavoritesScreen/FavoritesScreen';
 import AnswerDisplayScreen from '../screens/AnserDisplayScreen/AnswerDisplayScreen';
+import QuizDetail from '../screens/QuizDetail/QuizDetail';
 
 const Stack = createNativeStackNavigator();
 const MainStack = () => {
@@ -22,6 +23,7 @@ const MainStack = () => {
     HistoryScreen,
     FavoritesScreen,
     AnswerDisplayScreen,
+    QuizDetail,
   };
   return (
     <Stack.Navigator

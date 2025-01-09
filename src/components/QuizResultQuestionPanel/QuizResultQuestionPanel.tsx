@@ -1,6 +1,5 @@
 import {View, Text, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from '../../utils/System/Constants';
 import {Images} from '../../../assets/images';
@@ -8,28 +7,31 @@ import {Image} from 'react-native';
 import AnswerOption from '../AnswerOption/AnswerOption';
 import CustomButton from '../CustomButton/CustomButton';
 import {showError} from '../../utils/System/MessageHandlers';
-import {Question} from '../../libs/Global';
+import {Answer, Question} from '../../libs/Global';
 import AnswerOptionDraggable from '../AnswerOptionDraggable/AnswerOptionDraggable';
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
+import styless from './Styles';
 
 type Props = {
-  question: Question;
+  question: Answer;
   totalQuestionCount: number;
   index: number;
   displayAnswer: boolean;
   panelType: 'quiz' | 'browse';
+  quizResult: boolean;
   handleNext: () => void;
   handlePrevious: () => void;
 };
-const QuestionPanel = (props: Props) => {
+const QuizResultQuestionPanel = (props: Props) => {
   const {
     question,
     totalQuestionCount,
     index,
-    panelType,
+    panelType = 'browse',
     displayAnswer,
+    quizResult,
     handleNext,
     handlePrevious,
   } = props;
@@ -84,44 +86,48 @@ const QuestionPanel = (props: Props) => {
   const showExplanation = () => {
     switch (question?.type) {
       case 'simple':
-        if (question?.correctAnswer === question?.options[selectedOption]) {
+        if (question?.correctAnswer === question?.givenAnswer) {
           return (
-            <View style={styles.correctAnswer}>
-              <View style={styles.correctAnswerBG} />
+            <View style={styless.correctAnswer}>
+              <View style={styless.correctAnswerBG} />
 
-              <Text style={styles.correctAnswerHeading}>Correct</Text>
-              <Text style={styles.correctAnswerTxt}>
+              <Text style={styless.correctAnswerHeading}>Correct</Text>
+              <Text style={styless.correctAnswerTxt}>
                 {question?.explanation}
               </Text>
             </View>
           );
         } else {
           return (
-            <View style={styles.wrongAnswer}>
-              <View style={styles.wrongAnswerBG} />
-              <Text style={styles.wrongAnswerHeading}>Wrong</Text>
-              <Text style={styles.wrongAnswerTxt}>{question?.explanation}</Text>
+            <View style={styless.wrongAnswer}>
+              <View style={styless.wrongAnswerBG} />
+              <Text style={styless.wrongAnswerHeading}>Wrong</Text>
+              <Text style={styless.wrongAnswerTxt}>
+                {question?.explanation}
+              </Text>
             </View>
           );
         }
       case 'arrange':
-        if (question?.correctAnswer === arrangedAnswer.toString()) {
+        if (question?.correctAnswer === question?.givenAnswer) {
           return (
-            <View style={styles.correctAnswer}>
-              <View style={styles.correctAnswerBG} />
+            <View style={styless.correctAnswer}>
+              <View style={styless.correctAnswerBG} />
 
-              <Text style={styles.correctAnswerHeading}>Correct</Text>
-              <Text style={styles.correctAnswerTxt}>
+              <Text style={styless.correctAnswerHeading}>Correct</Text>
+              <Text style={styless.correctAnswerTxt}>
                 {question?.explanation}
               </Text>
             </View>
           );
         } else {
           return (
-            <View style={styles.wrongAnswer}>
-              <View style={styles.wrongAnswerBG} />
-              <Text style={styles.wrongAnswerHeading}>Wrong</Text>
-              <Text style={styles.wrongAnswerTxt}>{question?.explanation}</Text>
+            <View style={styless.wrongAnswer}>
+              <View style={styless.wrongAnswerBG} />
+              <Text style={styless.wrongAnswerHeading}>Wrong</Text>
+              <Text style={styless.wrongAnswerTxt}>
+                {question?.explanation}
+              </Text>
             </View>
           );
         }
@@ -130,11 +136,24 @@ const QuestionPanel = (props: Props) => {
 
   const conditionalFormatting = (chosenBtnIndex: number) => {
     if (isSubmitted || displayAnswer) {
-      return selectedOption === chosenBtnIndex
-        ? question?.correctAnswer === question?.options[selectedOption]
-          ? Colors.darkGreen
-          : Colors.red
-        : Colors.primaryDark;
+      if (quizResult) {
+        return question?.givenAnswer === question?.correctAnswer
+          ? chosenBtnIndex === question?.options?.indexOf(question?.givenAnswer)
+            ? Colors.darkGreen // Correct answer highlighted in green
+            : Colors.primaryDark // Other options remain dark
+          : chosenBtnIndex === question?.options?.indexOf(question?.givenAnswer)
+          ? Colors.red // Highlight the given wrong answer in red
+          : chosenBtnIndex ===
+            question?.options?.indexOf(question?.correctAnswer)
+          ? Colors.darkGreen // Highlight the correct answer in green
+          : Colors.primaryDark; // Other options remain dark
+      } else {
+        return selectedOption === chosenBtnIndex
+          ? question?.correctAnswer === question?.options[selectedOption]
+            ? Colors.darkGreen
+            : Colors.red
+          : Colors.primaryDark;
+      }
     } else {
       return selectedOption === chosenBtnIndex
         ? Colors.primaryLight
@@ -143,27 +162,32 @@ const QuestionPanel = (props: Props) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styless.container}
+      contentContainerStyle={{paddingBottom: 50}}>
       {/* Heading Container */}
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingLabel}>Question</Text>
-        <View style={styles.rowContainer}>
+      <View style={styless.headingContainer}>
+        <Text style={styless.headingLabel}>Question</Text>
+        <View style={styless.rowContainer}>
           <AppIcons.FavoriteIcon size={24} color={Colors?.primaryDark} />
           <Image
             source={Images?.QuestionMark}
             resizeMode="contain"
-            style={styles.questionIcon}
+            style={styless.questionIcon}
           />
         </View>
       </View>
 
       {/* Question Container */}
-      <View style={styles.questionContainer}>
-        <Text style={styles.question}>{question?.question}</Text>
+      <View style={styless.questionContainer}>
+        <Text style={styless.question}>{question?.question}</Text>
       </View>
+      {question.type !== 'simple' && (
+        <Text style={styless.subHeading}>Correct Answer</Text>
+      )}
       {/* Option Container */}
       {question?.type === 'simple' && (
-        <View style={styles.optionsContainer}>
+        <View style={styless.optionsContainer}>
           {question?.options?.map((option, index) => {
             return (
               <AnswerOption
@@ -184,42 +208,50 @@ const QuestionPanel = (props: Props) => {
       )}
 
       {question?.type === 'arrange' && (
-        <View style={styles.optionsContainer}>
-          <DraggableFlatList
-            data={arrangedAnswer}
-            onDragEnd={({data}) => setArrangedAnswer(data)}
-            keyExtractor={item => item.toString()}
-            renderItem={({item, drag, isActive}) => {
-              return (
-                <View style={{width: '90%', alignSelf: 'center'}}>
-                  <ScaleDecorator>
-                    <AnswerOptionDraggable
-                      data={item}
-                      drag={drag}
-                      isActive={
-                        panelType === 'quiz' && !displayAnswer ? isActive : true
-                      }
-                      customStyle={{
-                        borderColor:
-                          panelType === 'browse'
-                            ? Colors.darkGreen
-                            : conditionalFormatting(index),
-                        color:
-                          panelType === 'browse'
-                            ? Colors.darkGreen
-                            : conditionalFormatting(index),
-                      }}
-                    />
-                  </ScaleDecorator>
-                </View>
-              );
+        <View style={styless.optionsContainer}>
+          <AnswerOption
+            index={index}
+            data={question?.correctAnswer}
+            disabled={panelType === 'browse' || displayAnswer}
+            setSelectedOption={
+              panelType === 'browse' ? () => {} : setSelectedOption
+            }
+            customStyle={{
+              borderColor: Colors.primaryLight,
+              color: Colors.primaryDark,
             }}
           />
         </View>
       )}
 
+      {quizResult && question?.type === 'arrange' && (
+        <>
+          <Text style={styless.subHeading}>Your Answer</Text>
+          <View style={styless.optionsContainer}>
+            <AnswerOption
+              index={index}
+              data={question?.givenAnswer}
+              disabled={panelType === 'browse' || displayAnswer}
+              setSelectedOption={
+                panelType === 'browse' ? () => {} : setSelectedOption
+              }
+              customStyle={{
+                borderColor:
+                  question?.correctAnswer === question?.givenAnswer?.toString()
+                    ? Colors.darkGreen
+                    : Colors.red,
+                color:
+                  question?.correctAnswer === question?.givenAnswer?.toString()
+                    ? Colors.darkGreen
+                    : Colors.red,
+              }}
+            />
+          </View>
+        </>
+      )}
+
       {/* Count Indicator */}
-      <Text style={styles.count}>
+      <Text style={styless.count}>
         {index + 1} / {totalQuestionCount}
       </Text>
 
@@ -249,4 +281,4 @@ const QuestionPanel = (props: Props) => {
   );
 };
 
-export default QuestionPanel;
+export default QuizResultQuestionPanel;
