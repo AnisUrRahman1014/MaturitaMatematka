@@ -6636,6 +6636,11 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-loader-kit@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-loader-kit/-/react-native-loader-kit-2.0.8.tgz#2d3b98805ec7edb857d38ee27402c05c60338980"
+  integrity sha512-mteFh4HF5uMjazLPxEE4lWw3aCWLH5jiUbqVZU4TtOWC+WV/Kck+ipDwsGzEqVxaIXh6bNoti1fkziNGLiuDJg==
+
 react-native-modalbox@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/react-native-modalbox/-/react-native-modalbox-1.7.1.tgz#cdb623ecd1cbe8699a450217c25b2d6666dc63e6"

@@ -1,5 +1,8 @@
 const baseURL = 'https://maturita-matematika-backend.vercel.app';
 
-export default API = {
+export const API = {
   addToFavorite: `${baseURL}/addToFavorite/`,
+
+  // Categories:
+  getCategories: `${baseURL}/category/getAllCategories`,
 };

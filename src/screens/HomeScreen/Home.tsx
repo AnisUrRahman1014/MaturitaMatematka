@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, FlatList} from 'react-native';
+import {View, Text, SafeAreaView, FlatList, Modal} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import AppIcons from '../../libs/NativeIcons';
@@ -13,15 +13,15 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/types';
 import auth from '@react-native-firebase/auth';
-
+import queryHandler from '../../services/queries/queryHandler';
+import {API} from '../../services';
+import LoaderModal from '../../components/LoaderModal/LoaderModal';
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Home'>;
 };
 const Home = (props: Props) => {
   const navigation = props?.navigation;
   const user = useSelector((state: RootState) => state?.persistSlice);
-  // console.log(JSON.stringify(user, null, 1));
-
   const [categories, setCategories] = useState([
     {
       title: 'Plainimetry',
@@ -60,9 +60,25 @@ const Home = (props: Props) => {
       icon: Images.Formula,
     },
   ]);
+  // console.log(JSON.stringify(user, null, 1));
+
+  const onSuccess = (res: {}) => {
+    console.log(res);
+  };
+
+  const onError = (error: {}) => {
+    console.log(error);
+  };
+
+  const {refetch, isLoading} = queryHandler(
+    API.getCategories,
+    onSuccess,
+    onError,
+  );
 
   useEffect(() => {
     getToken();
+    refetch();
   }, []);
 
   const getToken = async () => {
@@ -168,6 +184,7 @@ const Home = (props: Props) => {
           />
         </View>
       </View>
+      <LoaderModal visible={isLoading} />
     </SafeAreaView>
   );
 };

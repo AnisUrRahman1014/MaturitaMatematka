@@ -30,6 +30,7 @@ import {PersistGate} from 'reduxjs-toolkit-persist/integration/react';
 import AppNavigator from './src/navigation';
 import {AlertNotificationRoot} from 'react-native-alert-notification';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -61,6 +62,9 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
+// Create a client
+const queryClient = new QueryClient();
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -71,11 +75,13 @@ function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <AlertNotificationRoot>
-          <GestureHandlerRootView>
-            <AppNavigator />
-          </GestureHandlerRootView>
-        </AlertNotificationRoot>
+        <QueryClientProvider client={queryClient}>
+          <AlertNotificationRoot>
+            <GestureHandlerRootView>
+              <AppNavigator />
+            </GestureHandlerRootView>
+          </AlertNotificationRoot>
+        </QueryClientProvider>
       </PersistGate>
     </Provider>
   );
