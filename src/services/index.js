@@ -5,4 +5,7 @@ export const API = {
 
   // Categories:
   getCategories: `${baseURL}/category/getAllCategories`,
+
+  // Questions:
+  getQuestions: `${baseURL}/questions/getQuizQuestions`,
 };

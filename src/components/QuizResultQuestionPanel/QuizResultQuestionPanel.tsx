@@ -43,7 +43,7 @@ const QuizResultQuestionPanel = (props: Props) => {
   useEffect(() => {
     if (panelType === 'browse' || displayAnswer) {
       switch (question?.type) {
-        case 'simple':
+        case 'choices':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
         case 'arrange':
           setArrangedAnswer(
@@ -62,7 +62,7 @@ const QuizResultQuestionPanel = (props: Props) => {
 
   const handleSubmit = () => {
     switch (question?.type) {
-      case 'simple':
+      case 'choices':
         if (selectedOption === -1) {
           showError('Please select a valid option');
           return;
@@ -85,7 +85,7 @@ const QuizResultQuestionPanel = (props: Props) => {
 
   const showExplanation = () => {
     switch (question?.type) {
-      case 'simple':
+      case 'choices':
         if (question?.correctAnswer === question?.givenAnswer) {
           return (
             <View style={styless.correctAnswer}>
@@ -182,11 +182,11 @@ const QuizResultQuestionPanel = (props: Props) => {
       <View style={styless.questionContainer}>
         <Text style={styless.question}>{question?.question}</Text>
       </View>
-      {question.type !== 'simple' && (
+      {question.type !== 'choices' && (
         <Text style={styless.subHeading}>Correct Answer</Text>
       )}
       {/* Option Container */}
-      {question?.type === 'simple' && (
+      {question?.type === 'choices' && (
         <View style={styless.optionsContainer}>
           {question?.options?.map((option, index) => {
             return (

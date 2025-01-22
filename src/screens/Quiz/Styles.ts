@@ -36,10 +36,11 @@ const styles = StyleSheet.create({
   navBtnsContainer: {
     flexDirection: 'row',
     width: '100%',
-    height: '20%',
+    height: '10%',
     alignItems: 'center',
     position: 'absolute',
     bottom: 0,
+    // backgroundColor: 'red',
     paddingHorizontal: AppConstants.ContainerPaddings.avg,
   },
 });

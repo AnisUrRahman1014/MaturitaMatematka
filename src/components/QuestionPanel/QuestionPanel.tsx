@@ -41,11 +41,14 @@ const QuestionPanel = (props: Props) => {
   useEffect(() => {
     if (panelType === 'browse' || displayAnswer) {
       switch (question?.type) {
-        case 'simple':
+        case 'choices':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
         case 'arrange':
           setArrangedAnswer(
-            question?.correctAnswer?.split(',').map(item => item.trim()),
+            question?.correctAnswer
+              ?.toString()
+              .split(',')
+              .map(item => item.trim()),
           );
           if (question?.correctAnswer === arrangedAnswer.toString()) {
           }
@@ -60,7 +63,7 @@ const QuestionPanel = (props: Props) => {
 
   const handleSubmit = () => {
     switch (question?.type) {
-      case 'simple':
+      case 'choices':
         if (selectedOption === -1) {
           showError('Please select a valid option');
           return;
@@ -83,7 +86,7 @@ const QuestionPanel = (props: Props) => {
 
   const showExplanation = () => {
     switch (question?.type) {
-      case 'simple':
+      case 'choices':
         if (question?.correctAnswer === question?.options[selectedOption]) {
           return (
             <View style={styles.correctAnswer}>
@@ -162,11 +165,13 @@ const QuestionPanel = (props: Props) => {
         <Text style={styles.question}>{question?.question}</Text>
       </View>
       {/* Option Container */}
-      {question?.type === 'simple' && (
+      {question?.type === 'choices' && (
         <View style={styles.optionsContainer}>
           {question?.options?.map((option, index) => {
+            if (option === '') return null;
             return (
               <AnswerOption
+                key={index}
                 index={index}
                 data={option}
                 disabled={panelType === 'browse' || displayAnswer}
@@ -245,6 +250,7 @@ const QuestionPanel = (props: Props) => {
           )}
         </>
       )}
+      <View style={{marginBottom: 100}} />
     </ScrollView>
   );
 };
