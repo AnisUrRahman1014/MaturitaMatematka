@@ -9,7 +9,6 @@ import CategoryListCard from '../../components/CategoryListCard/CategoryListCard
 import {Images} from '../../../assets/images';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../navigation/types';
-import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/types';
 import auth from '@react-native-firebase/auth';
@@ -62,12 +61,14 @@ const Home = (props: Props) => {
   ]);
   // console.log(JSON.stringify(user, null, 1));
 
-  const onSuccess = (res: {}) => {
-    console.log(res);
+  const onSuccess = (res: {success: boolean; categories: []}) => {
+    if (res?.success) {
+      setCategories(res.categories);
+    }
   };
 
   const onError = (error: {}) => {
-    console.log(error);
+    console.log('Failed to get Categories', error);
   };
 
   const {refetch, isLoading} = queryHandler(
@@ -171,7 +172,7 @@ const Home = (props: Props) => {
               return (
                 <CategoryListCard
                   icon={item?.icon}
-                  title={item?.title}
+                  title={item?.categoryName}
                   tagLine={item?.tagLine}
                   category={item}
                 />

@@ -31,7 +31,9 @@ const MainStack = () => {
         headerShown: false,
       }}>
       {Object.entries(screens).map(([name, component]) => {
-        return <Stack.Screen key={name} name={name} component={component} />;
+        return <Stack.Screen key={name} name={name} component={component}  options={{
+          gestureEnabled: name !== 'Quiz' 
+        }}/>;
       })}
     </Stack.Navigator>
   );

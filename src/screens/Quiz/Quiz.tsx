@@ -1,4 +1,12 @@
-import {SafeAreaView, FlatList, Dimensions, Animated, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {
+  SafeAreaView,
+  FlatList,
+  Dimensions,
+  Animated,
+  View,
+  Alert,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import QuestionPanel from '../../components/QuestionPanel/QuestionPanel';
@@ -6,88 +14,61 @@ import {Question} from '../../libs/Global';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import queryHandler from '../../services/queries/queryHandler';
-import {API} from '../../services';
-import {showError} from '../../utils/System/MessageHandlers';
-import LoaderModal from '../../components/LoaderModal/LoaderModal';
+
+import {RootStackList} from '../../navigation/types';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {BackHandler} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 type Props = {
+  navigation: NativeStackNavigationProp<RootStackList, 'Quiz'>;
   route: any;
-  category: {};
-  panelType: string;
 };
 const Quiz = (props: Props) => {
+  const navigation = props.navigation;
   const panelType = props?.route?.params?.panelType;
-  // const category = props?.route?.params?.category;
-  const category = 'Planimetrie';
-  console.log(category);
+  const quizQuestions = props?.route?.params?.quizQuestions;
 
   const flatListRef = useRef(null);
   const scrollValue = useRef(new Animated.Value(0)).current;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const questions = quizQuestions || [];
 
-  // [
-  //   {
-  //     id: '1',
-  //     type: 'simple',
-  //     question:
-  //       'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-  //     options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-  //     correctAnswer: '25 cm²',
-  //     explanation:
-  //       'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-  //   },
-  //   {
-  //     id: '2',
-  //     type: 'arrange',
-  //     question:
-  //       'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-  //     options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-  //     correctAnswer: '25 cm²,15 cm²,50 cm²,30 cm²',
-  //     explanation:
-  //       'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-  //   },
-  //   {
-  //     id: '3',
-  //     type: 'simple',
-  //     question:
-  //       'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-  //     options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-  //     correctAnswer: '25 cm²',
-  //     explanation:
-  //       'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-  //   },
-  //   {
-  //     id: '4',
-  //     type: 'simple',
-  //     question:
-  //       'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-  //     options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-  //     correctAnswer: '25 cm²',
-  //     explanation:
-  //       'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-  //   },
-  // ]
-  const onSuccess = response => {
-    console.log('Success', JSON.stringify(response, null, 1));
-    setQuestions(response.questions);
-  };
+  const [answers, setAnswers] = useState([]);
 
-  const onError = error => {
-    showError(error.message);
-  };
+  // // Handle hardware back button press
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     restrictBack(); // Trigger your exit confirmation logic
+  //     return true; // Prevent default back behavior
+  //   };
 
-  const {refetch, isLoading} = queryHandler(
-    API.getQuestions.concat(`/${category}`),
-    onSuccess,
-    onError,
-  );
-  useEffect(() => {
-    refetch();
-  }, []);
+  //   // Add event listener for hardware back button
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backAction,
+  //   );
+
+  //   // Clean up the event listener on component unmount
+  //   return () => backHandler.remove();
+  // }, []);
+
+  // // Handle swipe gestures (iOS)
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     const onBlur = () => {
+  //       restrictBack(); // Trigger your exit confirmation logic
+  //     };
+
+  //     // Add a listener for screen blur (when the user swipes back)
+  //     const unsubscribe = navigation.addListener('blur', onBlur);
+
+  //     // Clean up the listener
+  //     return () => unsubscribe();
+  //   }, [props.navigation]),
+  // );
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
@@ -109,12 +90,28 @@ const Quiz = (props: Props) => {
     }
   };
 
-  if (isLoading) {
-    return <LoaderModal visible={isLoading} />;
-  }
+  const restrictBack = () => {
+    Alert.alert('Caution', 'If you go back, your progress will be wasted!', [
+      {
+        text: 'Cancel',
+        onPress: () => {
+          return;
+        },
+      },
+      {
+        text: 'Exit',
+        onPress: () => {
+          navigation.goBack();
+        },
+        style: 'destructive'
+      },
+    ]);
+  };
+  // console.log(answers)
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <NavHeader leftIcon centerText="Quiz" />
+      <NavHeader leftIcon centerText="Quiz" onBackPress={restrictBack} />
       <FlatList
         ref={flatListRef}
         data={questions}
@@ -131,32 +128,35 @@ const Quiz = (props: Props) => {
                 panelType={panelType}
                 handleNext={handleNext}
                 handlePrevious={handlePrevious}
+                setAnswers={setAnswers}
               />
-              <View
-                style={{
-                  ...styles.navBtnsContainer,
-                  justifyContent:
-                    index === 0
-                      ? 'flex-end'
-                      : index === questions?.length - 1
-                      ? 'flex-start'
-                      : 'space-between',
-                }}>
-                {panelType !== 'quiz' && index !== 0 && (
-                  <AppIcons.ChevronLeftIcon
-                    size={30}
-                    onPress={handlePrevious}
-                    color={Colors.primaryDark}
-                  />
-                )}
-                {panelType !== 'quiz' && index !== questions?.length - 1 && (
-                  <AppIcons.ChevronRightIcon
-                    size={30}
-                    onPress={handleNext}
-                    color={Colors.primaryDark}
-                  />
-                )}
-              </View>
+              {panelType !== 'quiz' && (
+                <View
+                  style={{
+                    ...styles.navBtnsContainer,
+                    justifyContent:
+                      index === 0
+                        ? 'flex-end'
+                        : index === questions?.length - 1
+                        ? 'flex-start'
+                        : 'space-between',
+                  }}>
+                  {panelType !== 'quiz' && index !== 0 && (
+                    <AppIcons.ChevronLeftIcon
+                      size={30}
+                      onPress={handlePrevious}
+                      color={Colors.primaryDark}
+                    />
+                  )}
+                  {panelType !== 'quiz' && index !== questions?.length - 1 && (
+                    <AppIcons.ChevronRightIcon
+                      size={30}
+                      onPress={handleNext}
+                      color={Colors.primaryDark}
+                    />
+                  )}
+                </View>
+              )}
             </>
           );
         }}

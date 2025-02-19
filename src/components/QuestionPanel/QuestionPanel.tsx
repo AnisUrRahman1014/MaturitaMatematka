@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './Styles';
@@ -7,12 +8,16 @@ import {Images} from '../../../assets/images';
 import {Image} from 'react-native';
 import AnswerOption from '../AnswerOption/AnswerOption';
 import CustomButton from '../CustomButton/CustomButton';
-import {showError} from '../../utils/System/MessageHandlers';
-import {Question} from '../../libs/Global';
+import {showError, showSuccess} from '../../utils/System/MessageHandlers';
+import {Answer, Question} from '../../libs/Global';
 import AnswerOptionDraggable from '../AnswerOptionDraggable/AnswerOptionDraggable';
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
+import {API} from '../../services';
+import {mutationHandler} from '../../services/mutations/mutationHandler';
+import {moderateScale} from 'react-native-size-matters';
+import queryHandler from '../../services/queries/queryHandler';
 
 type Props = {
   question: Question;
@@ -22,6 +27,7 @@ type Props = {
   panelType: 'quiz' | 'browse';
   handleNext: () => void;
   handlePrevious: () => void;
+  setAnswers: any;
 };
 const QuestionPanel = (props: Props) => {
   const {
@@ -32,18 +38,56 @@ const QuestionPanel = (props: Props) => {
     displayAnswer,
     handleNext,
     handlePrevious,
+    setAnswers,
   } = props;
   const [selectedOption, setSelectedOption] = useState(-1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrangedAnswer, setArrangedAnswer] = useState(question?.options);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [correct, setCorrect] = useState(false);
+
+  const {refetch} = queryHandler(
+    API.checkIsFavorite(question.id),
+    res => {
+      setIsFavorite(res.isFavorite);
+    },
+    err => {
+      console.log(err);
+    },
+  );
+
+  const {mutate: addToFavorite} = mutationHandler(
+    API.addToFavorite(question.id),
+    res => {
+      showSuccess(res?.message || 'Question added to favorites');
+      refetch();
+    },
+    err => {
+      console.log(err);
+    },
+  );
+
+  const {mutate: removeFromFavorite} = mutationHandler(
+    API.removeFromFavorite(question.id),
+    res => {
+      showSuccess(res?.message || 'Question removed from favorites');
+      refetch();
+    },
+    err => {
+      console.log(err);
+    },
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (panelType === 'browse' || displayAnswer) {
       switch (question?.type) {
         case 'choices':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
-        case 'arrange':
+        case 'order':
           setArrangedAnswer(
             question?.correctAnswer
               ?.toString()
@@ -57,8 +101,58 @@ const QuestionPanel = (props: Props) => {
     }
   }, []);
 
-  const handleFavorite = () => {
-    // CHECK IF THIS IS IN FAVORITISED IN DB OR NOT
+  const handleFavorite = async () => {
+    try {
+      if (isFavorite) {
+        removeFromFavorite(undefined);
+      } else {
+        addToFavorite(undefined);
+      }
+    } catch (error) {
+      console.log('Error in favorite: ', error);
+    }
+  };
+
+  const checkIfCorrect = () => {
+    switch (question?.type) {
+      case 'choices':
+        return question?.correctAnswer === question?.options[selectedOption];
+
+      case 'order': {
+        // Convert the correctAnswer string into an array of letters
+        const correctOrder = question.correctAnswer.split(' '); // e.g., ["B", "A", "F", "D"]
+
+        // Convert the user's arranged answer into an array of choices
+        const userOrder = arrangedAnswer?.toString().split(',');
+        const filteredUserOrder = userOrder.filter(choice => choice !== '');
+
+        // Dynamically create the choiceMap based on the question's options, excluding empty strings
+        const choiceMap = {};
+        let letterIndex = 0; // Track the index for assigning letters (A, B, C, etc.)
+
+        question.options.forEach(option => {
+          if (option !== '') {
+            const letter = String.fromCharCode(65 + letterIndex); // 65 is ASCII for 'A'
+            choiceMap[option] = letter; // e.g., { "(0; +∞)": "A", "(2; +∞)": "B", ... }
+            letterIndex++; // Increment the letter index only for non-empty options
+          }
+        });
+        // Convert the user's answer to letters using the dynamic choiceMap
+        const userOrderLetters = filteredUserOrder.map(choice => {
+          console.log(choice);
+          if (choice !== '') {
+            return choiceMap[choice]; // Map the choice to its corresponding letter
+          }
+        });
+
+        // Compare the user's order with the correct order
+        const isCorrect = correctOrder.every(
+          (letter, index) => letter === userOrderLetters[index],
+        );
+
+        return isCorrect;
+      }
+    }
   };
 
   const handleSubmit = () => {
@@ -69,20 +163,31 @@ const QuestionPanel = (props: Props) => {
           return;
         }
         break;
-      case 'arrange':
-        if (arrangedAnswer.length !== question?.options.length) {
-          showError('Please arrange all the options');
+      case 'order':
+        const filteredArrangedAnser = arrangedAnswer.filter(
+          answer => answer !== '',
+        );
+        if (
+          filteredArrangedAnser.length !==
+          question?.options.filter(option => option !== '').length
+        ) {
+          showError('Please order all the options');
           return;
         }
-        console.log('arranged: ', arrangedAnswer);
+        console.log('arranged: ', filteredArrangedAnser);
         break;
     }
+    const answer: Answer = {
+      ...question,
+      givenAnswer: 'ANSWER',
+      isCorrect: checkIfCorrect(),
+    };
+
+    setAnswers(prevAnswers => [...prevAnswers, answer]);
     setIsSubmitted(true);
   };
 
-  const handleNextButton = () => {
-    setIsSubmitted(false);
-  };
+  const handleQuizSubmit = () => {};
 
   const showExplanation = () => {
     switch (question?.type) {
@@ -94,7 +199,9 @@ const QuestionPanel = (props: Props) => {
 
               <Text style={styles.correctAnswerHeading}>Correct</Text>
               <Text style={styles.correctAnswerTxt}>
-                {question?.explanation}
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
               </Text>
             </View>
           );
@@ -103,19 +210,55 @@ const QuestionPanel = (props: Props) => {
             <View style={styles.wrongAnswer}>
               <View style={styles.wrongAnswerBG} />
               <Text style={styles.wrongAnswerHeading}>Wrong</Text>
-              <Text style={styles.wrongAnswerTxt}>{question?.explanation}</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
             </View>
           );
         }
-      case 'arrange':
-        if (question?.correctAnswer === arrangedAnswer.toString()) {
+      case 'order': {
+        // Convert the correctAnswer string into an array of letters
+        const correctOrder = question.correctAnswer.split(' '); // e.g., ["B", "A", "F", "D"]
+
+        // Convert the user's arranged answer into an array of choices
+        const userOrder = arrangedAnswer?.toString().split(',');
+        const filteredUserOrder = userOrder.filter(choice => choice !== '');
+
+        // Dynamically create the choiceMap based on the question's options, excluding empty strings
+        const choiceMap = {};
+        let letterIndex = 0; // Track the index for assigning letters (A, B, C, etc.)
+
+        question.options.forEach(option => {
+          if (option !== '') {
+            const letter = String.fromCharCode(65 + letterIndex); // 65 is ASCII for 'A'
+            choiceMap[option] = letter; // e.g., { "(0; +∞)": "A", "(2; +∞)": "B", ... }
+            letterIndex++; // Increment the letter index only for non-empty options
+          }
+        });
+        // Convert the user's answer to letters using the dynamic choiceMap
+        const userOrderLetters = filteredUserOrder.map(choice => {
+          console.log(choice);
+          if (choice !== '') {
+            return choiceMap[choice]; // Map the choice to its corresponding letter
+          }
+        });
+
+        // Compare the user's order with the correct order
+        const isCorrect = correctOrder.every(
+          (letter, index) => letter === userOrderLetters[index],
+        );
+
+        if (isCorrect) {
           return (
             <View style={styles.correctAnswer}>
               <View style={styles.correctAnswerBG} />
-
               <Text style={styles.correctAnswerHeading}>Correct</Text>
               <Text style={styles.correctAnswerTxt}>
-                {question?.explanation}
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
               </Text>
             </View>
           );
@@ -124,10 +267,15 @@ const QuestionPanel = (props: Props) => {
             <View style={styles.wrongAnswer}>
               <View style={styles.wrongAnswerBG} />
               <Text style={styles.wrongAnswerHeading}>Wrong</Text>
-              <Text style={styles.wrongAnswerTxt}>{question?.explanation}</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
             </View>
           );
         }
+      }
     }
   };
 
@@ -145,13 +293,27 @@ const QuestionPanel = (props: Props) => {
     }
   };
 
+  // console.log(JSON.stringify(question.id, null, 1));
+
   return (
     <ScrollView style={styles.container}>
       {/* Heading Container */}
       <View style={styles.headingContainer}>
         <Text style={styles.headingLabel}>Question</Text>
         <View style={styles.rowContainer}>
-          <AppIcons.FavoriteIcon size={24} color={Colors?.primaryDark} />
+          {isFavorite ? (
+            <AppIcons.HeartIcon
+              size={moderateScale(28)}
+              color={Colors?.primaryLight}
+              onPress={handleFavorite}
+            />
+          ) : (
+            <AppIcons.HeartIconOutline
+              size={moderateScale(28)}
+              color={Colors?.primaryDark}
+              onPress={handleFavorite}
+            />
+          )}
           <Image
             source={Images?.QuestionMark}
             resizeMode="contain"
@@ -174,7 +336,11 @@ const QuestionPanel = (props: Props) => {
                 key={index}
                 index={index}
                 data={option}
-                disabled={panelType === 'browse' || displayAnswer}
+                disabled={
+                  panelType === 'quiz'
+                    ? isSubmitted
+                    : panelType === 'browse' || displayAnswer
+                }
                 setSelectedOption={
                   panelType === 'browse' ? () => {} : setSelectedOption
                 }
@@ -188,13 +354,14 @@ const QuestionPanel = (props: Props) => {
         </View>
       )}
 
-      {question?.type === 'arrange' && (
+      {question?.type === 'order' && (
         <View style={styles.optionsContainer}>
           <DraggableFlatList
             data={arrangedAnswer}
             onDragEnd={({data}) => setArrangedAnswer(data)}
             keyExtractor={item => item.toString()}
             renderItem={({item, drag, isActive}) => {
+              if (item === '') return null;
               return (
                 <View style={{width: '90%', alignSelf: 'center'}}>
                   <ScaleDecorator>
@@ -202,7 +369,9 @@ const QuestionPanel = (props: Props) => {
                       data={item}
                       drag={drag}
                       isActive={
-                        panelType === 'quiz' && !displayAnswer ? isActive : true
+                        panelType === 'quiz' && !displayAnswer && !isSubmitted
+                          ? isActive
+                          : true
                       }
                       customStyle={{
                         borderColor:
@@ -236,16 +405,15 @@ const QuestionPanel = (props: Props) => {
             <CustomButton
               label={'Submit'}
               onPress={handleSubmit}
-              containerStyle={{marginTop: '15%'}}
+              containerStyle={styles.submitBtn}
             />
           ) : (
             <CustomButton
-              label={'Next'}
-              onPress={handleNextButton}
-              containerStyle={{
-                backgroundColor: Colors.primaryLight,
-                marginTop: '15%',
-              }}
+              label={index + 1 === totalQuestionCount ? 'Submit' : 'Next'}
+              onPress={
+                index + 1 === totalQuestionCount ? handleQuizSubmit : handleNext
+              }
+              containerStyle={styles.nextBtn}
             />
           )}
         </>

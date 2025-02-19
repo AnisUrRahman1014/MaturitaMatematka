@@ -89,6 +89,8 @@ const AppIcons = {
   MenuIcon: createIcon(Entypo, 'menu'),
   HistoryIcon: createIcon(MaterialCommunityIcons, 'history'),
   FavoriteIcon: createIcon(Fontisto, 'heart-alt'),
+  HeartIcon: createIcon(Ionicons, 'heart'),
+  HeartIconOutline: createIcon(Ionicons, 'heart-outline'),
   StarIcon: createIcon(AntDesign, 'staro'),
   AlertCircle: createIcon(Ionicons, 'alert-circle-outline'),
   DragIcon: createIcon(MaterialCommunityIcons, 'drag-horizontal-variant'),

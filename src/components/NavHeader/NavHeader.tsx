@@ -9,11 +9,13 @@ type Props = {
   leftIcon?: React.ReactNode;
   centerText?: string;
   rightIcon?: React.ReactNode;
+  onBackPress?: ()=> void;
 };
 
 const NavHeader = (props: Props) => {
   const leftIcon = props.leftIcon;
   const rightIcon = props.rightIcon;
+  const onBackPress = props.onBackPress;
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -23,7 +25,7 @@ const NavHeader = (props: Props) => {
             size={30}
             color={Colors.offWhite}
             style={styles.backArrow}
-            onPress={() => {
+            onPress={onBackPress ? onBackPress : () => {
               navigation.goBack();
             }}
           />

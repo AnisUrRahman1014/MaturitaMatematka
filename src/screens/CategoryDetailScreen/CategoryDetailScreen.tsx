@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, Image, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import styles, {section} from './Styles';
 import {Images} from '../../../assets/images';
@@ -7,6 +7,10 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import Routes from '../../navigation/Routes';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../navigation/types';
+import {showError} from '../../utils/System/MessageHandlers';
+import {API} from '../../services';
+import queryHandler from '../../services/queries/queryHandler';
+import LoaderModal from '../../components/LoaderModal/LoaderModal';
 
 type Props = {
   route: any;
@@ -15,16 +19,49 @@ type Props = {
 const CategoryDetailScreen = (props: Props) => {
   const category = props?.route?.params?.category;
   const navigation = props?.navigation;
-  const [description, setDescription] = useState(
-    "The Planimetry quiz is designed to test and reinforce your understanding of two-dimensional geometry, focusing on the calculation of areas and properties of various geometric shapes. Participants will encounter a range of questions that challenge their knowledge of area formulas, unit conversions, and applications of planimetry in real-world contexts. Whether you're a student honing your skills or someone looking to refresh your geometry knowledge, this quiz offers a fun and engaging way to deepen your understanding of flat shapes and their measurements. Perfect for both individual study and group challenges, the Planimetry quiz is an excellent resource for mastering the essentials of planar geometry.",
+  const description = category.description || 'No Description Available';
+  const [questions, setQuestions] = useState([]);
+  const [isStartingQuiz, setIsStartingQuiz] = useState(false);
+
+  const onSuccess = response => {
+    // console.log('Success', JSON.stringify(response, null, 1));
+    setQuestions(response.questions);
+  };
+
+  const onError = error => {
+    showError(error.message);
+  };
+
+  const {refetch, isLoading} = queryHandler(
+    API.getQuestions.concat(`/${category.categoryName}`),
+    onSuccess,
+    onError,
   );
+
+  // Trigger navigation when questions are updated
+  useEffect(() => {
+    if (isStartingQuiz && questions.length > 0) {
+      navigation.navigate(Routes.Quiz, {
+        panelType: 'quiz',
+        category,
+        quizQuestions: questions,
+      });
+      setIsStartingQuiz(false);
+      setQuestions([]) // Reset the flag
+    }
+  }, [questions, isStartingQuiz, navigation, category]);
+
+  if (isLoading) {
+    return <LoaderModal visible={isLoading} />;
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavHeader leftIcon centerText="About" />
       {/* Content Portion */}
       <View style={styles.introContainer}>
         <View style={styles.titleAndTagContainer}>
-          <Text style={styles.title}>{category?.title}</Text>
+          <Text style={styles.title}>{category?.categoryName}</Text>
           <Text style={styles.tagLine}>{category?.tagLine}</Text>
         </View>
         <View style={styles.iconContainerBG}>
@@ -71,12 +108,10 @@ const CategoryDetailScreen = (props: Props) => {
           label={'Start the Quiz'}
           boldLabel
           rightIconBtn
-          onPress={() =>
-            navigation.navigate(Routes.Quiz, {
-              panelType: 'quiz',
-              category,
-            })
-          }
+          onPress={async () => {
+            setIsStartingQuiz(true); // Set the flag to indicate quiz is being started
+            await refetch(); // Fetch questions
+          }}
         />
       </View>
     </SafeAreaView>

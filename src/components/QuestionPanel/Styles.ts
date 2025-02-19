@@ -1,6 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../utils/System/Constants';
-import {moderateVerticalScale} from 'react-native-size-matters';
+import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 
 const {width} = Dimensions.get('window');
 
@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     width: width,
     flex: 1,
     padding: AppConstants?.ContainerPaddings?.max,
-    // backgroundColor: 'red',
   },
   headingContainer: {
     flexDirection: 'row',
@@ -43,15 +42,15 @@ const styles = StyleSheet.create({
     color: Colors.midGrey,
     textAlign: 'right',
   },
-  submitBtn: {
-    width: 250,
-    aspectRatio: 1,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-    backgroundColor: 'red',
-  },
+  // submitBtn: {
+  //   width: 250,
+  //   aspectRatio: 1,
+  //   alignSelf: 'center',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   marginTop: 30,
+  //   backgroundColor: 'red',
+  // },
   correctAnswerBG: {
     borderColor: Colors.darkGreen,
     backgroundColor: Colors.lightGreen,
@@ -131,6 +130,15 @@ const styles = StyleSheet.create({
     margin: AppConstants.ContainerPaddings.avg,
     textAlign: 'justify',
   },
+  nextBtn: {
+    backgroundColor: Colors.primaryLight,
+    marginTop: '15%',
+    height: moderateScale(50),
+  },
+  submitBtn:{
+    marginTop: '15%',
+    height: moderateScale(50),
+  }
 });
 
 export default styles;

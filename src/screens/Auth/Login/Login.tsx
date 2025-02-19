@@ -84,7 +84,7 @@ const Login = (props: Props) => {
     webClientId:
       Platform.OS == 'ios'
         ? '1087250027500-mf960e7se19m8a1act7ra80n6e1qfokq.apps.googleusercontent.com'
-        : '1087250027500-172u3kose6vbdp6phbid37ebv6gp3i0i.apps.googleusercontent.com',
+        : '1087250027500-9k14osoagv008ngdjdpdohbi4jjvbdel.apps.googleusercontent.com',
   });
 
   async function onGoogleButtonPress() {
@@ -171,7 +171,7 @@ const Login = (props: Props) => {
                   onChangeText={handleChange(strings.Email)}
                   value={values[strings.Email]}
                   secureTextEntry={false}
-                  errorMessage={errors[strings.Email] || touched[strings.Email]}
+                  errorMessage={errors[strings.Email] && touched[strings.Email]}
                 />
                 <AuthInputField
                   placeholder={strings.Password}
@@ -180,7 +180,7 @@ const Login = (props: Props) => {
                   onChangeText={handleChange(strings.Password)}
                   value={values[strings.Password]}
                   errorMessage={
-                    errors[strings.Password] || touched[strings.Password]
+                    errors[strings.Password] && touched[strings.Password]
                   }
                 />
                 <TouchableOpacity
