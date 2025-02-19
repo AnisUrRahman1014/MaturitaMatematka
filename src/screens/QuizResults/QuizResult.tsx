@@ -11,73 +11,30 @@ import {RootStackList} from '../../navigation/types';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'QuizResult'>;
+  route: any;
 };
-const QuizResult = ({navigation}: Props) => {
-  const dummyData = {
-    category: 'Planimetry',
-    correctAnswerCount: 10,
+const QuizResult = ({navigation, route}: Props) => {
+  const quizSummary = route?.params?.quizSummary;
+  const summary = {
+    category: quizSummary.category,
+    correctAnswerCount: quizSummary.correctAnswers,
     incorrectAnswerCount: 5,
-    totalQuestions: 20,
+    totalQuestions: quizSummary.totalQuestions,
     score: 80,
+    rating: quizSummary.rating,
+    badge: quizSummary.badge,
+    date: quizSummary.date,
+    questions: quizSummary.answers
   };
 
-  const [questions, setQuestions] = useState<Answer[]>([
-    {
-      id: '1',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      givenAnswer: '25 cm²',
-      isCorrect: true,
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '2',
-      type: 'order',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²,15 cm²,50 cm²,30 cm²',
-      givenAnswer: '15 cm²,30 cm²,50 cm²,30 cm²',
-      isCorrect: false,
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '3',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      givenAnswer: '30 cm²',
-      isCorrect: false,
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '4',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      givenAnswer: '25 cm²',
-      isCorrect: true,
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-  ]);
+  const questions = quizSummary.answers || []
   const [selectedIndex, setSelectedIndex] = useState<Number>(-1);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavHeader centerText="Quiz Results" leftIcon />
       <View style={styles.mainContainer}>
-        <SummaryCard data={dummyData} />
+        <SummaryCard data={summary} />
         <FlatList
           data={questions}
           renderItem={({item, index}) => {

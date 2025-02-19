@@ -18,8 +18,12 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {RootStackList} from '../../navigation/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BackHandler} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import {CommonActions, useFocusEffect} from '@react-navigation/native';
 import LoaderModal from '../../components/LoaderModal/LoaderModal';
+import Routes from '../../navigation/Routes';
+import {mutationHandler} from '../../services/mutations/mutationHandler';
+import {API} from '../../services';
+import {showError} from '../../utils/System/MessageHandlers';
 
 const {width} = Dimensions.get('window');
 
@@ -38,7 +42,35 @@ const Quiz = (props: Props) => {
   const questions = quizQuestions || [];
 
   const [answers, setAnswers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const {mutate: submitQuizMutate, isLoading: mutateLoading} = mutationHandler(
+    API.submitQuiz,
+    res => {
+      console.log('here');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: Routes.Home
+            },
+            {
+              name: Routes.QuizResult,
+              params: {
+                quizSummary: res.summary,
+              },
+            },
+          ],
+        }),
+      );
+      // navigation.navigate(Routes.QuizResult, {
+      //   quizSummary: res.summary,
+      // });
+    },
+    error => {
+      showError('Error submitting quiz: '.concat(error.message));
+    },
+  );
 
   // Handle hardware back button press
   useEffect(() => {
@@ -105,22 +137,24 @@ const Quiz = (props: Props) => {
         onPress: () => {
           navigation.goBack();
         },
-        style: 'destructive'
+        style: 'destructive',
       },
     ]);
   };
 
-  const handleSubmit = async()=> {
-    try{
-      // setIsLoading(true);
-      console.log(JSON.stringify(answers, null, 1))
-      // CALL MUTATION TO UPLOAD QUIZ.
-    }catch(error){
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        category: answers[0].category,
+        answers,
+      };
 
-    }finally{
-      setIsLoading(false)
+      submitQuizMutate({quizContent: data});
+    } catch (error) {
+      showError('Error uploading quiz '.concat(error.message));
+      console.log(error);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -191,7 +225,7 @@ const Quiz = (props: Props) => {
           index,
         })}
       />
-      <LoaderModal visible={isLoading}/>
+      <LoaderModal visible={mutateLoading} />
     </SafeAreaView>
   );
 };

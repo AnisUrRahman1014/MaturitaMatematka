@@ -18,6 +18,7 @@ import {API} from '../../services';
 import {mutationHandler} from '../../services/mutations/mutationHandler';
 import {moderateScale} from 'react-native-size-matters';
 import queryHandler from '../../services/queries/queryHandler';
+import LoaderModal from '../LoaderModal/LoaderModal';
 
 type Props = {
   question: Question;
@@ -46,9 +47,8 @@ const QuestionPanel = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrangedAnswer, setArrangedAnswer] = useState(question?.options);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [correct, setCorrect] = useState(false);
 
-  const {refetch} = queryHandler(
+  const {refetch, isLoading} = queryHandler(
     API.checkIsFavorite(question.id),
     res => {
       setIsFavorite(res.isFavorite);
@@ -345,6 +345,13 @@ const QuestionPanel = (props: Props) => {
       {/* Question Container */}
       <View style={styles.questionContainer}>
         <Text style={styles.question}>{question?.question}</Text>
+        {question?.imageURL && <Image 
+          source={{uri: question?.imageURL}}
+          resizeMode='contain'
+          style={{
+            width: '100%'
+          }}
+        />}
       </View>
       {/* Option Container */}
       {question?.type === 'choices' && (
@@ -439,6 +446,7 @@ const QuestionPanel = (props: Props) => {
         </>
       )}
       <View style={{marginBottom: 100}} />
+      <LoaderModal visible={isLoading} />
     </ScrollView>
   );
 };

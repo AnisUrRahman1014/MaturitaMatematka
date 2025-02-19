@@ -19,6 +19,7 @@ export type Question = {
   correctAnswer: string;
   explanation: string;
   options: string[];
+  imageURL: string
 };
 
 export type Answer = {
@@ -37,7 +38,7 @@ export type QuizResultData = {
   correctAnswerCount: number;
   incorrectAnswerCount: number;
   totalQuestions: number;
-  score: number;
+  rating: number;
   questions: Answer[];
   date: string;
 };

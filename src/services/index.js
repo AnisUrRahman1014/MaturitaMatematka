@@ -11,4 +11,7 @@ export const API = {
 
   // Questions:
   getQuestions: `${baseURL}/questions/getQuizQuestions`,
+
+  // Quiz:
+  submitQuiz: `${baseURL}/quiz/submitQuiz`
 };

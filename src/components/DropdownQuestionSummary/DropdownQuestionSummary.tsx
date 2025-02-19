@@ -18,12 +18,13 @@ const DropdownQuestionSummary = ({
   index,
   setSelectedIndex,
 }: Props) => {
+  console.log(answer)
   // const [expandView, setExpandView] = useState<Boolean>(false);
   const [isCorrect, setIsCorrect] = useState<Boolean>(answer?.isCorrect);
   const [isExpanded, setIsExpanded] = useState<Boolean>(expandView);
   const showExplanation = () => {
     switch (answer?.type) {
-      case 'simple':
+      case 'choices':
         if (isCorrect) {
           return (
             <View style={styles.correctAnswer}>
@@ -32,7 +33,7 @@ const DropdownQuestionSummary = ({
                 Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.correctAnswerHeading}>Explanation:</Text>
-              <Text style={styles.correctAnswerTxt}>{answer?.explanation}</Text>
+              <Text style={styles.correctAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
             </View>
           );
         } else {
@@ -46,7 +47,7 @@ const DropdownQuestionSummary = ({
                 Correct Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.wrongAnswerHeading}>Explanation:</Text>
-              <Text style={styles.wrongAnswerTxt}>{answer?.explanation}</Text>
+              <Text style={styles.wrongAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
             </View>
           );
         }
@@ -59,7 +60,7 @@ const DropdownQuestionSummary = ({
                 Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.correctAnswerHeading}>Explanation:</Text>
-              <Text style={styles.correctAnswerTxt}>{answer?.explanation}</Text>
+              <Text style={styles.correctAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
             </View>
           );
         } else {
@@ -72,7 +73,7 @@ const DropdownQuestionSummary = ({
               <Text style={styles.wrongAnswerHeading}>
                 Correct Answer: {answer?.correctAnswer}
               </Text>
-              <Text style={styles.wrongAnswerTxt}>{answer?.explanation}</Text>
+              <Text style={styles.wrongAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
             </View>
           );
         }
