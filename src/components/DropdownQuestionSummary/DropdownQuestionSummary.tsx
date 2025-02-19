@@ -50,7 +50,7 @@ const DropdownQuestionSummary = ({
             </View>
           );
         }
-      case 'arrange':
+      case 'order':
         if (isCorrect) {
           return (
             <View style={styles.correctAnswer}>

@@ -36,7 +36,7 @@ const QuizResult = ({navigation}: Props) => {
     },
     {
       id: '2',
-      type: 'arrange',
+      type: 'order',
       question:
         'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
       options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],

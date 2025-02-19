@@ -19,6 +19,7 @@ import {RootStackList} from '../../navigation/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BackHandler} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
+import LoaderModal from '../../components/LoaderModal/LoaderModal';
 
 const {width} = Dimensions.get('window');
 
@@ -37,38 +38,39 @@ const Quiz = (props: Props) => {
   const questions = quizQuestions || [];
 
   const [answers, setAnswers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // // Handle hardware back button press
-  // useEffect(() => {
-  //   const backAction = () => {
-  //     restrictBack(); // Trigger your exit confirmation logic
-  //     return true; // Prevent default back behavior
-  //   };
+  // Handle hardware back button press
+  useEffect(() => {
+    const backAction = () => {
+      restrictBack(); // Trigger your exit confirmation logic
+      return true; // Prevent default back behavior
+    };
 
-  //   // Add event listener for hardware back button
-  //   const backHandler = BackHandler.addEventListener(
-  //     'hardwareBackPress',
-  //     backAction,
-  //   );
+    // Add event listener for hardware back button
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
 
-  //   // Clean up the event listener on component unmount
-  //   return () => backHandler.remove();
-  // }, []);
+    // Clean up the event listener on component unmount
+    return () => backHandler.remove();
+  }, []);
 
-  // // Handle swipe gestures (iOS)
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     const onBlur = () => {
-  //       restrictBack(); // Trigger your exit confirmation logic
-  //     };
+  // Handle swipe gestures (iOS)
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBlur = () => {
+        restrictBack(); // Trigger your exit confirmation logic
+      };
 
-  //     // Add a listener for screen blur (when the user swipes back)
-  //     const unsubscribe = navigation.addListener('blur', onBlur);
+      // Add a listener for screen blur (when the user swipes back)
+      const unsubscribe = navigation.addListener('blur', onBlur);
 
-  //     // Clean up the listener
-  //     return () => unsubscribe();
-  //   }, [props.navigation]),
-  // );
+      // Clean up the listener
+      return () => unsubscribe();
+    }, [props.navigation]),
+  );
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
@@ -107,7 +109,18 @@ const Quiz = (props: Props) => {
       },
     ]);
   };
-  // console.log(answers)
+
+  const handleSubmit = async()=> {
+    try{
+      // setIsLoading(true);
+      console.log(JSON.stringify(answers, null, 1))
+      // CALL MUTATION TO UPLOAD QUIZ.
+    }catch(error){
+
+    }finally{
+      setIsLoading(false)
+    }
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -129,6 +142,7 @@ const Quiz = (props: Props) => {
                 handleNext={handleNext}
                 handlePrevious={handlePrevious}
                 setAnswers={setAnswers}
+                handleQuizSubmit={handleSubmit}
               />
               {panelType !== 'quiz' && (
                 <View
@@ -177,6 +191,7 @@ const Quiz = (props: Props) => {
           index,
         })}
       />
+      <LoaderModal visible={isLoading}/>
     </SafeAreaView>
   );
 };

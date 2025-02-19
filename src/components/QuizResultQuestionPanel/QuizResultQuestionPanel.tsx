@@ -45,7 +45,7 @@ const QuizResultQuestionPanel = (props: Props) => {
       switch (question?.type) {
         case 'choices':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
-        case 'arrange':
+        case 'order':
           setArrangedAnswer(
             question?.correctAnswer?.split(',').map(item => item.trim()),
           );
@@ -68,9 +68,9 @@ const QuizResultQuestionPanel = (props: Props) => {
           return;
         }
         break;
-      case 'arrange':
+      case 'order':
         if (arrangedAnswer.length !== question?.options.length) {
-          showError('Please arrange all the options');
+          showError('Please order all the options');
           return;
         }
         console.log('arranged: ', arrangedAnswer);
@@ -108,7 +108,7 @@ const QuizResultQuestionPanel = (props: Props) => {
             </View>
           );
         }
-      case 'arrange':
+      case 'order':
         if (question?.correctAnswer === question?.givenAnswer) {
           return (
             <View style={styless.correctAnswer}>
@@ -207,7 +207,7 @@ const QuizResultQuestionPanel = (props: Props) => {
         </View>
       )}
 
-      {question?.type === 'arrange' && (
+      {question?.type === 'order' && (
         <View style={styless.optionsContainer}>
           <AnswerOption
             index={index}
@@ -224,7 +224,7 @@ const QuizResultQuestionPanel = (props: Props) => {
         </View>
       )}
 
-      {quizResult && question?.type === 'arrange' && (
+      {quizResult && question?.type === 'order' && (
         <>
           <Text style={styless.subHeading}>Your Answer</Text>
           <View style={styless.optionsContainer}>

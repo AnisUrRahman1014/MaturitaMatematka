@@ -28,6 +28,7 @@ type Props = {
   handleNext: () => void;
   handlePrevious: () => void;
   setAnswers: any;
+  handleQuizSubmit: () => void;
 };
 const QuestionPanel = (props: Props) => {
   const {
@@ -39,6 +40,7 @@ const QuestionPanel = (props: Props) => {
     handleNext,
     handlePrevious,
     setAnswers,
+    handleQuizSubmit,
   } = props;
   const [selectedOption, setSelectedOption] = useState(-1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -116,7 +118,11 @@ const QuestionPanel = (props: Props) => {
   const checkIfCorrect = () => {
     switch (question?.type) {
       case 'choices':
-        return question?.correctAnswer === question?.options[selectedOption];
+        return {
+          isCorrect:
+            question?.correctAnswer === question?.options[selectedOption],
+          userOrderLetters: null, // Not applicable for 'choices' type
+        };
 
       case 'order': {
         // Convert the correctAnswer string into an array of letters
@@ -137,9 +143,9 @@ const QuestionPanel = (props: Props) => {
             letterIndex++; // Increment the letter index only for non-empty options
           }
         });
+
         // Convert the user's answer to letters using the dynamic choiceMap
         const userOrderLetters = filteredUserOrder.map(choice => {
-          console.log(choice);
           if (choice !== '') {
             return choiceMap[choice]; // Map the choice to its corresponding letter
           }
@@ -150,8 +156,11 @@ const QuestionPanel = (props: Props) => {
           (letter, index) => letter === userOrderLetters[index],
         );
 
-        return isCorrect;
+        return {isCorrect, userOrderLetters};
       }
+
+      default:
+        return {isCorrect: false, userOrderLetters: null};
     }
   };
 
@@ -163,31 +172,42 @@ const QuestionPanel = (props: Props) => {
           return;
         }
         break;
+
       case 'order':
-        const filteredArrangedAnser = arrangedAnswer.filter(
+        const filteredArrangedAnswer = arrangedAnswer.filter(
           answer => answer !== '',
         );
         if (
-          filteredArrangedAnser.length !==
+          filteredArrangedAnswer.length !==
           question?.options.filter(option => option !== '').length
         ) {
           showError('Please order all the options');
           return;
         }
-        console.log('arranged: ', filteredArrangedAnser);
+        console.log('arranged: ', filteredArrangedAnswer);
+        break;
+
+      default:
         break;
     }
-    const answer: Answer = {
+
+    // Get the result from checkIfCorrect
+    const {isCorrect, userOrderLetters} = checkIfCorrect();
+
+    // Create the answer object
+    const answer = {
       ...question,
-      givenAnswer: 'ANSWER',
-      isCorrect: checkIfCorrect(),
+      givenAnswer:
+        question?.type === 'choices'
+          ? question.options[selectedOption]
+          : userOrderLetters?.join(' '), // Use userOrderLetters for 'order' type
+      isCorrect,
     };
 
+    // Update the answers state
     setAnswers(prevAnswers => [...prevAnswers, answer]);
     setIsSubmitted(true);
   };
-
-  const handleQuizSubmit = () => {};
 
   const showExplanation = () => {
     switch (question?.type) {
