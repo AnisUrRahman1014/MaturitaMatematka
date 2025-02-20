@@ -21,44 +21,7 @@ type Props = {
 const Home = (props: Props) => {
   const navigation = props?.navigation;
   const user = useSelector((state: RootState) => state?.persistSlice);
-  const [categories, setCategories] = useState([
-    {
-      title: 'Plainimetry',
-      tagLine: 'Unraveling the Geometry of Flat Spaces',
-      icon: Images.Plainimetry,
-    },
-    {
-      title: 'Equations',
-      tagLine: 'Discover the shape of every angle!',
-      icon: Images.Equations,
-    },
-    {
-      title: 'Algebric Expressions',
-      tagLine: 'Unravel the Mysteries of X and Y!',
-      icon: Images.Algebric,
-    },
-    {
-      title: 'Sequences and Financial Mathematics',
-      tagLine:
-        'Master Patterns, Build Wealth: Your Guide to Sequences and Financial Mathematics',
-      icon: Images.Sequences,
-    },
-    {
-      title: 'Stereometry',
-      tagLine: 'Unlocking Dimensions: Explore the World of Stereometry',
-      icon: Images.Stereometry,
-    },
-    {
-      title: 'Combinations',
-      tagLine: 'Endless Possibilities: The Power of Combinations',
-      icon: Images.Combinations,
-    },
-    {
-      title: 'Functions',
-      tagLine: 'Connecting Inputs to Outcomes: The Essence of Functions',
-      icon: Images.Formula,
-    },
-  ]);
+  const [categories, setCategories] = useState();
   // console.log(JSON.stringify(user, null, 1));
 
   const onSuccess = (res: {success: boolean; categories: []}) => {
@@ -95,6 +58,15 @@ const Home = (props: Props) => {
       onPress={() => navigation.openDrawer()}
     />
   );
+
+  const renderEmptyComponent = () => {
+    return (
+      <View>
+        <Text>Something went wrong</Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView>
       <NavHeader centerText="Maturita Matematka" rightIcon={menuButton} />
@@ -165,12 +137,11 @@ const Home = (props: Props) => {
         <View style={[section(0.6, 'column')]}>
           <FlatList
             data={categories}
-            style={{
-              width: '100%',
-            }}
+            style={styles.flatlist}
             renderItem={({item, index}) => {
               return (
                 <CategoryListCard
+                  key={index}
                   icon={item?.icon}
                   title={item?.categoryName}
                   tagLine={item?.tagLine}
@@ -178,10 +149,8 @@ const Home = (props: Props) => {
                 />
               );
             }}
-            contentContainerStyle={{
-              padding: '5%',
-              gap: 15,
-            }}
+            ListEmptyComponent={renderEmptyComponent}
+            contentContainerStyle={styles.categoryContentCtn}
           />
         </View>
       </View>

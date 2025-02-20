@@ -89,6 +89,7 @@ const QuestionPanel = (props: Props) => {
       switch (question?.type) {
         case 'choices':
           setSelectedOption(question.options.indexOf(question?.correctAnswer));
+          break;
         case 'order':
           setArrangedAnswer(
             question?.correctAnswer
@@ -96,8 +97,6 @@ const QuestionPanel = (props: Props) => {
               .split(',')
               .map(item => item.trim()),
           );
-          if (question?.correctAnswer === arrangedAnswer.toString()) {
-          }
       }
       setIsSubmitted(true);
     }
@@ -126,7 +125,7 @@ const QuestionPanel = (props: Props) => {
 
       case 'order': {
         // Convert the correctAnswer string into an array of letters
-        const correctOrder = question.correctAnswer.split(' '); // e.g., ["B", "A", "F", "D"]
+        const correctOrder = question?.correctAnswer?.split(' ') || []  // e.g., ["B", "A", "F", "D"]
 
         // Convert the user's arranged answer into an array of choices
         const userOrder = arrangedAnswer?.toString().split(',');
@@ -240,7 +239,7 @@ const QuestionPanel = (props: Props) => {
         }
       case 'order': {
         // Convert the correctAnswer string into an array of letters
-        const correctOrder = question.correctAnswer.split(' '); // e.g., ["B", "A", "F", "D"]
+        const correctOrder = question?.correctAnswer?.split(' ') || []  // e.g., ["B", "A", "F", "D"]
 
         // Convert the user's arranged answer into an array of choices
         const userOrder = arrangedAnswer?.toString().split(',');
@@ -312,8 +311,6 @@ const QuestionPanel = (props: Props) => {
         : Colors?.primaryDark;
     }
   };
-
-  // console.log(JSON.stringify(question.id, null, 1));
 
   return (
     <ScrollView style={styles.container}>

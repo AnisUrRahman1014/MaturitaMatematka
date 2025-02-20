@@ -6,7 +6,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
 import styles from './Styles';
 import PerformanceIndicator from '../../../components/PerformanceIndicator/PerformanceIndicator';
@@ -15,6 +15,9 @@ import {AppConstants, Colors} from '../../../utils/System/Constants';
 import {formattedDate, QuizResultData, section} from '../../../libs/Global';
 import QuizCard from '../../../components/QuizCard/QuizCard';
 import {Animated} from 'react-native';
+import queryHandler from '../../../services/queries/queryHandler';
+import {API} from '../../../services';
+import {showError} from '../../../utils/System/MessageHandlers';
 
 const {width} = Dimensions.get('window');
 const headerHeight = 300;
@@ -23,6 +26,7 @@ const imageSize = (headerHeight / 3) * 2;
 
 const HistoryScreen = () => {
   const [sorting, setSorting] = useState(false);
+  const [summary, setSummary] = useState({});
   const [quizzes, setQuizzes] = useState<QuizResultData[]>([
     {
       category: 'Planimetry',
@@ -174,8 +178,29 @@ const HistoryScreen = () => {
     },
   ]);
 
+  const onSuccess = res => {
+    if (res.success) {
+      setQuizzes(res.quizes);
+      setSummary(res.data)
+    }
+  };
+
+  const onError = error => {
+    console.log(error);
+    showError('Failed to get quiz history: '.concat(error.message));
+  };
+
+  const {refetch, isLoading} = queryHandler(
+    API.getQuizHistory,
+    onSuccess,
+    onError,
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const scrollY = useRef(new Animated.Value(0)).current;
-  const [textWidth, setTextWidth] = useState(0);
   const offset = headerHeight - headerFinalHeight;
   const translateHeader = scrollY.interpolate({
     inputRange: [0, offset],
@@ -200,6 +225,44 @@ const HistoryScreen = () => {
     outputRange: [1, headerFinalHeight / headerHeight],
     extrapolate: 'clamp',
   });
+
+  const header = () => (
+    <Animated.View
+      style={[styles.header, {transform: [{translateY: translateHeader}]}]}>
+      <Animated.View
+        style={[
+          styles.image,
+          {
+            transform: [
+              {translateY: translateImageY},
+              {translateX: translateImageX},
+              {scale: scaleImage},
+            ],
+          },
+        ]}>
+        <PerformanceIndicator data={summary}/>
+        <TouchableOpacity
+          style={[section(0, 'row'), styles.sortCtn]}
+          onPress={() => setSorting(prev => !prev)}>
+          {sorting ? (
+            <AppIcons.SortAscending
+              size={20}
+              color={Colors.primaryDark}
+              disabled
+            />
+          ) : (
+            <AppIcons.SortDescending
+              size={20}
+              color={Colors.primaryDark}
+              disabled
+            />
+          )}
+          <Text style={styles.sortText}>Sort</Text>
+        </TouchableOpacity>
+      </Animated.View>
+    </Animated.View>
+  );
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavHeader centerText="History" leftIcon />
@@ -207,53 +270,11 @@ const HistoryScreen = () => {
         <Text style={styles.heading}>
           View all the previously attempted quizzes here.
         </Text>
-        {/* progress display */}
-        {/* <View style={styles.performanceCtn}>
-          <PerformanceIndicator />
-        </View> */}
 
         <FlatList
           data={quizzes}
           stickyHeaderIndices={[0]}
-          StickyHeaderComponent={() => (
-            <Animated.View
-              style={[
-                styles.header,
-                {transform: [{translateY: translateHeader}]},
-              ]}>
-              <Animated.View
-                style={[
-                  styles.image,
-                  {
-                    transform: [
-                      {translateY: translateImageY},
-                      {translateX: translateImageX},
-                      {scale: scaleImage},
-                    ],
-                  },
-                ]}>
-                <PerformanceIndicator />
-                <TouchableOpacity
-                  style={[section(0, 'row'), styles.sortCtn]}
-                  onPress={() => setSorting(prev => !prev)}>
-                  {sorting ? (
-                    <AppIcons.SortAscending
-                      size={20}
-                      color={Colors.primaryDark}
-                      disabled
-                    />
-                  ) : (
-                    <AppIcons.SortDescending
-                      size={20}
-                      color={Colors.primaryDark}
-                      disabled
-                    />
-                  )}
-                  <Text style={styles.sortText}>Sort</Text>
-                </TouchableOpacity>
-              </Animated.View>
-            </Animated.View>
-          )}
+          StickyHeaderComponent={header}
           onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: scrollY}}}],
             {

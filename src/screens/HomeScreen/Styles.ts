@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../utils/System/Constants';
+import {moderateScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   menuIcon: {
-    width: 35,
+    width: moderateScale(35),
     aspectRatio: 1,
     borderRadius: 6,
     backgroundColor: Colors.white,
@@ -26,20 +27,20 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.LatoRegular,
     fontSize: AppConstants.FontSizes.t2,
     color: Colors.primaryDark,
-    width: 200,
+    width: moderateScale(200),
   },
   heading: {
     fontFamily: Fonts.LatoBold,
     fontSize: AppConstants.FontSizes.h4,
     color: Colors.primaryDark,
-    width: 200,
+    width: moderateScale(200),
     paddingLeft: 8,
   },
   dpContainer: {
     backgroundColor: Colors.primaryLight,
     aspectRatio: 1,
     width: '100%',
-    borderRadius: 80,
+    borderRadius: moderateScale(200),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -47,21 +48,28 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.offWhite,
     aspectRatio: 1,
     width: '95%',
-    borderRadius: 80,
+    borderRadius: moderateScale(200),
     alignItems: 'center',
     justifyContent: 'center',
   },
   dp: {
     width: '100%',
     height: '100%',
-    borderRadius: 80,
+    borderRadius: moderateScale(200),
     resizeMode: 'cover',
   },
   categoryIcon: {
-    width: 30,
-    height: 30,
+    width: moderateScale(30),
+    height: moderateScale(30),
     aspectRatio: 1,
-    borderRadius: 5,
+    borderRadius: moderateScale(5),
+  },
+  categoryContentCtn: {
+    padding: moderateScale(15),
+    gap: moderateScale(15),
+  },
+  flatlist: {
+    width: '100%',
   },
 });
 

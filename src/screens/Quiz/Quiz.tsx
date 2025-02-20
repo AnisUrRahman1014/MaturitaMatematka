@@ -10,7 +10,6 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import QuestionPanel from '../../components/QuestionPanel/QuestionPanel';
-import {Question} from '../../libs/Global';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -24,6 +23,7 @@ import Routes from '../../navigation/Routes';
 import {mutationHandler} from '../../services/mutations/mutationHandler';
 import {API} from '../../services';
 import {showError} from '../../utils/System/MessageHandlers';
+import { moderateScale } from 'react-native-size-matters';
 
 const {width} = Dimensions.get('window');
 
@@ -52,7 +52,7 @@ const Quiz = (props: Props) => {
           index: 1,
           routes: [
             {
-              name: Routes.Home
+              name: 'Home'
             },
             {
               name: Routes.QuizResult,
@@ -60,49 +60,49 @@ const Quiz = (props: Props) => {
                 quizSummary: res.summary,
               },
             },
+            {
+              name: 'DrawerNavigation',
+            }
           ],
         }),
       );
-      // navigation.navigate(Routes.QuizResult, {
-      //   quizSummary: res.summary,
-      // });
     },
     error => {
       showError('Error submitting quiz: '.concat(error.message));
     },
   );
 
-  // Handle hardware back button press
-  useEffect(() => {
-    const backAction = () => {
-      restrictBack(); // Trigger your exit confirmation logic
-      return true; // Prevent default back behavior
-    };
+  // // Handle hardware back button press
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     restrictBack(); // Trigger your exit confirmation logic
+  //     return true; // Prevent default back behavior
+  //   };
 
-    // Add event listener for hardware back button
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
+  //   // Add event listener for hardware back button
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backAction,
+  //   );
 
-    // Clean up the event listener on component unmount
-    return () => backHandler.remove();
-  }, []);
+  //   // Clean up the event listener on component unmount
+  //   return () => backHandler.remove();
+  // }, []);
 
-  // Handle swipe gestures (iOS)
-  useFocusEffect(
-    React.useCallback(() => {
-      const onBlur = () => {
-        restrictBack(); // Trigger your exit confirmation logic
-      };
+  // // Handle swipe gestures (iOS)
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     const onBlur = () => {
+  //       restrictBack(); // Trigger your exit confirmation logic
+  //     };
 
-      // Add a listener for screen blur (when the user swipes back)
-      const unsubscribe = navigation.addListener('blur', onBlur);
+  //     // Add a listener for screen blur (when the user swipes back)
+  //     const unsubscribe = navigation.addListener('blur', onBlur);
 
-      // Clean up the listener
-      return () => unsubscribe();
-    }, [props.navigation]),
-  );
+  //     // Clean up the listener
+  //     return () => unsubscribe();
+  //   }, [props.navigation]),
+  // );
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
@@ -191,14 +191,14 @@ const Quiz = (props: Props) => {
                   }}>
                   {panelType !== 'quiz' && index !== 0 && (
                     <AppIcons.ChevronLeftIcon
-                      size={30}
+                      size={moderateScale(30)}
                       onPress={handlePrevious}
                       color={Colors.primaryDark}
                     />
                   )}
                   {panelType !== 'quiz' && index !== questions?.length - 1 && (
                     <AppIcons.ChevronRightIcon
-                      size={30}
+                      size={moderateScale(30)}
                       onPress={handleNext}
                       color={Colors.primaryDark}
                     />

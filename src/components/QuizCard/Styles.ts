@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../utils/System/Constants';
-import {moderateScale} from 'react-native-size-matters';
+import {moderateScale, moderateVerticalScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   card: {
     width: '100%',
-    height: 90,
+    minHeight: moderateVerticalScale(90),
+    maxHeight: moderateScale(90),
     backgroundColor: Colors.white,
     borderRadius: 15,
     flexDirection: 'row',

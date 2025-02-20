@@ -5,20 +5,21 @@ import {Colors} from '../../utils/System/Constants';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import {moderateScale} from 'react-native-size-matters';
 
-const PerformanceIndicator = () => {
+const PerformanceIndicator = ({data}) => {
+  console.log(data)
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftContainer}>
         <View style={styles.innerTextCtn}>
           <Text style={styles.desc}>Overall Performance</Text>
-          <Text style={[styles.focus, {color: Colors.primaryLight}]}>Good</Text>
-          <Text style={styles.desc}>Attempted Quizzes: 20</Text>
+          <Text style={[styles.focus, {color: Colors.primaryLight}]}>{data?.badge}</Text>
+          <Text style={styles.desc}>Attempted Quizzes: {data?.totalQuizes}</Text>
         </View>
       </View>
       <View style={styles.rightContainer}>
         <View style={styles.innerContainer}>
           <CircularProgress
-            value={75}
+            value={data?.successRate}
             activeStrokeColor={Colors.primaryLight}
             inActiveStrokeOpacity={0}
             progressValueColor={'#fff'}

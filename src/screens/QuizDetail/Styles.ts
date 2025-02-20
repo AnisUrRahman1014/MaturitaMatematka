@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     height: '20%',
     alignItems: 'center',
     position: 'absolute',
-    bottom: -50,
-    paddingHorizontal: AppConstants.ContainerPaddings.min,
+    bottom: 0,
+    paddingHorizontal: AppConstants.ContainerPaddings.avg,
   },
 });
 

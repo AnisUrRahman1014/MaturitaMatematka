@@ -3,13 +3,10 @@ import React, {useState} from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import Routes from '../../navigation/Routes';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackList} from '../../navigation/types';
-import {QuizResultData, section} from '../../libs/Global';
+import {formattedDate, QuizResultData, section} from '../../libs/Global';
 import {Images} from '../../../assets/images';
 import {Colors} from '../../utils/System/Constants';
 import {useNavigation} from '@react-navigation/native';
-import QuizDetail from '../../screens/QuizDetail/QuizDetail';
 
 type Props = {
   quiz: QuizResultData;
@@ -23,8 +20,9 @@ const QuizCard = (props: Props) => {
     <TouchableOpacity
       style={styles.card}
       onPress={() => {
+        console.log(quiz)
         navigation.navigate(Routes.QuizDetail, {
-          quiz: quiz,
+          quiz: quiz.answers,
           panelType: 'browse',
         });
       }}>
@@ -43,13 +41,13 @@ const QuizCard = (props: Props) => {
         <View>
           <View style={[section(0, 'row'), styles.desc]}>
             <Text style={styles.tagLine}>Date: </Text>
-            <Text style={styles.tagLine}>{quiz.date}</Text>
+            <Text style={styles.tagLine}>{formattedDate(new Date(quiz.date))}</Text>
           </View>
           <View style={[section(0, 'row'), styles.desc]}>
             <Text style={styles.tagLine}>Correct Answers: </Text>
             <View style={section(0, 'row')}>
               <Text style={styles.correctAnswer}>
-                {quiz.correctAnswerCount}{' '}
+                {quiz.correctAnswers}{' '}
               </Text>
               <Text style={styles.tagLine}>/ {quiz.totalQuestions} </Text>
             </View>
