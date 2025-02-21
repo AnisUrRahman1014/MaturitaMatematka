@@ -12,12 +12,13 @@ import styles from './Styles';
 import PerformanceIndicator from '../../../components/PerformanceIndicator/PerformanceIndicator';
 import AppIcons from '../../../libs/NativeIcons';
 import {AppConstants, Colors} from '../../../utils/System/Constants';
-import {formattedDate, QuizResultData, section} from '../../../libs/Global';
+import {QuizResultData, section} from '../../../libs/Global';
 import QuizCard from '../../../components/QuizCard/QuizCard';
 import {Animated} from 'react-native';
 import queryHandler from '../../../services/queries/queryHandler';
 import {API} from '../../../services';
 import {showError} from '../../../utils/System/MessageHandlers';
+import LoaderModal from '../../../components/LoaderModal/LoaderModal';
 
 const {width} = Dimensions.get('window');
 const headerHeight = 300;
@@ -27,161 +28,15 @@ const imageSize = (headerHeight / 3) * 2;
 const HistoryScreen = () => {
   const [sorting, setSorting] = useState(false);
   const [summary, setSummary] = useState({});
-  const [quizzes, setQuizzes] = useState<QuizResultData[]>([
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [
-        {
-          id: '1',
-          type: 'simple',
-          question:
-            'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-          options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-          correctAnswer: '25 cm²',
-          explanation:
-            'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-          givenAnswer: '25 cm²',
-          isCorrect: false,
-        },
-        {
-          id: '2',
-          type: 'order',
-          question:
-            'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-          options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-          correctAnswer: '25 cm²,15 cm²,50 cm²,30 cm²',
-          explanation:
-            'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-          givenAnswer: '30 cm²,25 cm²,15 cm²,50 cm²,',
-          isCorrect: false,
-        },
-        {
-          id: '3',
-          type: 'simple',
-          question:
-            'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-          options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-          correctAnswer: '25 cm²',
-          explanation:
-            'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-          givenAnswer: '30 cm²',
-          isCorrect: false,
-        },
-        {
-          id: '4',
-          type: 'simple',
-          question:
-            'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-          options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-          correctAnswer: '25 cm²',
-          explanation:
-            'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-          givenAnswer: '',
-          isCorrect: false,
-        },
-      ],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-    {
-      category: 'Planimetry',
-      correctAnswerCount: 7,
-      incorrectAnswerCount: 3,
-      totalQuestions: 10,
-      score: 70,
-      questions: [],
-      date: formattedDate(new Date(Date.now())),
-    },
-  ]);
+  const [quizzes, setQuizzes] = useState<QuizResultData[]>([]);
 
   const onSuccess = res => {
     if (res.success) {
-      setQuizzes(res.quizes);
-      setSummary(res.data)
+      const unsortedQuizes = res?.quizes;
+      // Sort the quizzes based on the date field
+      const sortedQuizList = sortQuizzes(unsortedQuizes);
+      setQuizzes(sortedQuizList);
+      setSummary(res.data);
     }
   };
 
@@ -199,6 +54,28 @@ const HistoryScreen = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  // Re-sort quizzes when the `sorting` state changes
+  useEffect(() => {
+    const sortedQuizList = sortQuizzes(quizzes);
+    setQuizzes(sortedQuizList);
+  }, [sorting]);
+
+  // Helper function to sort quizzes
+  const sortQuizzes = quizzes => {
+    return [...quizzes].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (sorting) {
+        // If sorting is true, sort from earliest to latest
+        return dateA - dateB;
+      } else {
+        // If sorting is false, sort from latest to earliest
+        return dateB - dateA;
+      }
+    });
+  };
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const offset = headerHeight - headerFinalHeight;
@@ -240,7 +117,7 @@ const HistoryScreen = () => {
             ],
           },
         ]}>
-        <PerformanceIndicator data={summary}/>
+        <PerformanceIndicator data={summary} />
         <TouchableOpacity
           style={[section(0, 'row'), styles.sortCtn]}
           onPress={() => setSorting(prev => !prev)}>
@@ -293,6 +170,7 @@ const HistoryScreen = () => {
           }}
         />
       </View>
+      <LoaderModal visible={isLoading} />
     </SafeAreaView>
   );
 };
