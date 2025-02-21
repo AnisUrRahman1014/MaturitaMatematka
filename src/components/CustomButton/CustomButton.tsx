@@ -7,15 +7,15 @@ import {Images} from '../../../assets/images';
 
 type Props = {
   label: any;
-  containerStyle: any;
+  containerStyle?: any;
   onPress: any;
-  rightIconBtn: any;
-  boldLabel: any;
-  iconColor: any;
-  iconSize: any;
-  lightBtn: any;
-  darkBtn: any;
-  leftIconEnabled: any;
+  rightIconBtn?: any;
+  boldLabel?: any;
+  iconColor?: any;
+  iconSize?: any;
+  lightBtn?: any;
+  darkBtn?: any;
+  leftIconEnabled?: any;
 };
 
 const CustomButton = (props: Props) => {
