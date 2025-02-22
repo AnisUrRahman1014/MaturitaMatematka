@@ -21,6 +21,7 @@ export type Question = {
   options: string[];
   imageURL: string,
   category: string
+
 };
 
 export type Answer = {
@@ -32,7 +33,8 @@ export type Answer = {
   isCorrect: boolean;
   explanation: string;
   options: string[];
-  category: string
+  category: string,
+  imageURL: string
 };
 
 export type QuizResultData = {

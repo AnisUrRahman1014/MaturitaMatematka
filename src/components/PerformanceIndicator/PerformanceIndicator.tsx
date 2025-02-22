@@ -5,8 +5,7 @@ import {Colors} from '../../utils/System/Constants';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import {moderateScale} from 'react-native-size-matters';
 
-const PerformanceIndicator = ({data}) => {
-  console.log(data)
+const PerformanceIndicator = ({data} : any) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftContainer}>

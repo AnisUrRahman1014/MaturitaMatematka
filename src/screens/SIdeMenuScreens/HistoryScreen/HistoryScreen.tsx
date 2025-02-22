@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
@@ -19,6 +20,7 @@ import queryHandler from '../../../services/queries/queryHandler';
 import {API} from '../../../services';
 import {showError} from '../../../utils/System/MessageHandlers';
 import LoaderModal from '../../../components/LoaderModal/LoaderModal';
+import {moderateScale} from 'react-native-size-matters';
 
 const {width} = Dimensions.get('window');
 const headerHeight = 300;
@@ -29,6 +31,7 @@ const HistoryScreen = () => {
   const [sorting, setSorting] = useState(false);
   const [summary, setSummary] = useState({});
   const [quizzes, setQuizzes] = useState<QuizResultData[]>([]);
+  const [refreshing, setRefreshing] = useState(false); // State for refresh control
 
   const onSuccess = res => {
     if (res.success) {
@@ -38,11 +41,13 @@ const HistoryScreen = () => {
       setQuizzes(sortedQuizList);
       setSummary(res.data);
     }
+    setRefreshing(false);
   };
 
   const onError = error => {
     console.log(error);
     showError('Failed to get quiz history: '.concat(error.message));
+    setRefreshing(false); // Stop refreshing on error
   };
 
   const {refetch, isLoading} = queryHandler(
@@ -51,11 +56,17 @@ const HistoryScreen = () => {
     onError,
   );
 
+  // Function to handle refresh
+  const onRefresh = () => {
+    setRefreshing(true); // Start refreshing
+    refetch(); // Fetch new data
+  };
+
   useEffect(() => {
     refetch();
   }, []);
 
-  // Re-sort quizzes when the `sorting` state changes
+  // Sort quizzes whenever sorting or original quizzes change
   useEffect(() => {
     const sortedQuizList = sortQuizzes(quizzes);
     setQuizzes(sortedQuizList);
@@ -64,6 +75,7 @@ const HistoryScreen = () => {
   // Helper function to sort quizzes
   const sortQuizzes = quizzes => {
     return [...quizzes].sort((a, b) => {
+      // Spread operator is good here, to create a new array to be sorted.
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
 
@@ -117,6 +129,9 @@ const HistoryScreen = () => {
             ],
           },
         ]}>
+        <Text style={styles.heading}>
+          View all the previously attempted quizzes here.
+        </Text>
         <PerformanceIndicator data={summary} />
         <TouchableOpacity
           style={[section(0, 'row'), styles.sortCtn]}
@@ -140,18 +155,30 @@ const HistoryScreen = () => {
     </Animated.View>
   );
 
+  const renderEmptyContainer = () => {
+    return (
+      <View style={styles.emptyCtn}>
+        <Text style={styles.emptyTxt}>No History Available</Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavHeader centerText="History" leftIcon />
       <View style={styles.mainContainer}>
-        <Text style={styles.heading}>
-          View all the previously attempted quizzes here.
-        </Text>
-
         <FlatList
           data={quizzes}
-          stickyHeaderIndices={[0]}
-          StickyHeaderComponent={header}
+          ListHeaderComponent={header}
+          ListEmptyComponent={renderEmptyContainer}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing} // Bind refreshing state
+              onRefresh={onRefresh} // Bind refresh function
+              colors={[Colors.primary]} // Customize refresh spinner color (optional)
+              tintColor={Colors.primary} // Customize refresh spinner color (optional)
+            />
+          }
           onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: scrollY}}}],
             {
@@ -161,10 +188,7 @@ const HistoryScreen = () => {
           renderItem={({item, index}) => {
             return <QuizCard quiz={item} key={index} />;
           }}
-          style={{
-            marginVertical: AppConstants.ContainerPaddings.max,
-            height: '90%',
-          }}
+          style={styles.flatlist}
           contentContainerStyle={{
             paddingVertical: AppConstants.ContainerPaddings.avg,
           }}

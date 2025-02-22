@@ -1,9 +1,8 @@
-import {View, Text, SafeAreaView, FlatList} from 'react-native';
+import {View, SafeAreaView, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import styles from './Styles';
 import SummaryCard from '../../components/SummaryCard/SummaryCard';
-import {Answer, Question} from '../../libs/Global';
 import DropdownQuestionSummary from '../../components/DropdownQuestionSummary/DropdownQuestionSummary';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';

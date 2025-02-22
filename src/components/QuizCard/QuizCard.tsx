@@ -7,6 +7,7 @@ import {formattedDate, QuizResultData, section} from '../../libs/Global';
 import {Images} from '../../../assets/images';
 import {Colors} from '../../utils/System/Constants';
 import {useNavigation} from '@react-navigation/native';
+import { moderateScale } from 'react-native-size-matters';
 
 type Props = {
   quiz: QuizResultData;
@@ -20,7 +21,6 @@ const QuizCard = (props: Props) => {
     <TouchableOpacity
       style={styles.card}
       onPress={() => {
-        console.log(quiz)
         navigation.navigate(Routes.QuizDetail, {
           quiz: quiz.answers,
           panelType: 'browse',
@@ -55,7 +55,7 @@ const QuizCard = (props: Props) => {
         </View>
       </View>
       <AppIcons.ChevronRightIcon
-        size={20}
+        size={moderateScale(20)}
         color={Colors.primaryDark}
         disabled
         style={styles.arrowIcon}

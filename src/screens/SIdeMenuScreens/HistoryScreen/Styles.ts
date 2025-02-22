@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../../utils/System/Constants';
+import {moderateScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -23,6 +24,16 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: AppConstants.ContainerPaddings.min,
     paddingHorizontal: AppConstants.ContainerPaddings.avg,
+  },
+  flatlist: {
+    marginVertical: AppConstants.ContainerPaddings.max,
+    height: '90%',
+  },
+  emptyCtn: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  emptyTxt: {
+    fontFamily: Fonts.LatoRegular,
+    fontSize: moderateScale(16),
+    color: Colors.red
   },
 });
 

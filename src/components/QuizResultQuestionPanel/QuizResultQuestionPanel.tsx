@@ -55,7 +55,7 @@ const QuizResultQuestionPanel = (props: Props) => {
   );
 
   const {mutate: addToFavorite} = mutationHandler(
-    API.addToFavorite(question.id),
+    API.addToFavorite,
     res => {
       showSuccess(res?.message || 'Question added to favorites');
       refetch();
@@ -235,7 +235,11 @@ const QuizResultQuestionPanel = (props: Props) => {
       if (isFavorite) {
         removeFromFavorite(undefined);
       } else {
-        addToFavorite(undefined);
+        const payload = {
+          categoryName: question.category,
+          questionId: question.id,
+        };
+        addToFavorite(payload);
       }
     } catch (error) {
       console.log('Error in favorite: ', error);
@@ -250,7 +254,7 @@ const QuizResultQuestionPanel = (props: Props) => {
       <View style={styless.headingContainer}>
         <Text style={styless.headingLabel}>Question</Text>
         <View style={styless.rowContainer}>
-        {isFavorite ? (
+          {isFavorite ? (
             <AppIcons.HeartIcon
               size={moderateScale(28)}
               color={Colors?.primaryLight}
@@ -274,6 +278,17 @@ const QuizResultQuestionPanel = (props: Props) => {
       {/* Question Container */}
       <View style={styless.questionContainer}>
         <Text style={styless.question}>{question?.question}</Text>
+        {question?.imageURL && (
+          <Image
+            source={{uri: question?.imageURL}}
+            resizeMode="contain"
+            style={{
+              width: '100%',
+              height: moderateScale(200),
+              marginTop: moderateScale(15),
+            }}
+          />
+        )}
       </View>
       {question.type !== 'choices' && (
         <Text style={styless.subHeading}>Correct Answer</Text>

@@ -1,40 +1,46 @@
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
 import {SafeAreaView} from 'react-native';
 import {Images} from '../../../../assets/images';
 import {Question, section} from '../../../libs/Global';
-import QuestionCard from '../../../components/QuestionCard/QuestionCard';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../../navigation/types';
 import styles from './Styles';
-import Routes from '../../../navigation/Routes';
 import queryHandler from '../../../services/queries/queryHandler';
 import {API} from '../../../services';
 import {showError} from '../../../utils/System/MessageHandlers';
 import LoaderModal from '../../../components/LoaderModal/LoaderModal';
-import AppIcons from '../../../libs/NativeIcons';
 import {Colors} from '../../../utils/System/Constants';
 import CategorySectionContainer from '../../../components/CategorySectionContainer/CategorySectionContainer';
-import {moderateScale} from 'react-native-size-matters';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'FavoritesScreen'>;
 };
+
 const FavoritesScreen = ({navigation}: Props) => {
-  const [questions, setQuestions] = useState<Question[]>([]); // TODO: replace with actual data
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [refreshing, setRefreshing] = useState(false); // State for refresh control
+
   const onSuccess = (res: any) => {
     if (res.success) {
       setQuestions(res.favorites);
     } else {
       showError('Something went wrong while getting your favorites');
     }
+    setRefreshing(false); // Stop refreshing after data is fetched
   };
 
   const onError = (err: any) => {
     showError(err.message);
     console.error('Error getting favorites: '.concat(err.message));
+    setRefreshing(false); // Stop refreshing on error
   };
 
   const {refetch, isLoading: APILoading} = queryHandler(
@@ -42,6 +48,12 @@ const FavoritesScreen = ({navigation}: Props) => {
     onSuccess,
     onError,
   );
+
+  // Function to handle refresh
+  const onRefresh = () => {
+    setRefreshing(true); // Start refreshing
+    refetch(); // Fetch new data
+  };
 
   useEffect(() => {
     refetch();
@@ -66,7 +78,15 @@ const FavoritesScreen = ({navigation}: Props) => {
 
         <FlatList
           data={questions}
-          style={{height: '87%'}}
+          style={styles.flatlist}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing} // Bind refreshing state
+              onRefresh={onRefresh} // Bind refresh function
+              colors={[Colors.primary]} // Customize refresh spinner color (optional)
+              tintColor={Colors.primary} // Customize refresh spinner color (optional)
+            />
+          }
           renderItem={({item, index}) => {
             return <CategorySectionContainer index={index} item={item} />;
           }}

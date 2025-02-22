@@ -29,7 +29,7 @@ type Props = {
   handleNext?: () => void;
   setAnswers?: any;
   handleQuizSubmit?: () => void;
-  setIsLoading?: (val :boolean)=> void;
+  setIsLoading?: (val: boolean) => void;
 };
 const QuestionPanel = (props: Props) => {
   const {
@@ -41,7 +41,7 @@ const QuestionPanel = (props: Props) => {
     handleNext,
     setAnswers,
     handleQuizSubmit,
-    setIsLoading
+    setIsLoading,
   } = props;
   const [selectedOption, setSelectedOption] = useState(-1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -76,6 +76,7 @@ const QuestionPanel = (props: Props) => {
       refetch();
     },
     (err: any) => {
+      showError('Error removing from favorites')
       console.log(err);
     },
   );
@@ -84,9 +85,9 @@ const QuestionPanel = (props: Props) => {
     refetch();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsLoading(isLoading);
-  },[isLoading])
+  }, [isLoading]);
 
   useEffect(() => {
     if (panelType === 'browse' || displayAnswer) {
@@ -112,9 +113,9 @@ const QuestionPanel = (props: Props) => {
         removeFromFavorite(undefined);
       } else {
         const payload = {
-          categoryName : question.category,
-          questionId: question.id
-        }
+          categoryName: question.category,
+          questionId: question.id,
+        };
         addToFavorite(payload);
       }
     } catch (error) {
@@ -133,7 +134,7 @@ const QuestionPanel = (props: Props) => {
 
       case 'order': {
         // Convert the correctAnswer string into an array of letters
-        const correctOrder = question?.correctAnswer?.split(' ') || []  // e.g., ["B", "A", "F", "D"]
+        const correctOrder = question?.correctAnswer?.split(' ') || []; // e.g., ["B", "A", "F", "D"]
 
         // Convert the user's arranged answer into an array of choices
         const userOrder = arrangedAnswer?.toString().split(',');
@@ -247,7 +248,7 @@ const QuestionPanel = (props: Props) => {
         }
       case 'order': {
         // Convert the correctAnswer string into an array of letters
-        const correctOrder = question?.correctAnswer?.split(' ') || []  // e.g., ["B", "A", "F", "D"]
+        const correctOrder = question?.correctAnswer?.split(' ') || []; // e.g., ["B", "A", "F", "D"]
 
         // Convert the user's arranged answer into an array of choices
         const userOrder = arrangedAnswer?.toString().split(',');
@@ -350,13 +351,17 @@ const QuestionPanel = (props: Props) => {
       {/* Question Container */}
       <View style={styles.questionContainer}>
         <Text style={styles.question}>{question?.question}</Text>
-        {question?.imageURL && <Image 
-          source={{uri: question?.imageURL}}
-          resizeMode='contain'
-          style={{
-            width: '100%'
-          }}
-        />}
+        {question?.imageURL && (
+          <Image
+            source={{uri: question?.imageURL}}
+            resizeMode="contain"
+            style={{
+              width: '100%',
+              height: moderateScale(200),
+              marginTop: moderateScale(15)
+            }}
+          />
+        )}
       </View>
       {/* Option Container */}
       {question?.type === 'choices' && (
