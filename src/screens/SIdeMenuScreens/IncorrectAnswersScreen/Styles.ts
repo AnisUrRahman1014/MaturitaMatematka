@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
     color: Colors.primaryDark,
     paddingLeft: 8,
   },
+  flatlist: {
+    height: '87%',
+  },
 });
 
 export default styles;

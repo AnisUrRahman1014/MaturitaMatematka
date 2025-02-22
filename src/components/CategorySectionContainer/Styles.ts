@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     // backgroundColor: 'red'
+    borderBottomWidth: moderateScale(1),
+    borderColor: Colors.primaryLight
   },
   sortCtn: {
     flexDirection: 'row',

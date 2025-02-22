@@ -1,5 +1,5 @@
 import {View, Text, Image, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
 import {SafeAreaView} from 'react-native';
 import styles from './Styles';
@@ -9,6 +9,13 @@ import QuestionCard from '../../../components/QuestionCard/QuestionCard';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../../navigation/types';
 import Routes from '../../../navigation/Routes';
+import LoaderModal from '../../../components/LoaderModal/LoaderModal';
+import {API} from '../../../services';
+import queryHandler from '../../../services/queries/queryHandler';
+import {showError} from '../../../utils/System/MessageHandlers';
+import { RefreshControl } from 'react-native-gesture-handler';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import CategorySectionContainer from '../../../components/CategorySectionContainer/CategorySectionContainer';
 
 type Props = {
   navigation: NativeStackNavigationProp<
@@ -17,48 +24,43 @@ type Props = {
   >;
 };
 const IncorrectAnswersScreen = ({navigation}: Props) => {
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      id: '1',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '2',
-      type: 'order',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²,15 cm²,50 cm²,30 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '3',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '4',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-  ]); // TODO: replace with actual data
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [refreshing, setRefreshing] = useState(false); // State for refresh control
+
+  const onSuccess = (res: any) => {
+    if (res.success) {
+      setQuestions(res.incorrectAnswers);
+    } else {
+      showError('Something went wrong while getting your favorites');
+    }
+    setRefreshing(false); // Stop refreshing after data is fetched
+  };
+
+  const onError = (err: any) => {
+    showError(err.message);
+    console.error('Error getting incorrectAnswers: '.concat(err.message));
+    setRefreshing(false); // Stop refreshing on error
+  };
+
+  const {refetch, isLoading: APILoading} = queryHandler(
+    API.getIncorrectAnswers,
+    onSuccess,
+    onError,
+  );
+
+  // Function to handle refresh
+  const onRefresh = () => {
+    setRefreshing(true); // Start refreshing
+    refetch(); // Fetch new data
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  if (APILoading) {
+    return <LoaderModal visible={APILoading} />;
+  }
 
   return (
     <SafeAreaView>
@@ -75,19 +77,17 @@ const IncorrectAnswersScreen = ({navigation}: Props) => {
 
         <FlatList
           data={questions}
+          style={styles.flatlist}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing} // Bind refreshing state
+              onRefresh={onRefresh} // Bind refresh function
+              colors={[Colors.primary]} // Customize refresh spinner color (optional)
+              tintColor={Colors.primary} // Customize refresh spinner color (optional)
+            />
+          }
           renderItem={({item, index}) => {
-            return (
-              <QuestionCard
-                question={item}
-                index={index}
-                key={index}
-                onPress={() =>
-                  navigation.navigate(Routes.AnswerDisplayScreen, {
-                    question: item,
-                  })
-                }
-              />
-            );
+            return <CategorySectionContainer index={index} item={item} />;
           }}
         />
       </View>

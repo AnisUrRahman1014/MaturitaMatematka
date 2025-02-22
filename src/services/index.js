@@ -7,6 +7,7 @@ export const API = {
   checkIsFavorite:(questionId) => `${baseURL}/user/checkIsFavorite/${questionId}` ,
   getQuizHistory: `${baseURL}/user/getQuizHistory`,
   getAllFavorites: `${baseURL}/user/getFavorites`,
+  getIncorrectAnswers: `${baseURL}/user/getIncorrectAnswers`,
 
   // Categories:
   getCategories: `${baseURL}/category/getAllCategories`,

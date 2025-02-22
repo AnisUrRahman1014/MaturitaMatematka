@@ -19,10 +19,7 @@ const AnswerDisplayScreen = ({route}: Props) => {
         question={question}
         totalQuestionCount={0}
         index={0}
-        panelType={'quiz'}
-        handleNext={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        panelType={'browse'}
         setIsLoading={setIsLoading}
       />
       <LoaderModal visible={isLoading}/>

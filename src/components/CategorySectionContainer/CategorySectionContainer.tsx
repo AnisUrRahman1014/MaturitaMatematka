@@ -7,11 +7,14 @@ import AppIcons from '../../libs/NativeIcons';
 import {useNavigation} from '@react-navigation/native';
 import Routes from '../../navigation/Routes';
 import {moderateScale} from 'react-native-size-matters';
-import { Answer } from '../../libs/Global';
+import {Answer} from '../../libs/Global';
 
 const CategorySectionContainer = ({item, index}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [sorting, setSorting] = useState(false);
-  const [questions, setQuestions] = useState<Answer>(item.questions || [])
+  const [questions, setQuestions] = useState<Answer>(
+    item.questions || item?.answers || [],
+  );
   const navigation = useNavigation();
 
   // Re-sort quizzes when the `sorting` state changes
@@ -38,43 +41,64 @@ const CategorySectionContainer = ({item, index}) => {
 
   return (
     <>
-      <View style={styles.categoryHeader}>
+      <View
+        style={[
+          styles.categoryHeader,
+          // eslint-disable-next-line react-native/no-inline-styles
+          {justifyContent: !isExpanded ? 'flex-start' : 'space-between'},
+        ]}>
+        {isExpanded ? (
+          <AppIcons.ChevronUpIcon
+            size={moderateScale(25)}
+            color={Colors.black}
+            onPress={() => setIsExpanded(prev => !prev)}
+          />
+        ) : (
+          <AppIcons.ChevronDownIcon
+            size={moderateScale(25)}
+            color={Colors.black}
+            onPress={() => setIsExpanded(prev => !prev)}
+          />
+        )}
         <Text style={styles.categoryHeading} key={index}>
           🚀 {item?.categoryName}
         </Text>
-        <TouchableOpacity
-          style={[styles.sortCtn]}
-          onPress={() => setSorting(prev => !prev)}>
-          {sorting ? (
-            <AppIcons.SortAscending
-              size={moderateScale(20)}
-              color={Colors.primaryDark}
-              disabled
-            />
-          ) : (
-            <AppIcons.SortDescending
-              size={moderateScale(20)}
-              color={Colors.primaryDark}
-              disabled
-            />
-          )}
-          {/* <Text style={styles.sortText}>Sort</Text> */}
-        </TouchableOpacity>
+        {isExpanded && (
+          <TouchableOpacity
+            style={[styles.sortCtn]}
+            onPress={() => setSorting(prev => !prev)}>
+            {sorting ? (
+              <AppIcons.SortAscending
+                size={moderateScale(20)}
+                color={Colors.primaryDark}
+                disabled
+              />
+            ) : (
+              <AppIcons.SortDescending
+                size={moderateScale(20)}
+                color={Colors.primaryDark}
+                disabled
+              />
+            )}
+            {/* <Text style={styles.sortText}>Sort</Text> */}
+          </TouchableOpacity>
+        )}
       </View>
-      {questions?.map((question, index) => {
-        return (
-          <QuestionCard
-            question={question}
-            index={index}
-            key={index}
-            onPress={() =>
-              navigation.navigate(Routes.AnswerDisplayScreen, {
-                question: question,
-              })
-            }
-          />
-        );
-      })}
+      {isExpanded &&
+        questions?.map((question, index) => {
+          return (
+            <QuestionCard
+              question={question}
+              index={index}
+              key={index}
+              onPress={() =>
+                navigation.navigate(Routes.AnswerDisplayScreen, {
+                  question: question,
+                })
+              }
+            />
+          );
+        })}
     </>
   );
 };
