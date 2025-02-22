@@ -24,12 +24,12 @@ type Props = {
   question: Question;
   totalQuestionCount: number;
   index: number;
-  displayAnswer: boolean;
+  displayAnswer?: boolean;
   panelType: 'quiz' | 'browse';
-  handleNext: () => void;
-  handlePrevious: () => void;
-  setAnswers: any;
-  handleQuizSubmit: () => void;
+  handleNext?: () => void;
+  setAnswers?: any;
+  handleQuizSubmit?: () => void;
+  setIsLoading?: (val :boolean)=> void;
 };
 const QuestionPanel = (props: Props) => {
   const {
@@ -39,9 +39,9 @@ const QuestionPanel = (props: Props) => {
     panelType,
     displayAnswer,
     handleNext,
-    handlePrevious,
     setAnswers,
     handleQuizSubmit,
+    setIsLoading
   } = props;
   const [selectedOption, setSelectedOption] = useState(-1);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -50,32 +50,32 @@ const QuestionPanel = (props: Props) => {
 
   const {refetch, isLoading} = queryHandler(
     API.checkIsFavorite(question.id),
-    res => {
+    (res: any) => {
       setIsFavorite(res.isFavorite);
     },
-    err => {
+    (err: any) => {
       console.log(err);
     },
   );
 
   const {mutate: addToFavorite} = mutationHandler(
-    API.addToFavorite(question.id),
-    res => {
+    API.addToFavorite,
+    (res: any) => {
       showSuccess(res?.message || 'Question added to favorites');
       refetch();
     },
-    err => {
+    (err: any) => {
       console.log(err);
     },
   );
 
   const {mutate: removeFromFavorite} = mutationHandler(
     API.removeFromFavorite(question.id),
-    res => {
+    (res: any) => {
       showSuccess(res?.message || 'Question removed from favorites');
       refetch();
     },
-    err => {
+    (err: any) => {
       console.log(err);
     },
   );
@@ -83,6 +83,10 @@ const QuestionPanel = (props: Props) => {
   useEffect(() => {
     refetch();
   }, []);
+
+  useEffect(()=>{
+    setIsLoading(isLoading);
+  },[isLoading])
 
   useEffect(() => {
     if (panelType === 'browse' || displayAnswer) {
@@ -107,7 +111,11 @@ const QuestionPanel = (props: Props) => {
       if (isFavorite) {
         removeFromFavorite(undefined);
       } else {
-        addToFavorite(undefined);
+        const payload = {
+          categoryName : question.category,
+          questionId: question.id
+        }
+        addToFavorite(payload);
       }
     } catch (error) {
       console.log('Error in favorite: ', error);
@@ -443,7 +451,7 @@ const QuestionPanel = (props: Props) => {
         </>
       )}
       <View style={{marginBottom: 100}} />
-      <LoaderModal visible={isLoading} />
+      {/* <LoaderModal visible={isLoading} /> */}
     </ScrollView>
   );
 };

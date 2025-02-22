@@ -7,7 +7,7 @@ import {
   View,
   Alert,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import NavHeader from '../../components/NavHeader/NavHeader';
 import QuestionPanel from '../../components/QuestionPanel/QuestionPanel';
 import styles from './Styles';
@@ -16,20 +16,26 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {RootStackList} from '../../navigation/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {BackHandler} from 'react-native';
+// import {BackHandler} from 'react-native';
 import {CommonActions, useFocusEffect} from '@react-navigation/native';
 import LoaderModal from '../../components/LoaderModal/LoaderModal';
 import Routes from '../../navigation/Routes';
 import {mutationHandler} from '../../services/mutations/mutationHandler';
 import {API} from '../../services';
 import {showError} from '../../utils/System/MessageHandlers';
-import { moderateScale } from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
+import { Answer, Question } from '../../libs/Global';
 
 const {width} = Dimensions.get('window');
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'Quiz'>;
-  route: any;
+  route: {
+    params: {
+      panelType: 'browse' | 'quiz',
+      quizQuestions: Question[]
+    }
+  };
 };
 const Quiz = (props: Props) => {
   const navigation = props.navigation;
@@ -41,7 +47,8 @@ const Quiz = (props: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const questions = quizQuestions || [];
 
-  const [answers, setAnswers] = useState([]);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [isLoading, setIsLoading]= useState<boolean>(false);
 
   const {mutate: submitQuizMutate, isLoading: mutateLoading} = mutationHandler(
     API.submitQuiz,
@@ -52,7 +59,7 @@ const Quiz = (props: Props) => {
           index: 1,
           routes: [
             {
-              name: 'Home'
+              name: 'Home',
             },
             {
               name: Routes.QuizResult,
@@ -62,7 +69,7 @@ const Quiz = (props: Props) => {
             },
             {
               name: 'DrawerNavigation',
-            }
+            },
           ],
         }),
       );
@@ -150,7 +157,7 @@ const Quiz = (props: Props) => {
       };
 
       submitQuizMutate({quizContent: data});
-    } catch (error) {
+    } catch (error: any) {
       showError('Error uploading quiz '.concat(error.message));
       console.log(error);
     }
@@ -158,14 +165,18 @@ const Quiz = (props: Props) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <NavHeader leftIcon centerText="Quiz" onBackPress={restrictBack} />
+      <NavHeader
+        leftIcon
+        centerText="Quiz"
+        onBackPress={
+          panelType === 'quiz' ? restrictBack : () => navigation.goBack()
+        }
+      />
       <FlatList
         ref={flatListRef}
         data={questions}
         keyExtractor={item => String(item.id)}
         renderItem={({item, index}) => {
-          //   console.log(item);
-          // if (index > 5) return null;
           return (
             <>
               <QuestionPanel
@@ -174,9 +185,9 @@ const Quiz = (props: Props) => {
                 index={index}
                 panelType={panelType}
                 handleNext={handleNext}
-                handlePrevious={handlePrevious}
                 setAnswers={setAnswers}
                 handleQuizSubmit={handleSubmit}
+                setIsLoading={setIsLoading}
               />
               {panelType !== 'quiz' && (
                 <View
@@ -189,14 +200,14 @@ const Quiz = (props: Props) => {
                         ? 'flex-start'
                         : 'space-between',
                   }}>
-                  {panelType !== 'quiz' && index !== 0 && (
+                  {index !== 0 && (
                     <AppIcons.ChevronLeftIcon
                       size={moderateScale(30)}
                       onPress={handlePrevious}
                       color={Colors.primaryDark}
                     />
                   )}
-                  {panelType !== 'quiz' && index !== questions?.length - 1 && (
+                  {index !== questions?.length - 1 && (
                     <AppIcons.ChevronRightIcon
                       size={moderateScale(30)}
                       onPress={handleNext}
@@ -225,7 +236,7 @@ const Quiz = (props: Props) => {
           index,
         })}
       />
-      <LoaderModal visible={mutateLoading} />
+      <LoaderModal visible={mutateLoading || isLoading} />
     </SafeAreaView>
   );
 };

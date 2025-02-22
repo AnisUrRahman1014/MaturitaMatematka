@@ -13,7 +13,7 @@ type Props = {
 const QuestionCard = ({question, index, onPress}: Props) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Text style={styles.question}>{question?.question}</Text>
+      <Text style={styles.question} numberOfLines={3}>{question?.question}</Text>
       <AppIcons.ChevronRightIcon
         size={25}
         color={Colors.primaryDark}

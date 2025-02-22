@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../../utils/System/Constants';
+import {moderateScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -20,6 +21,9 @@ const styles = StyleSheet.create({
     color: Colors.primaryDark,
     paddingLeft: 8,
   },
+  flatlist:{
+    height: '87%'
+  }
 });
 
 export default styles;

@@ -22,13 +22,14 @@ const CategoryDetailScreen = (props: Props) => {
   const description = category.description || 'No Description Available';
   const [questions, setQuestions] = useState([]);
   const [isStartingQuiz, setIsStartingQuiz] = useState(false);
+  const [flowType, setFlowType] = useState<'browse' | 'quiz'>();
 
-  const onSuccess = response => {
+  const onSuccess = (response: any) => {
     // console.log('Success', JSON.stringify(response, null, 1));
     setQuestions(response.questions);
   };
 
-  const onError = error => {
+  const onError = (error: any) => {
     showError(error.message);
   };
 
@@ -38,21 +39,29 @@ const CategoryDetailScreen = (props: Props) => {
     onError,
   );
 
+  const {refetch: allQuestionsRefetch, isLoading: allQuestionsLoading} =
+    queryHandler(
+      API.getAllCategoryQuestions.concat(`/${category.categoryName}`),
+      onSuccess,
+      onError
+    );
+
   // Trigger navigation when questions are updated
   useEffect(() => {
-    if (isStartingQuiz && questions.length > 0) {
+    console.log(flowType)
+    if (isStartingQuiz && flowType && questions.length > 0) {
       navigation.navigate(Routes.Quiz, {
-        panelType: 'quiz',
+        panelType: flowType,
         category,
         quizQuestions: questions,
       });
       setIsStartingQuiz(false);
-      setQuestions([]) // Reset the flag
+      setQuestions([]); // Reset the flag
     }
   }, [questions, isStartingQuiz, navigation, category]);
 
   if (isLoading) {
-    return <LoaderModal visible={isLoading} />;
+    return <LoaderModal visible={isLoading || allQuestionsLoading} />;
   }
 
   return (
@@ -97,18 +106,18 @@ const CategoryDetailScreen = (props: Props) => {
           label={'Browse through questions'}
           rightIconBtn
           lightBtn
-          onPress={() =>
-            navigation.navigate(Routes.Quiz, {
-              panelType: 'browse',
-              category,
-            })
-          }
+          onPress={async () => {
+            setFlowType('browse');
+            setIsStartingQuiz(true); // Set the flag to indicate quiz is being started
+            await allQuestionsRefetch(); // Fetch questions
+          }}
         />
         <CustomButton
           label={'Start the Quiz'}
           boldLabel
           rightIconBtn
           onPress={async () => {
+            setFlowType('quiz');
             setIsStartingQuiz(true); // Set the flag to indicate quiz is being started
             await refetch(); // Fetch questions
           }}

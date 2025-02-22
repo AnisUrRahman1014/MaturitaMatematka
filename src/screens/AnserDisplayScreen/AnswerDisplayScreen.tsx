@@ -1,15 +1,16 @@
 import {View, Text, SafeAreaView} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import QuestionPanel from '../../components/QuestionPanel/QuestionPanel';
 import {Question} from '../../libs/Global';
 import NavHeader from '../../components/NavHeader/NavHeader';
+import LoaderModal from '../../components/LoaderModal/LoaderModal';
 
 type Props = {
   route: any;
 };
 const AnswerDisplayScreen = ({route}: Props) => {
   const question: Question = route.params.question;
-  console.log(question);
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavHeader leftIcon centerText="Details" />
@@ -22,10 +23,9 @@ const AnswerDisplayScreen = ({route}: Props) => {
         handleNext={function (): void {
           throw new Error('Function not implemented.');
         }}
-        handlePrevious={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        setIsLoading={setIsLoading}
       />
+      <LoaderModal visible={isLoading}/>
     </SafeAreaView>
   );
 };

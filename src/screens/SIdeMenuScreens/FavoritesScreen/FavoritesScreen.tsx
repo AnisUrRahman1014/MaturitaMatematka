@@ -1,5 +1,5 @@
-import {View, Text, Image, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
 import {SafeAreaView} from 'react-native';
 import {Images} from '../../../../assets/images';
@@ -9,53 +9,47 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../../navigation/types';
 import styles from './Styles';
 import Routes from '../../../navigation/Routes';
+import queryHandler from '../../../services/queries/queryHandler';
+import {API} from '../../../services';
+import {showError} from '../../../utils/System/MessageHandlers';
+import LoaderModal from '../../../components/LoaderModal/LoaderModal';
+import AppIcons from '../../../libs/NativeIcons';
+import {Colors} from '../../../utils/System/Constants';
+import CategorySectionContainer from '../../../components/CategorySectionContainer/CategorySectionContainer';
+import {moderateScale} from 'react-native-size-matters';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'FavoritesScreen'>;
 };
 const FavoritesScreen = ({navigation}: Props) => {
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      id: '1',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '2',
-      type: 'order',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²,15 cm²,50 cm²,30 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '3',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-    {
-      id: '4',
-      type: 'simple',
-      question:
-        'What is the area of a triangle with a base of 10 cm and a height of 5 cm?',
-      options: ['25 cm²', '30 cm²', '50 cm²', '15 cm²'],
-      correctAnswer: '25 cm²',
-      explanation:
-        'The area of a triangle is calculated using the formula Area=1 / 2 × base × height  = 21 ​× base × height. So, 1/2 × 10 cm × 5 cm = 25 cm',
-    },
-  ]); // TODO: replace with actual data
+  const [questions, setQuestions] = useState<Question[]>([]); // TODO: replace with actual data
+  const onSuccess = (res: any) => {
+    if (res.success) {
+      setQuestions(res.favorites);
+    } else {
+      showError('Something went wrong while getting your favorites');
+    }
+  };
+
+  const onError = (err: any) => {
+    showError(err.message);
+    console.error('Error getting favorites: '.concat(err.message));
+  };
+
+  const {refetch, isLoading: APILoading} = queryHandler(
+    API.getAllFavorites,
+    onSuccess,
+    onError,
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  if (APILoading) {
+    return <LoaderModal visible={APILoading} />;
+  }
 
   return (
     <SafeAreaView>
@@ -72,19 +66,9 @@ const FavoritesScreen = ({navigation}: Props) => {
 
         <FlatList
           data={questions}
+          style={{height: '87%'}}
           renderItem={({item, index}) => {
-            return (
-              <QuestionCard
-                question={item}
-                index={index}
-                key={index}
-                onPress={() =>
-                  navigation.navigate(Routes.AnswerDisplayScreen, {
-                    question: item,
-                  })
-                }
-              />
-            );
+            return <CategorySectionContainer index={index} item={item} />;
           }}
         />
       </View>
