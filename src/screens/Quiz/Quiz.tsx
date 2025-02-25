@@ -52,12 +52,14 @@ const Quiz = (props: Props) => {
 
   const {mutate: submitQuizMutate, isLoading: mutateLoading} = mutationHandler(
     API.submitQuiz,
-    res => {
-      console.log('here');
+    (res: any) => {
       navigation.dispatch(
         CommonActions.reset({
-          index: 1,
+          index: 2,
           routes: [
+            {
+              name: 'DrawerNavigation',
+            },
             {
               name: 'Home',
             },
@@ -67,14 +69,11 @@ const Quiz = (props: Props) => {
                 quizSummary: res.summary,
               },
             },
-            {
-              name: 'DrawerNavigation',
-            },
           ],
         }),
       );
     },
-    error => {
+    (error: any) => {
       showError('Error submitting quiz: '.concat(error.message));
     },
   );

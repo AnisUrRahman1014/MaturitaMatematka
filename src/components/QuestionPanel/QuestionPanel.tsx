@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
@@ -9,7 +9,7 @@ import {Image} from 'react-native';
 import AnswerOption from '../AnswerOption/AnswerOption';
 import CustomButton from '../CustomButton/CustomButton';
 import {showError, showSuccess} from '../../utils/System/MessageHandlers';
-import {Answer, Question} from '../../libs/Global';
+import {Question} from '../../libs/Global';
 import AnswerOptionDraggable from '../AnswerOptionDraggable/AnswerOptionDraggable';
 import DraggableFlatList, {
   ScaleDecorator,
@@ -18,7 +18,7 @@ import {API} from '../../services';
 import {mutationHandler} from '../../services/mutations/mutationHandler';
 import {moderateScale} from 'react-native-size-matters';
 import queryHandler from '../../services/queries/queryHandler';
-import LoaderModal from '../LoaderModal/LoaderModal';
+import NativeInput from '../NativeInput/NativeInput';
 
 type Props = {
   question: Question;
@@ -47,6 +47,7 @@ const QuestionPanel = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrangedAnswer, setArrangedAnswer] = useState(question?.options);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [openAnswer, setOpenAnswer] = useState('');
 
   const {refetch, isLoading} = queryHandler(
     API.checkIsFavorite(question.id),
@@ -76,7 +77,7 @@ const QuestionPanel = (props: Props) => {
       refetch();
     },
     (err: any) => {
-      showError('Error removing from favorites')
+      showError('Error removing from favorites');
       console.log(err);
     },
   );
@@ -166,7 +167,10 @@ const QuestionPanel = (props: Props) => {
 
         return {isCorrect, userOrderLetters};
       }
-
+      case 'open':
+        const isCorrect =
+          openAnswer.trim() === question?.correctAnswer?.toString().trim();
+        return {isCorrect, userOrderLetters: null};
       default:
         return {isCorrect: false, userOrderLetters: null};
     }
@@ -194,7 +198,11 @@ const QuestionPanel = (props: Props) => {
         }
         console.log('arranged: ', filteredArrangedAnswer);
         break;
-
+      case 'open':
+        if (openAnswer === '') {
+          showError('Please enter your answer first');
+        }
+        break;
       default:
         break;
     }
@@ -208,6 +216,8 @@ const QuestionPanel = (props: Props) => {
       givenAnswer:
         question?.type === 'choices'
           ? question.options[selectedOption]
+          : question?.type === 'open'
+          ? openAnswer.trim()
           : userOrderLetters?.join(' '), // Use userOrderLetters for 'order' type
       isCorrect,
     };
@@ -304,6 +314,33 @@ const QuestionPanel = (props: Props) => {
           );
         }
       }
+      case 'open':
+        if (question?.correctAnswer.toString().trim() === openAnswer.trim()) {
+          return (
+            <View style={styles.correctAnswer}>
+              <View style={styles.correctAnswerBG} />
+
+              <Text style={styles.correctAnswerHeading}>Correct</Text>
+              <Text style={styles.correctAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
+            </View>
+          );
+        } else {
+          return (
+            <View style={styles.wrongAnswer}>
+              <View style={styles.wrongAnswerBG} />
+              <Text style={styles.wrongAnswerHeading}>Wrong</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
+            </View>
+          );
+        }
     }
   };
 
@@ -358,7 +395,7 @@ const QuestionPanel = (props: Props) => {
             style={{
               width: '100%',
               height: moderateScale(200),
-              marginTop: moderateScale(15)
+              marginTop: moderateScale(15),
             }}
           />
         )}
@@ -425,6 +462,40 @@ const QuestionPanel = (props: Props) => {
                 </View>
               );
             }}
+          />
+        </View>
+      )}
+
+      {question?.type === 'open' && (
+        <View style={styles.optionsContainer}>
+          <NativeInput
+            value={openAnswer}
+            placeholder={'Please enter your answer here'}
+            onChangeText={(text: string) => setOpenAnswer(text)}
+            secureTextEntry={false}
+            editable={!isSubmitted}
+            customContainerStyles={
+              isSubmitted
+                ? {
+                    borderColor:
+                      openAnswer.trim() ===
+                      question?.correctAnswer?.toString().trim()
+                        ? Colors.darkGreen
+                        : Colors.red,
+                  }
+                : undefined
+            }
+            customInputStyles={
+              isSubmitted
+                ? {
+                    color:
+                      openAnswer.trim() ===
+                      question?.correctAnswer?.toString().trim()
+                        ? Colors.darkGreen
+                        : Colors.red,
+                  }
+                : undefined
+            }
           />
         </View>
       )}

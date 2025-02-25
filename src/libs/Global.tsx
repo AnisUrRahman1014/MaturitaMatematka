@@ -15,7 +15,7 @@ export const formattedDate = (date: Date) => {
 export type Question = {
   id: string;
   question: string;
-  type: 'choices' | 'order';
+  type: 'choices' | 'order' | 'open';
   correctAnswer: string;
   explanation: string;
   options: string[];
@@ -27,7 +27,7 @@ export type Question = {
 export type Answer = {
   id: string;
   question: string;
-  type: 'choices' | 'order';
+  type: 'choices' | 'order' | 'open';
   correctAnswer: string;
   givenAnswer: string;
   isCorrect: boolean;

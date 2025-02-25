@@ -7,6 +7,7 @@ import DropdownQuestionSummary from '../../components/DropdownQuestionSummary/Dr
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackList} from '../../navigation/types';
+import {CommonActions} from '@react-navigation/native';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackList, 'QuizResult'>;
@@ -23,15 +24,35 @@ const QuizResult = ({navigation, route}: Props) => {
     rating: quizSummary.rating,
     badge: quizSummary.badge,
     date: quizSummary.date,
-    questions: quizSummary.answers
+    questions: quizSummary.answers,
   };
 
-  const questions = quizSummary.answers || []
+  const questions = quizSummary.answers || [];
   const [selectedIndex, setSelectedIndex] = useState<Number>(-1);
+
+  const goToHomeScreen = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: 'DrawerNavigation',
+          },
+          {
+            name: 'Home',
+          },
+        ],
+      }),
+    );
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <NavHeader centerText="Quiz Results" leftIcon />
+      <NavHeader
+        centerText="Quiz Results"
+        leftIcon
+        onBackPress={goToHomeScreen}
+      />
       <View style={styles.mainContainer}>
         <SummaryCard data={summary} />
         <FlatList
@@ -52,7 +73,7 @@ const QuizResult = ({navigation, route}: Props) => {
         <CustomButton
           label={'Done'}
           containerStyle={styles.btn}
-          onPress={() => navigation.navigate('Home')}
+          onPress={goToHomeScreen}
         />
       </View>
     </SafeAreaView>

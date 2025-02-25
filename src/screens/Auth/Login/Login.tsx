@@ -82,15 +82,16 @@ const Login = (props: Props) => {
 
   GoogleSignin.configure({
     webClientId:
-      Platform.OS == 'ios'
-        ? '1087250027500-mf960e7se19m8a1act7ra80n6e1qfokq.apps.googleusercontent.com'
-        : '1087250027500-9k14osoagv008ngdjdpdohbi4jjvbdel.apps.googleusercontent.com',
+      '1087250027500-gp92bqeu530lgcrm0pf9f9kr8ro3f6se.apps.googleusercontent.com',
+    // Platform.OS == 'ios'
+    //   ? '1087250027500-gp92bqeu530lgcrm0pf9f9kr8ro3f6se.apps.googleusercontent.com'
+    //   : '1087250027500-9k14osoagv008ngdjdpdohbi4jjvbdel.apps.googleusercontent.com',
   });
 
   async function onGoogleButtonPress() {
     try {
-      const isSignedIn = await GoogleSignin.getCurrentUser();
-      if (isSignedIn !== null) await GoogleSignin.signOut();
+      // const isSignedIn = await GoogleSignin.getCurrentUser();
+      // if (isSignedIn !== null) await GoogleSignin.signOut();
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
@@ -117,7 +118,7 @@ const Login = (props: Props) => {
         const userData = {
           userId: firebaseUserCredential?.user?.uid,
           email: firebaseUserCredential?.user?.email,
-          displayName: firebaseUserCredential.user.displayName,
+          displayName: firebaseUserCredential?.user.displayName,
           photoURL: firebaseUserCredential?.user?.photoURL,
         };
 
@@ -127,7 +128,7 @@ const Login = (props: Props) => {
           .set(userData, {merge: true});
 
         // Dispatch the user data to Redux (if required)
-        dispatch(setUser(firebaseUserCredential.user));
+        dispatch(setUser(firebaseUserCredential?.user));
       }
     } catch (error) {
       console.error('Error', 'Failed to sign in with Google', error);

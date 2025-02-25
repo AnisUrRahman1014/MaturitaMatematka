@@ -1,5 +1,5 @@
-#import <Firebase.h>
 #import "AppDelegate.h"
+#import <Firebase.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 
 #import <React/RCTBundleURLProvider.h>

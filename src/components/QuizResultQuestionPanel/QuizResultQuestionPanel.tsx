@@ -17,6 +17,7 @@ import {moderateScale} from 'react-native-size-matters';
 import {API} from '../../services';
 import {mutationHandler} from '../../services/mutations/mutationHandler';
 import queryHandler from '../../services/queries/queryHandler';
+import NativeInput from '../NativeInput/NativeInput';
 
 type Props = {
   question: Answer;
@@ -43,6 +44,7 @@ const QuizResultQuestionPanel = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrangedAnswer, setArrangedAnswer] = useState(question?.options);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [openAnswer, setOpenAnswer] = useState('');
 
   const {refetch, isLoading} = queryHandler(
     API.checkIsFavorite(question.id),
@@ -200,6 +202,33 @@ const QuizResultQuestionPanel = (props: Props) => {
           );
         }
       }
+      case 'open':
+        if (question?.correctAnswer.toString().trim() === openAnswer.trim()) {
+          return (
+            <View style={styless.correctAnswer}>
+              <View style={styless.correctAnswerBG} />
+
+              <Text style={styless.correctAnswerHeading}>Correct</Text>
+              <Text style={styless.correctAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
+            </View>
+          );
+        } else {
+          return (
+            <View style={styless.wrongAnswer}>
+              <View style={styless.wrongAnswerBG} />
+              <Text style={styless.wrongAnswerHeading}>Wrong</Text>
+              <Text style={styless.wrongAnswerTxt}>
+                {question?.explanation === ''
+                  ? 'No explanation available'
+                  : question?.explanation}
+              </Text>
+            </View>
+          );
+        }
     }
   };
 
@@ -293,6 +322,29 @@ const QuizResultQuestionPanel = (props: Props) => {
       {question.type !== 'choices' && (
         <Text style={styless.subHeading}>Correct Answer</Text>
       )}
+      {question?.type === 'open' && (
+        <NativeInput
+          value={question?.correctAnswer}
+          placeholder={'Please enter your answer here'}
+          onChangeText={(text: string) => setOpenAnswer(text)}
+          secureTextEntry={false}
+          editable={false}
+          customContainerStyles={
+            isSubmitted
+              ? {
+                  borderColor: Colors.darkGreen,
+                }
+              : undefined
+          }
+          customInputStyles={
+            isSubmitted
+              ? {
+                  color: Colors.darkGreen,
+                }
+              : undefined
+          }
+        />
+      )}
       {/* Option Container */}
       {question?.type === 'choices' && (
         <View style={styless.optionsContainer}>
@@ -356,6 +408,41 @@ const QuizResultQuestionPanel = (props: Props) => {
             />
           </View>
         </>
+      )}
+
+      {question?.type === 'open' && (
+        <View style={styless.optionsContainer}>
+          <Text style={styless.subHeading}>Your Answer</Text>
+          <NativeInput
+            value={question?.givenAnswer}
+            placeholder={'Please enter your answer here'}
+            onChangeText={(text: string) => setOpenAnswer(text)}
+            secureTextEntry={false}
+            editable={false}
+            customContainerStyles={
+              isSubmitted
+                ? {
+                    borderColor:
+                      openAnswer.trim() ===
+                      question?.correctAnswer?.toString().trim()
+                        ? Colors.darkGreen
+                        : Colors.red,
+                  }
+                : undefined
+            }
+            customInputStyles={
+              isSubmitted
+                ? {
+                    color:
+                      openAnswer.trim() ===
+                      question?.correctAnswer?.toString().trim()
+                        ? Colors.darkGreen
+                        : Colors.red,
+                  }
+                : undefined
+            }
+          />
+        </View>
       )}
 
       {/* Count Indicator */}

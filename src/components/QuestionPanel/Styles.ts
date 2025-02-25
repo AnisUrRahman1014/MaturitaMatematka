@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   question: {
     color: Colors.primaryDark,
     fontFamily: Fonts.LatoRegular,
-    fontSize: AppConstants.FontSizes.t3,
+    fontSize: AppConstants.FontSizes.t2,
   },
   subHeading: {
     marginVertical: moderateVerticalScale(10),

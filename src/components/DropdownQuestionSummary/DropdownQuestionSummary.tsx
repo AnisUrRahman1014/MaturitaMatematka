@@ -18,7 +18,7 @@ const DropdownQuestionSummary = ({
   index,
   setSelectedIndex,
 }: Props) => {
-  console.log(answer)
+  console.log(answer);
   // const [expandView, setExpandView] = useState<Boolean>(false);
   const [isCorrect, setIsCorrect] = useState<Boolean>(answer?.isCorrect);
   const [isExpanded, setIsExpanded] = useState<Boolean>(expandView);
@@ -33,7 +33,9 @@ const DropdownQuestionSummary = ({
                 Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.correctAnswerHeading}>Explanation:</Text>
-              <Text style={styles.correctAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
+              <Text style={styles.correctAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
             </View>
           );
         } else {
@@ -47,7 +49,9 @@ const DropdownQuestionSummary = ({
                 Correct Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.wrongAnswerHeading}>Explanation:</Text>
-              <Text style={styles.wrongAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
             </View>
           );
         }
@@ -60,7 +64,9 @@ const DropdownQuestionSummary = ({
                 Answer: {answer?.correctAnswer}
               </Text>
               <Text style={styles.correctAnswerHeading}>Explanation:</Text>
-              <Text style={styles.correctAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
+              <Text style={styles.correctAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
             </View>
           );
         } else {
@@ -73,7 +79,40 @@ const DropdownQuestionSummary = ({
               <Text style={styles.wrongAnswerHeading}>
                 Correct Answer: {answer?.correctAnswer}
               </Text>
-              <Text style={styles.wrongAnswerTxt}>{answer?.explanation || 'No explanation available'}</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
+            </View>
+          );
+        }
+      case 'open':
+        if (isCorrect) {
+          return (
+            <View style={styles.correctAnswer}>
+              <View style={styles.correctAnswerBG} />
+              <Text style={styles.correctAnswerHeading}>
+                Answer: {answer?.correctAnswer}
+              </Text>
+              <Text style={styles.correctAnswerHeading}>Explanation:</Text>
+              <Text style={styles.correctAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
+            </View>
+          );
+        } else {
+          return (
+            <View style={styles.wrongAnswer}>
+              <View style={styles.wrongAnswerBG} />
+              <Text style={styles.wrongAnswerHeading}>
+                Your Answer: {answer?.givenAnswer}
+              </Text>
+              <Text style={styles.wrongAnswerHeading}>
+                Correct Answer: {answer?.correctAnswer}
+              </Text>
+              <Text style={styles.wrongAnswerHeading}>Explanation:</Text>
+              <Text style={styles.wrongAnswerTxt}>
+                {answer?.explanation || 'No explanation available'}
+              </Text>
             </View>
           );
         }
