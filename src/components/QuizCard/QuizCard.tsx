@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Styles';
 import AppIcons from '../../libs/NativeIcons';
 import Routes from '../../navigation/Routes';
@@ -7,7 +7,9 @@ import {formattedDate, QuizResultData, section} from '../../libs/Global';
 import {Images} from '../../../assets/images';
 import {Colors} from '../../utils/System/Constants';
 import {useNavigation} from '@react-navigation/native';
-import { moderateScale } from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
+import queryHandler from '../../services/queries/queryHandler';
+import {API} from '../../services';
 
 type Props = {
   quiz: QuizResultData;
@@ -15,7 +17,28 @@ type Props = {
 const QuizCard = (props: Props) => {
   const {quiz} = props;
   const navigation = useNavigation();
-  const [icon, setIcon] = useState(Images.Plainimetry);
+  const [icon, setIcon] = useState('');
+
+  const onSuccess = (res: any) => {
+    console.log(res);
+    if(res.success){
+      setIcon(res.categoryIcon)
+    }
+  };
+
+  const onError = (err: any) => {
+    console.log(err);
+  };
+
+  const {refetch} = queryHandler(
+    API.getCategoryIcon(quiz.category),
+    onSuccess,
+    onError,
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <TouchableOpacity
@@ -29,7 +52,11 @@ const QuizCard = (props: Props) => {
       {/* Icon Container */}
       <View style={styles.leftContainer}>
         <View style={styles.leftInnerContainer}>
-          <Image source={icon} style={styles.icon} resizeMode="contain" />
+          <Image
+            source={{uri: icon}}
+            style={styles.icon}
+            resizeMode="contain"
+          />
         </View>
       </View>
 
@@ -41,14 +68,14 @@ const QuizCard = (props: Props) => {
         <View>
           <View style={[section(0, 'row'), styles.desc]}>
             <Text style={styles.tagLine}>Date: </Text>
-            <Text style={styles.tagLine}>{formattedDate(new Date(quiz.date))}</Text>
+            <Text style={styles.tagLine}>
+              {formattedDate(new Date(quiz.date))}
+            </Text>
           </View>
           <View style={[section(0, 'row'), styles.desc]}>
             <Text style={styles.tagLine}>Correct Answers: </Text>
             <View style={section(0, 'row')}>
-              <Text style={styles.correctAnswer}>
-                {quiz.correctAnswers}{' '}
-              </Text>
+              <Text style={styles.correctAnswer}>{quiz.correctAnswers} </Text>
               <Text style={styles.tagLine}>/ {quiz.totalQuestions} </Text>
             </View>
           </View>

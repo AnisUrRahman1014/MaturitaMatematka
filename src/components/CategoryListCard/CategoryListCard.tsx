@@ -15,7 +15,7 @@ type Props = {
   // navigation: NativeStackNavigationProp<RootStackList, 'CategoryDetailScreen'>;
   title: String;
   tagLine: String;
-  icon: ImageSourcePropType;
+  icon: string;
   category: Object;
 };
 const CategoryListCard = (props: Props) => {
@@ -31,7 +31,11 @@ const CategoryListCard = (props: Props) => {
       {/* Icon Container */}
       <View style={styles.leftContainer}>
         <View style={styles.leftInnerContainer}>
-          <Image source={props.icon} style={styles.icon} resizeMode="contain" />
+          <Image
+            source={{uri: props.icon}}
+            style={styles.icon}
+            resizeMode="contain"
+          />
         </View>
       </View>
 

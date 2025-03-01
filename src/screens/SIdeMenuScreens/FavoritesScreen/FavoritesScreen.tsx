@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import {View, Text, Image, FlatList, RefreshControl} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NavHeader from '../../../components/NavHeader/NavHeader';
 import {SafeAreaView} from 'react-native';
@@ -63,6 +57,14 @@ const FavoritesScreen = ({navigation}: Props) => {
     return <LoaderModal visible={APILoading} />;
   }
 
+  const renderEmptyContainer = () => {
+    return (
+      <View style={styles.emptyCtn}>
+        <Text style={styles.emptyTxt}>No questions available</Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView>
       <NavHeader centerText="Favorites" leftIcon />
@@ -79,6 +81,7 @@ const FavoritesScreen = ({navigation}: Props) => {
         <FlatList
           data={questions}
           style={styles.flatlist}
+          ListEmptyComponent={renderEmptyContainer}
           refreshControl={
             <RefreshControl
               refreshing={refreshing} // Bind refreshing state

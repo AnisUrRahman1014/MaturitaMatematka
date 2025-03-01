@@ -76,7 +76,7 @@ const CategoryDetailScreen = (props: Props) => {
         <View style={styles.iconContainerBG}>
           <View style={styles.iconContainerFG}>
             <Image
-              source={category?.icon}
+              source={{uri: category?.icon}}
               style={styles.icon}
               resizeMode="contain"
             />

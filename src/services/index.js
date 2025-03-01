@@ -11,11 +11,12 @@ export const API = {
 
   // Categories:
   getCategories: `${baseURL}/category/getAllCategories`,
+  getCategoryIcon: (categoryName) => `${baseURL}/category/getCategoryIcon/${categoryName}`,
 
   // Questions:
   getQuestions: `${baseURL}/questions/getQuizQuestions`,
   getAllCategoryQuestions: `${baseURL}/questions/getAllCategoryQuestions`,
 
   // Quiz:
-  submitQuiz: `${baseURL}/quiz/submitQuiz`
+  submitQuiz: `${baseURL}/quiz/submitQuiz`,
 };

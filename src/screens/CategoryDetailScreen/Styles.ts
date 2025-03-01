@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {AppConstants, Colors, Fonts} from '../../utils/System/Constants';
+import { moderateScale } from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   introContainer: {
@@ -48,8 +49,9 @@ const styles = StyleSheet.create({
     padding: '12%',
   },
   icon: {
-    width: 130,
-    height: 130,
+    width: moderateScale(130),
+    height: moderateScale(130),
+    borderRadius: moderateScale(200)
   },
   categoryIcon: {
     width: 30,

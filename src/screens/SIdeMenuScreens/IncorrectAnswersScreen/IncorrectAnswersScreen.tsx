@@ -13,8 +13,8 @@ import LoaderModal from '../../../components/LoaderModal/LoaderModal';
 import {API} from '../../../services';
 import queryHandler from '../../../services/queries/queryHandler';
 import {showError} from '../../../utils/System/MessageHandlers';
-import { RefreshControl } from 'react-native-gesture-handler';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {RefreshControl} from 'react-native-gesture-handler';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import CategorySectionContainer from '../../../components/CategorySectionContainer/CategorySectionContainer';
 
 type Props = {
@@ -62,6 +62,14 @@ const IncorrectAnswersScreen = ({navigation}: Props) => {
     return <LoaderModal visible={APILoading} />;
   }
 
+  const renderEmptyContainer = () => {
+    return (
+      <View style={styles.emptyCtn}>
+        <Text style={styles.emptyTxt}>No answers Available</Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView>
       <NavHeader centerText="Incorrect Answers" leftIcon />
@@ -78,6 +86,7 @@ const IncorrectAnswersScreen = ({navigation}: Props) => {
         <FlatList
           data={questions}
           style={styles.flatlist}
+          ListEmptyComponent={renderEmptyContainer}
           refreshControl={
             <RefreshControl
               refreshing={refreshing} // Bind refreshing state

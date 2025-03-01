@@ -24,7 +24,7 @@ const Home = (props: Props) => {
   const [categories, setCategories] = useState();
   // console.log(JSON.stringify(user, null, 1));
 
-  const onSuccess = (res: {success: boolean; categories: []}) => {
+  const onSuccess = (res: {success: boolean; categories: any[]}) => {
     if (res?.success) {
       setCategories(res.categories);
     }

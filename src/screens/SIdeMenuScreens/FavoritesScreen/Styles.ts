@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
   flatlist: {
     height: '87%',
   },
+  emptyCtn: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  emptyTxt: {
+    fontFamily: Fonts.LatoRegular,
+    fontSize: moderateScale(16),
+    color: Colors.red,
+  },
 });
 
 export default styles;
